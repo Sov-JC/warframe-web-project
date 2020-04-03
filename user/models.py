@@ -12,21 +12,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from .managers import UserManager
 '''
-
-
-# Create your models here.
-class User(AbstractBaseUser):
-
-    username = models.CharField(max_length=40, unique=True)
-    email = models.EmailField()
-
-    USERNAME_FIELD = 'email'
-    EMAIL_FIELD = 'email'
-
-    REQUIRED_FIELDS = []
-
-    objects = UserManager()
-
 # code snippet from:
 # https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#abstractbaseuser
 class UserManager(BaseUserManager):
@@ -53,5 +38,20 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
         
         return self._create_user(email, password, **extra_fields)
+
+# Create your models here.
+class User(AbstractBaseUser):
+
+    username = models.CharField(max_length=40, unique=True)
+    email = models.EmailField()
+
+    USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
+
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
+
+
 
 
