@@ -59,14 +59,20 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=255,
         unique=True,
     )
+    USERNAME_FIELD = 'email' 
+    EMAIL_FIELD = 'email' 
+
+    email_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False) # admin, not a super-user
     #admin = models.BooleanField(default=False) # a superuser
 
-    USERNAME_FIELD = 'email'
-    EMAIL_FIELD = 'email'
-
-    REQUIRED_FIELDS = [] #used in interactive only 
+    #linked_warframe_account_id = "not_implemented_yet"
+    beta_tester = models.BooleanField(default=True)
+    user_verification_email_code = models.CharField(max_length=32, unique=True)
+    warframe_account_verification_code = models.CharField(max_length=12, unique=True)
+        
+    REQUIRED_FIELDS = [] #used in interactive only.
 
     objects = UserManager()
 
