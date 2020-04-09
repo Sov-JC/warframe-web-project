@@ -1,5 +1,6 @@
 from django.db import models
 #from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin 
@@ -12,6 +13,14 @@ class Relic(models.Model):
 class GamingPlatform(models.Model):
     gaming_platform_id = models.AutoField(primary_key=True)
     platform_name = models.CharField(max_length=32, unique=True)
+
+class WarframeAccount(models.Model):
+    warframe_account_id = models.AutoField(primary_key=True)
+    gaming_platform_id = models.ForeignKey(
+        'GamingPlatform', 
+        on_delete=models.PROTECT)
+    is_blocked = models.BooleanField(default=False)
+
 
 # code snippet from:
 # https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#abstractbaseuser
