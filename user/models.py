@@ -4,15 +4,15 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin 
 
-'''
-imports used in code snippet
-from django.core.mail import send_mail
-from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.utils.translation import ugettext_lazy as _
+class Relic(models.Model):
+    relic_id = models.AutoField(primary_key=True)
+    relic_name = models.CharField(max_length=32, unique=True)
+    wiki_url = models.CharField(max_length=512,unique=True)
 
-from .managers import UserManager
-'''
+class GamingPlatform(models.Model):
+    gaming_platform_id = models.AutoField(primary_key=True)
+    platform_name = models.CharField(max_length=32, unique=True)
+
 # code snippet from:
 # https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#abstractbaseuser
 class UserManager(BaseUserManager):
@@ -72,7 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     user_verification_email_code = models.CharField(max_length=32, unique=True)
     warframe_account_verification_code = models.CharField(max_length=12, unique=True)
         
-    REQUIRED_FIELDS = [] #used in interactive only.
+    REQUIRED_FIELDS = [] #used in interactive only IT.
 
     objects = UserManager()
 
