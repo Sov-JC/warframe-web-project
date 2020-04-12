@@ -5,6 +5,24 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin 
 
+class RunType(models.Model):
+    runTypeID = models.AutoField(primary_key=True)
+    ONE_BY_ONE = "OO"
+    TWO_BY_TWO = "TT"
+    FOUR_BY_FOUR = "FF"
+
+    TYPE_NAME_CHOICES = [
+        (ONE_BY_ONE, 'One by One'),
+        (TWO_BY_TWO, 'Two by Two'),
+        (FOUR_BY_FOUR, 'Four by Four')
+    ]
+
+    typeName = models.CharField(
+        max_length=16, 
+        unique=True,
+        choices=TYPE_NAME_CHOICES
+    )
+
 class Relic(models.Model):
     relic_id = models.AutoField(primary_key=True)
     relic_name = models.CharField(max_length=32, unique=True)
@@ -122,6 +140,23 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+class Group(models.Model):
+    group_id = models.AutoField(primary_key=True)
+    host_user_id = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete = models.PROTECT
+    )
+    relic_id = models.ForeignKey(
+        'User', #would this work if Group class was created before User?
+        on_delete = models.PROTECT
+    )
+    run_type_id = models.ForeignKey(
+        'RunType',
+        on_delete = models.PROTECT
+    )
+    players_in_group = models.IntegerField()
+
 
 
 
