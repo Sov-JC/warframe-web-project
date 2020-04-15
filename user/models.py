@@ -5,6 +5,8 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin 
 
+import random
+
 class RunType(models.Model):
     runTypeID = models.AutoField(primary_key=True)
     ONE_BY_ONE = "OO"
@@ -26,7 +28,7 @@ class RunType(models.Model):
 class Relic(models.Model):
     relic_id = models.AutoField(primary_key=True)
     relic_name = models.CharField(max_length=32, unique=True)
-    wiki_url = models.CharField(max_length=512,unique=True)
+    wiki_url = models.CharField(max_length=512)
 
 class GamingPlatform(models.Model):
     gaming_platform_id = models.AutoField(primary_key=True)
@@ -79,6 +81,19 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+''' helper function for generating a verification code for a warframe account'''
+def _generate_warframe_account_verification_code():
+    VALID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    CODE_LENGTH = 12
+    generated_verification_code = ""
+
+    for i in range(0,CODE_LENGTH):
+        rand_char = VALID_CHARS[random.randint(0,len(VALID_CHARS)-1)]
+        generated_verification_code += rand_char
+
+
+    return generated_verification_code
+
 class User(AbstractBaseUser, PermissionsMixin):
     #username = models.CharField(max_length=40, unique=True)
     email = models.EmailField(
@@ -96,8 +111,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     #linked_warframe_account_id = "not_implemented_yet"
     beta_tester = models.BooleanField(default=True)
-    user_verification_email_code = models.CharField(max_length=32, unique=True)
-    warframe_account_verification_code = models.CharField(max_length=12, unique=True)
+    #email_verification_code = models.CharField(max_length=32, unique=True, null=True)
+    warframe_account_verification_code = models.CharField(
+        max_length=12, unique=True,
+         default=_generate_warframe_account_verification_code
+    )
         
     REQUIRED_FIELDS = [] #used in interactive only IT.
 
@@ -148,7 +166,7 @@ class Group(models.Model):
         on_delete = models.PROTECT
     )
     relic_id = models.ForeignKey(
-        'User', #would this work if Group class was created before User?
+        'Relic', 
         on_delete = models.PROTECT
     )
     run_type_id = models.ForeignKey(
@@ -156,6 +174,25 @@ class Group(models.Model):
         on_delete = models.PROTECT
     )
     players_in_group = models.IntegerField()
+
+''' helper function for generating an email verification code'''
+def _generate_email_verification_code():
+        VALID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'        
+        CODE_LENGTH = 32
+        generated_verification_code = ""
+
+        for i in range(0,CODE_LENGTH):
+            rand_char = VALID_CHARS[random.randint(0,len(VALID_CHARS)-1)]
+            generated_veriffication_code += rand_char
+
+        return generated_verification_code
+
+class EmailVerificationCode(models.Model):
+    email_verification_code_id = models.AutoField(primary_key=True)
+    user_id = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT)
+    email_verification_code = models.CharField(max_length=32, default=_generate_email_verification_code)
 
 
 
