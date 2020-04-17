@@ -1,8 +1,10 @@
 # appname/forms.py
 
+from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import User
+
 
 '''
 class CustomUserCreationForm(UserCreationForm):
@@ -32,3 +34,11 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = User
 '''
+
+class LoginForm(forms.Form):
+    EMAIL_ADDR_MAX_LEN = 254
+    email_address = forms.EmailField(max_length=EMAIL_ADDR_MAX_LEN)
+    password = forms.CharField(
+        label='password',
+        widget=forms.PasswordInput,
+    )
