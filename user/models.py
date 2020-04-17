@@ -194,6 +194,9 @@ class EmailVerificationCode(models.Model):
         on_delete=models.PROTECT)
     email_verification_code = models.CharField(max_length=32, default=_generate_email_verification_code)
 
+    class Meta:
+        db_table = "user_email_verification_code"
+
 
 
 
