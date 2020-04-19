@@ -39,6 +39,8 @@ class LoginForm(forms.Form):
     EMAIL_ADDR_MAX_LEN = 254
     email_address = forms.EmailField(max_length=EMAIL_ADDR_MAX_LEN)
     password = forms.CharField(
+        min_length=5,
+        max_length=32,
         label='password',
         widget=forms.PasswordInput,
     )
