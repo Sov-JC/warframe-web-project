@@ -1,7 +1,11 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
-from django.shortcuts import render
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.urls import reverse
 from .forms import LoginForm
 
 # Create your views here.
@@ -12,8 +16,6 @@ def login_view(request):
 
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
-
-		
 		
 		if form.is_valid():
 			email = form.cleaned_data["email_address"]
@@ -38,5 +40,8 @@ def login_view(request):
 
 	return render(request, 'user/login.html', context)
 
-def logout(request):
-	return HttpResponse("Not implemented yet")
+
+@login_required
+def log_user_out(request):
+	logout(request)
+	return HttpResponseRedirect(reverse('home:index'))
