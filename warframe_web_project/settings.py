@@ -24,7 +24,8 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'vanz*gsru+%l%)9ua=rqry4+)$)j0ye=ecau(2(@#ut+**uo+*'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with
+#  debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user',
+    'home',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +59,7 @@ ROOT_URLCONF = 'warframe_web_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -141,5 +143,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# To substitute a custom User model
 AUTH_USER_MODEL = 'user.User'
+
+LOGIN_URL = 'home:index'
