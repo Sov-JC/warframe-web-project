@@ -191,11 +191,27 @@ class EmailVerificationCode(models.Model):
     email_verification_code_id = models.AutoField(primary_key=True)
     user_id = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT)
+        on_delete=models.PROTECT
+        )
     email_verification_code = models.CharField(max_length=32, default=_generate_email_verification_code)
 
     class Meta:
         db_table = "user_email_verification_code"
+
+class PasswordRecovery(models.Model):
+    password_recovery_id = models.AutoField(primary_key=True)
+    user_id = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT
+    )
+
+    #default should not execute
+    recovery_code = models.CharField(max_length=32, default="") 
+    dateCodeCreated = models.DateTimeField(auto_now_add=True, blank=True)
+    dateCodeUsed = models.DateTimeField(null=True, blank=True, default=None)
+
+    def _generate_password_recovery_code(self):
+        pass
 
 
 
