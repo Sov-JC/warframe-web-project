@@ -72,6 +72,10 @@ TEMPLATES = [
     },
 ]
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
 WSGI_APPLICATION = 'warframe_web_project.wsgi.application'
 
 
@@ -140,6 +144,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+#STATIC_ROOT = "/my_static_root_test"
 
 STATIC_URL = '/static/'
 
