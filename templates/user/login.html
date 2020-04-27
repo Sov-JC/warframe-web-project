@@ -1,56 +1,27 @@
 {% extends "base.html" %}
+{% load static %}
 
-test, test, 123
+{% block additional_imports %}
+<link href="{% static 'user/login.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
-
-<div class="row justify-content-center mt-2" style="max-width:80%">
-    
-<!--     
-    <div class="col-4 col-md-2">
-        
-        <img src="https://i.imgur.com/LVHWiEP.png" class="img-fluid" alt="login image">
-    </div> -->
-    <div class="col-md-4" style="background-color:black">
-        qiowejioqjweio
-        <!-- <img src="https://i.imgur.com/LVHWiEP.png" class="rounded" alt="..."> -->
-    </div>
-    
+<div id="login-area" class="text-center">
+    <form class="form-signin">
+        <img class="mb-4" src="{% static 'images/login-box-image.png' %}" alt="" width="80%" height="100%" border-radius="10px" style="border-radius:30px">
+        <h1 class = "h1 mb-3 font-weight-normal"> Welcome </h1>
+        <h3 class="h3 mb-3 font-weight-normal"> Please login </h3>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+    </form>
 </div>
-
-<div class="row justify-content-center mt-2">
-    <div class="col-md-4" >
-
-        <form action= "{% url 'user:login' %}" method='POST'>
-            {% csrf_token %}
-
-            <!-- {{ form.as_p }} -->
-            
-            {{ form.non_field_errors }}
-            <div class="form-group">
-                {{ form.email_address.errors }}
-                <input type="email" name="email" class="form-control" placeholder="Email" autofocus>
-            </div>
-            <div class="form-group">
-                {{ form.password.errors }}
-                <input type="password" name="password" class="form-control" placeholder="Password">
-            </div>
-
-        <!-- 
-        <form >
-            <div class="form-group">
-                <input type="email" name="email" class="form-control" placeholder="Email" autofocus>
-            </div>
-            <div class="form-group">
-                <input type="password" name="password" class="form-control" placeholder="Password">
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Log in</button>
-        </form>
-        -->
-            <button type="submit" class="btn btn-primary btn-block">Log in</button>
-        </form>
-        
-    </div>
-</div>
-
 {% endblock %}
