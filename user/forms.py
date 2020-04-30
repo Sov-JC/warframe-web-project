@@ -37,10 +37,21 @@ class CustomUserChangeForm(UserChangeForm):
 
 class LoginForm(forms.Form):
     EMAIL_ADDR_MAX_LEN = 254
-    email_address = forms.EmailField(max_length=EMAIL_ADDR_MAX_LEN)
+    email_address = forms.EmailField(
+        max_length=EMAIL_ADDR_MAX_LEN,
+        error_messages = {
+            "required": "Email address is required.",
+            "invalid": "Email is invalid" 
+        }
+    )
+    
     password = forms.CharField(
         min_length=5,
         max_length=32,
-        label='password',
-        widget=forms.PasswordInput,
+        error_messages = {
+            "required": "Password is required.",
+        }
     )
+
+class RegistrationForm(forms.Form):
+    pass
