@@ -56,15 +56,15 @@
                     {% endif %}
                 {% else %}
                     <div class="btn-group m-sm-2">
-                        <a href="/signup/" class="btn btn-primary">Sign Up</a>
-                        <a href="/login" class="btn btn-primary">Login</a>
-                        <a href="/admin/" class = "btn btn-info"> Admin</a>
+                        <a href="#" class="btn btn-primary">Sign Up</a>
+                        <a href="{% url 'user:login' %}" class="btn btn-primary">Login</a>
+                        <a href="#" class = "btn btn-info"> Admin</a>
                     </div>
                 {% endif %}
 
                  <!--View Profile-->
                 {% if user.is_authenticated and user is not None %}
-                <a href="/profile/" class="btn btn-primary mr-sm-1"> View Profile </a>
+                <a href="#" class="btn btn-primary mr-sm-1"> View Profile </a>
                 {% else %
                 <a class="btn btn-primary mr-sm-1">Can't view profile. You're not logged in</a>
                 {% endif %} 
