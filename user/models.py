@@ -7,6 +7,8 @@ from django.contrib.auth.models import PermissionsMixin
 
 import random
 
+
+
 class RunType(models.Model):
     runTypeID = models.AutoField(primary_key=True)
     ONE_BY_ONE = "OO"
@@ -34,12 +36,18 @@ class GamingPlatform(models.Model):
     gaming_platform_id = models.AutoField(primary_key=True)
     platform_name = models.CharField(max_length=32, unique=True)
 
+    class Meta:
+        db_table = "user_gaming_platform"
+
 class WarframeAccount(models.Model):
     warframe_account_id = models.AutoField(primary_key=True)
     gaming_platform_id = models.ForeignKey(
         'GamingPlatform', 
         on_delete=models.PROTECT)
     is_blocked = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "user_warframe_account"
 
 
 # code snippet from:
@@ -114,7 +122,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     #email_verification_code = models.CharField(max_length=32, unique=True, null=True)
     warframe_account_verification_code = models.CharField(
         max_length=12, unique=True,
-         default=_generate_warframe_account_verification_code
+        default=_generate_warframe_account_verification_code
     )
         
     REQUIRED_FIELDS = [] #used in interactive only IT.
@@ -163,7 +171,8 @@ class Group(models.Model):
     group_id = models.AutoField(primary_key=True)
     host_user_id = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete = models.PROTECT
+        on_delete = models.PROTECT,
+        db_column = "host_user_id"
     )
     relic_id = models.ForeignKey(
         'Relic', 
@@ -191,12 +200,14 @@ class EmailVerificationCode(models.Model):
     email_verification_code_id = models.AutoField(primary_key=True)
     user_id = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        db_column="user_id"
         )
     email_verification_code = models.CharField(max_length=32, default=_generate_email_verification_code)
 
     class Meta:
         db_table = "user_email_verification_code"
+
 
 class PasswordRecovery(models.Model):
     password_recovery_id = models.AutoField(primary_key=True)
@@ -212,6 +223,10 @@ class PasswordRecovery(models.Model):
 
     def _generate_password_recovery_code(self):
         pass
+
+    class Meta: 
+        db_table = "user_password_recovery"
+        
 
 
 
