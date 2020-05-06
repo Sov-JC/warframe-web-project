@@ -4,11 +4,11 @@ from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin 
+from django.core.exceptions import ObjectDoesNotExist
 
 import random
 
-
-
+"""
 class RunType(models.Model):
     runTypeID = models.AutoField(primary_key=True)
     ONE_BY_ONE = "OO"
@@ -26,34 +26,78 @@ class RunType(models.Model):
         unique=True,
         choices=TYPE_NAME_CHOICES
     )
+"""
 
+"""
 class Relic(models.Model):
     relic_id = models.AutoField(primary_key=True)
     relic_name = models.CharField(max_length=32, unique=True)
     wiki_url = models.CharField(max_length=512)
+"""
 
 class GamingPlatform(models.Model):
     gaming_platform_id = models.AutoField(primary_key=True)
-    platform_name = models.CharField(max_length=32, unique=True)
+
+     #NULL SHOULD BE FALSE! NULL=True for testing currently, CHANGE THIS LATER
+     #Unique should be True! CHANGE LATER
+    platform_name = models.CharField(max_length=32, unique=False, null=True)
 
     class Meta:
         db_table = "user_gaming_platform"
 
+
+
 class WarframeAccount(models.Model):
     warframe_account_id = models.AutoField(primary_key=True)
+    warframe_alias = models.CharField(max_length=32, unique=True, default="") #default should not be ""
+
+    #ADDED UNIQUE=FALSE AND NULL=TRUE FOR TESTING. REVIEW THIS LATER!!!
     gaming_platform_id = models.ForeignKey(
-        'GamingPlatform', 
-        on_delete=models.PROTECT)
+        GamingPlatform, 
+        on_delete=models.PROTECT,
+        unique=False,
+        null=True,
+        db_column="gaming_platform_id")
     is_blocked = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.warframe_alias
+
     class Meta:
-        db_table = "user_warframe_account"
+        db_table = "warframe_account"
+
 
 
 # code snippet from:
 # https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#abstractbaseuser
 class UserManager(BaseUserManager):
+
+    ''' helper function for generating a verification code for a warframe account'''
+    def _generate_warframe_account_verification_code(self):
+        VALID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        CODE_LENGTH = 12
+        generated_wfa_verification_code = ""
+
+        for i in range(0,CODE_LENGTH):
+            rand_char = VALID_CHARS[random.randint(0,len(VALID_CHARS)-1)]
+            generated_wfa_verification_code += rand_char
+
+
+        return generated_wfa_verification_code
+
+    def _generate_email_verification_code(self):
+        VALID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+        CODE_LENGTH = 32
+        generated_email_verification_code = ""
+
+        for i in range(0,CODE_LENGTH):
+            rand_char = VALID_CHARS[random.randint(0,len(VALID_CHARS)-1)]
+            generated_email_verification_code += rand_char
+
+        return generated_email_verification_code
     
+
+
     def _create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError('The given email must be set')
@@ -61,14 +105,20 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields) #???
         user.set_password(password) #???
+
+        user.email_verification_code = self._generate_email_verification_code()
+        user.warframe_account_verification_code = self._generate_warframe_account_verification_code()
+        
         user.save(using=self._db) #??
         return user
     
+    #required
     def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
         extra_fields.setdefault('is_staff', False)
         return self._create_user(email, password, **extra_fields)
 
+    #required
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -89,21 +139,27 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-''' helper function for generating a verification code for a warframe account'''
-def _generate_warframe_account_verification_code():
-    VALID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    CODE_LENGTH = 12
-    generated_verification_code = ""
+    def get_user_given_linked_wf_alias(self, wf_alias):
+        '''
+        Get the user whos linked warframe account has the alias of wf_alias
 
-    for i in range(0,CODE_LENGTH):
-        rand_char = VALID_CHARS[random.randint(0,len(VALID_CHARS)-1)]
-        generated_verification_code += rand_char
+        returns None is used does not exist. That is, there is no user who
+        has a warframe account linked with the alias of 'wf_alias' 
+        '''
+        warframe_account = None
+        user = None
+      
+        try:
+            warframe_account = WarframeAccount.objects.get(warframe_alias=wf_alias)
+            user = self.get(linked_warframe_account_id=warframe_account)
+        except ObjectDoesNotExist:
+            print("No such warframe account exists or no user has that warframe account linked.")
+            user = None
 
+        return user
 
-    return generated_verification_code
 
 class User(AbstractBaseUser, PermissionsMixin):
-    #username = models.CharField(max_length=40, unique=True)
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
@@ -117,12 +173,22 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False) # admin, not a super-user
     #admin = models.BooleanField(default=False) # a superuser
 
-    #linked_warframe_account_id = "not_implemented_yet"
+    linked_warframe_account_id = models.OneToOneField(
+        WarframeAccount,
+        on_delete=models.PROTECT,
+        null=True,
+        db_column="linked_warframe_account_id", #if attribute ommited, would append another _id to this table column name
+    )
+
     beta_tester = models.BooleanField(default=True)
-    #email_verification_code = models.CharField(max_length=32, unique=True, null=True)
+
+    email_verification_code = models.EmailField(
+        unique=True
+    )
+
     warframe_account_verification_code = models.CharField(
         max_length=12, unique=True,
-        default=_generate_warframe_account_verification_code
+        default=""
     )
         
     REQUIRED_FIELDS = [] #used in interactive only IT.
@@ -135,6 +201,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.email
 
+    def has_module_perms(self, app_label):
+        return True
+
+    def user_email_verified(self, email):
+        pass
+
 
     #Just use the default one from PermissionsMixin
     '''
@@ -143,9 +215,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         return True
     '''
 
-    def has_module_perms(self, app_label):
-        return True
-    
     '''
     @property
     def is_staff(self):
@@ -167,35 +236,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-class Group(models.Model):
-    group_id = models.AutoField(primary_key=True)
-    host_user_id = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete = models.PROTECT,
-        db_column = "host_user_id"
-    )
-    relic_id = models.ForeignKey(
-        'Relic', 
-        on_delete = models.PROTECT
-    )
-    run_type_id = models.ForeignKey(
-        'RunType',
-        on_delete = models.PROTECT
-    )
-    players_in_group = models.IntegerField()
-
-''' helper function for generating an email verification code'''
-def _generate_email_verification_code():
-        VALID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'        
-        CODE_LENGTH = 32
-        generated_verification_code = ""
-
-        for i in range(0,CODE_LENGTH):
-            rand_char = VALID_CHARS[random.randint(0,len(VALID_CHARS)-1)]
-            generated_veriffication_code += rand_char
-
-        return generated_verification_code
-
+"""
 class EmailVerificationCode(models.Model):
     email_verification_code_id = models.AutoField(primary_key=True)
     user_id = models.OneToOneField(
@@ -203,17 +244,18 @@ class EmailVerificationCode(models.Model):
         on_delete=models.PROTECT,
         db_column="user_id"
         )
-    email_verification_code = models.CharField(max_length=32, default=_generate_email_verification_code)
+    email_verification_code = models.CharField(max_length=32, default="") #default set to "" for testing.
 
     class Meta:
         db_table = "user_email_verification_code"
+"""
 
 
 class PasswordRecovery(models.Model):
     password_recovery_id = models.AutoField(primary_key=True)
     user_id = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
     )
 
     #default should not execute
@@ -226,7 +268,6 @@ class PasswordRecovery(models.Model):
 
     class Meta: 
         db_table = "user_password_recovery"
-        
 
 
 
