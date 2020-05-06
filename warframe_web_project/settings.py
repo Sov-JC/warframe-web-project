@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user',
     'home',
+    'chat',
+    'group',
+    'relicinventory',
+    'report',
 ]
 
 MIDDLEWARE = [
