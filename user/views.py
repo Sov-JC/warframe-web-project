@@ -52,8 +52,12 @@ def profile(request):
 
 	if request.method=="GET":
 		if "wf_alias" in request.GET :
-			return HttpResponse("wf_alias exists")
+			
+
+			return render(request, 'user/profile.html',)
 		else:
 			return HttpResponse("wf_alias does not exist")
 	else:
 		return HttpResponse("This is not a GET method, expected GET request.")
+
+	return
