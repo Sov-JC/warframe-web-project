@@ -4,6 +4,7 @@ from django.conf import settings
 from user.models import User
 
 # Create your models here.
+"""
 class Group(models.Model):
     group_id = models.AutoField(primary_key=True)
     host_user_id = models.OneToOneField(
@@ -20,3 +21,4 @@ class Group(models.Model):
         on_delete = models.PROTECT
     )
     players_in_group = models.IntegerField()
+"""
