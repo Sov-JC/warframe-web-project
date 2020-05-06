@@ -1,9 +1,9 @@
 from django.test import TestCase
-from .models import User
+from .models import *
 
 from django.db.utils import IntegrityError
 
-# Create your tests here.
+# Test utility functions
 def create_user(email = None, password = None):
 	User.objects.create_user(email=email, password=password)
 	pass
@@ -41,22 +41,52 @@ class UserManagerTests(TestCase):
 
 		self.assertRaises(IntegrityError, User.objects.create_user, VALID_EMAIL, VALID_PASSWORD)
 	
-	def test_create_regular_user_method_with_invalid_email_or_password(self):
-		VALID_EMAIL = "regularuser@example.com"
+	def test_create_regular_user_method_with_missing_email(self):
 		VALID_PASSWORD = "tangodjango551"
 
-		INVALID_EMAIL = "invalidemail"
-		INVALID_PASSWORD = "1"
-
-		user_instance_one = User.objects.create_user(VALID_EMAIL, INVALID_PASSWORD)
-		user_instance_two = User.objects.create_user(INVALID_EMAIL, VALID_PASSWORD)
-
-		self.assertEqual(user_instance_one, None)
-		self.assertEqual(user_instance_two, None)
+		self.assertRaises(ValueError, User.objects.create_user, None, VALID_PASSWORD)
 
 	def test_create_super_user_with_valid_required_fields(self):
 		pass
 
+	def test_get_user_given_linked_wf_alias_with_nonexisting_alias(self):
+		"""
+		Test the return type of the method get_user_given_linked_wf_alias() when
+		fed a warframe alias that does not exist in the database. Also, check for null
+		and empty string arguments to the method.
+		"""
+		UserOne = User.objects.get_user_given_linked_wf_alias("")
+		UserTwo = User.objects.get_user_given_linked_wf_alias(None)
+		UserThree = User.objects.get_user_given_linked_wf_alias("warframeTestUser3")
+		
+		self.assertEqual(UserOne, None) #argument of None
+		self.assertEqual(UserTwo, None) #empty string argument
+		self.assertEqual(UserThree, None) #warframe alias that does not exist in the database
+
+	def test_get_user_given_linked_wf_alias_with_existing_alias(self):
+		"""
+		Should return the correct user whose linked account has
+		the warframe alias 'tenno'
+		"""
+		WARFRAME_ALIAS = "tenno"
+		wf_account = WarframeAccount(warframe_alias = WARFRAME_ALIAS)
+		wf_account.save()
+		print("warframe account object created and saved")
+		print("[warframe_alias:%s]" % wf_account.warframe_alias)
+
+		VALID_EMAIL = "regularuser@example.com"
+		VALID_PASSWORD = "tangodjango551"
+		user = User.objects.create_user(VALID_EMAIL, VALID_PASSWORD)
+
+		user.linked_warframe_account_id = wf_account
+		user.save()
+
+		linked_wf_user = User.objects.get_user_given_linked_wf_alias(WARFRAME_ALIAS)
+
+		self.assertEqual(linked_wf_user.email, VALID_EMAIL)
+
+class UserModelTests(TestCase):
+	pass
 
 class LoginViewTestCase(TestCase):
 
