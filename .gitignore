@@ -1,0 +1,17 @@
+.vscode
+.vscode/
+*.pyc
+__pycache__
+db.sqlite3
+
+
+#ignore migrations
+*/migrations
+
+home/__pycache__/views.cpython-36.pyc
+user/__pycache__/forms.cpython-36.pyc
+user/__pycache__/models.cpython-36.pyc
+user/__pycache__/urls.cpython-36.pyc
+user/__pycache__/views.cpython-36.pyc
+warframe_web_project/__pycache__/settings.cpython-36.pyc
+warframe_web_project/__pycache__/urls.cpython-36.pyc
