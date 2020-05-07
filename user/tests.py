@@ -1,4 +1,6 @@
 from django.test import TestCase
+#from django.test import Client
+from django.urls import reverse
 from .models import *
 
 from django.db.utils import IntegrityError
@@ -111,7 +113,38 @@ class LoginViewTestCase(TestCase):
 		"""
 		pass
 
-
 class LogoutViewTestCase(TestCase):
 
 	pass
+
+class ProfileViewTestCase(TestCase):
+	def setUp(self):
+		joe = User.objects.create_user(email = "joe@example.com", password="j934j3k29kl")
+		david =User.objects.create_user(email = "david@example.com", password="mm2and94k3l2p")
+		katherine = User.objects.create_user(email = "katherine@example.com", password="fjnwejrnkwer")
+
+		pc_gaming_platform = GamingPlatform(platform_name="PC").save()
+
+		wfa_joe_tenno = WarframeAccount(warframe_alias="joeTenno", gaming_platform_id = pc_gaming_platform)
+		wfa_david_tenno = WarframeAccount(warframe_alias="davidTenno", gaming_platform_id = pc_gaming_platform)
+
+		joe.linked_warframe_account_id = wfa_joe_tenno
+		david.linked_warframe_account_id = wfa_david_tenno
+
+	def test_profile_view_with_no_wf_alias_query_string_request(self):
+		"""
+		Get requests with no wf_alias query should return
+		"""
+		response = self.client.get(reverse('user:profile'))
+		
+		self.assertEqual(response.status_code, 404)
+
+	def test_profile_view_with_non_existing_wf_alias(self):
+		"""
+		
+		"""
+		pass
+
+		
+
+		
