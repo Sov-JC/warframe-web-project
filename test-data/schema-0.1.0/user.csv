@@ -1,0 +1,12 @@
+﻿user_id,password,last_login,is_superuser,email,email_verified,is_active,is_staff,beta_tester,warframe_account_verification_code,linked_warframe_account_id
+1,admin,,1,admin@example.com,1,1,1,0,kwl04jd940sl,1
+2,simplepw93,,,example1@example.com,1,,0,0,kwl04jd940sd,2
+3,simplepw93,,,example2@example.com,0,,0,0,jwl04jd940sd,3
+4,34j534io5oi35,,,example3@example.com,1,,0,0,jlwo94pdjkl1,4
+5,io3j45ioj3o4ji5,,,example5@example.com,1,,0,0,jlwo9opdjkl1,5
+6,fowfiojwe,,,example6@example.com,1,,0,0,jlwo9opdjpl1,6
+7,sfu0sif,,,example7@example.com,1,,0,0,jlwo9opdjpl2,8
+8,weirojwioejr23,,,example8@example.com,0,,0,0,dwm9102pfjwl,10
+9,eofnwuionv890,,,example9@example.com,0,,0,0,dkm9102pfjwl,12
+10,Wnunwuin2340,,,example9@example.com,0,,0,0,d1m9102pfjwl,14
+11,290i3490,,,example10@example.com,0,,0,0,d1m9102pfekl,16
