@@ -28,12 +28,6 @@ class RunType(models.Model):
     )
 """
 
-"""
-class Relic(models.Model):
-    relic_id = models.AutoField(primary_key=True)
-    relic_name = models.CharField(max_length=32, unique=True)
-    wiki_url = models.CharField(max_length=512)
-"""
 
 class GamingPlatform(models.Model):
     gaming_platform_id = models.AutoField(primary_key=True)
@@ -260,6 +254,7 @@ class PasswordRecovery(models.Model):
     user_id = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
+        default=None # validation should make sure default doesn't execute
     )
 
     #default should not execute
