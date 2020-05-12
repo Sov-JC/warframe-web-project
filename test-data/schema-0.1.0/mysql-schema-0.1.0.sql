@@ -89,22 +89,22 @@ ENGINE = InnoDB;
 -- Table `mydb`.`CHAT`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`CHAT` (
-  `chatID` INT NOT NULL AUTO_INCREMENT,
-  `dateCreated` DATETIME NOT NULL,
-  `personOneUserID` INT NOT NULL,
-  `personTwoUserID` INT NOT NULL,
-  `personOneStillInChat` TINYINT NOT NULL DEFAULT 1,
-  `personTwoStillInChat` TINYINT NOT NULL DEFAULT 1,
-  PRIMARY KEY (`chatID`),
-  INDEX `user_fk_idx` (`personOneUserID` ASC),
-  INDEX `user_fk_2_idx` (`personTwoUserID` ASC),
+  `chat_id` INT NOT NULL AUTO_INCREMENT,
+  `date_created` DATETIME NOT NULL,
+  `person_one_warframe_account_id` INT NOT NULL,
+  `person_two_warframe_account_id` INT NOT NULL,
+  `person_one_still_in_chat` TINYINT NOT NULL DEFAULT 1,
+  `person_two_still_in_chat` TINYINT NOT NULL DEFAULT 1,
+  PRIMARY KEY (`chat_id`),
+  INDEX `user_fk_idx` (`person_one_warframe_account_id` ASC),
+  INDEX `user_fk_2_idx` (`person_two_warframe_account_id` ASC),
   CONSTRAINT `user_fk_1`
-    FOREIGN KEY (`personOneUserID`)
+    FOREIGN KEY (`person_one_warframe_account_id`)
     REFERENCES `mydb`.`USER` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `user_fk_2`
-    FOREIGN KEY (`personTwoUserID`)
+    FOREIGN KEY (`person_two_warframe_account_id`)
     REFERENCES `mydb`.`USER` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`CHAT_MESSAGE` (
   INDEX `chatID_fk_idx` (`chatID` ASC),
   CONSTRAINT `chatID_fk`
     FOREIGN KEY (`chatID`)
-    REFERENCES `mydb`.`CHAT` (`chatID`)
+    REFERENCES `mydb`.`CHAT` (`chat_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `userID_fk`
@@ -140,10 +140,10 @@ ENGINE = InnoDB;
 -- Table `mydb`.`RUN_TYPE`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`RUN_TYPE` (
-  `runTypeID` INT NULL,
-  `typeName` VARCHAR(32) NOT NULL COMMENT 'The type of relic run, such as 1 by 1, 2 by 2, or 4 by 4.',
-  PRIMARY KEY (`runTypeID`),
-  UNIQUE INDEX `typeName_UNIQUE` (`typeName` ASC))
+  `run_type_id` INT NULL,
+  `type_name` VARCHAR(32) NOT NULL COMMENT 'The type of relic run, such as 1 by 1, 2 by 2, or 4 by 4.',
+  PRIMARY KEY (`run_type_id`),
+  UNIQUE INDEX `typeName_UNIQUE` (`type_name` ASC))
 ENGINE = InnoDB;
 
 
@@ -152,14 +152,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`GROUP` (
   `group_id` INT NOT NULL,
-  `host_user_id` INT NOT NULL,
+  `host_warframe_account_id` INT NOT NULL,
   `relic_id` INT NOT NULL,
   `run_type_id` INT NOT NULL,
   `players_in_group` INT NOT NULL,
   PRIMARY KEY (`group_id`),
   INDEX `relic_id_fk` (`relic_id` ASC),
   INDEX `runTypeID_fk_idx` (`run_type_id` ASC),
-  INDEX `host_user_id_fk_idx` (`host_user_id` ASC),
+  UNIQUE INDEX `host_warframe_account_id_UNIQUE` (`host_warframe_account_id` ASC),
   CONSTRAINT `relic_id_fk`
     FOREIGN KEY (`relic_id`)
     REFERENCES `mydb`.`RELIC` (`relic_id`)
@@ -167,12 +167,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`GROUP` (
     ON UPDATE NO ACTION,
   CONSTRAINT `run_type_id_fk`
     FOREIGN KEY (`run_type_id`)
-    REFERENCES `mydb`.`RUN_TYPE` (`runTypeID`)
+    REFERENCES `mydb`.`RUN_TYPE` (`run_type_id`)
     ON DELETE RESTRICT
     ON UPDATE NO ACTION,
-  CONSTRAINT `host_user_id_fk`
-    FOREIGN KEY (`host_user_id`)
-    REFERENCES `mydb`.`USER` (`user_id`)
+  CONSTRAINT `host_warframe_account_id_fk`
+    FOREIGN KEY (`host_warframe_account_id`)
+    REFERENCES `mydb`.`WARFRAME_ACCOUNT` (`warframe_account_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -182,19 +182,19 @@ ENGINE = InnoDB;
 -- Table `mydb`.`OWNED_RELIC`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`OWNED_RELIC` (
-  `ownedRelicID` INT NOT NULL,
-  `userID` INT NOT NULL,
-  `relicID` INT NOT NULL,
-  PRIMARY KEY (`ownedRelicID`),
-  INDEX `userID_fk_idx` (`userID` ASC),
-  INDEX `relicID_fk_idx` (`relicID` ASC),
+  `owned_relic_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `relic_id` INT NOT NULL,
+  PRIMARY KEY (`owned_relic_id`),
+  INDEX `userID_fk_idx` (`user_id` ASC),
+  INDEX `relicID_fk_idx` (`relic_id` ASC),
   CONSTRAINT `userID_fk`
-    FOREIGN KEY (`userID`)
+    FOREIGN KEY (`user_id`)
     REFERENCES `mydb`.`USER` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `relicID_fk`
-    FOREIGN KEY (`relicID`)
+    FOREIGN KEY (`relic_id`)
     REFERENCES `mydb`.`RELIC` (`relic_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -217,9 +217,10 @@ COMMENT = 'A user\'s status, such as Ready or Offline.\n\nA user that is \'Ready
 -- Table `mydb`.`REPORT_STATE`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`REPORT_STATE` (
-  `reportStateID` INT NOT NULL,
-  `reportState` VARCHAR(45) NULL COMMENT 'The name of the status, such as \"being reviewed\", \"reviewed\", \"canceled\", etc.',
-  PRIMARY KEY (`reportStateID`))
+  `report_state_id` INT NOT NULL,
+  `report_state_name` VARCHAR(64) NOT NULL COMMENT 'The name of the status, such as \"being reviewed\", \"reviewed\", \"canceled\", etc.',
+  PRIMARY KEY (`report_state_id`),
+  UNIQUE INDEX `report_state_name_UNIQUE` (`report_state_name` ASC))
 ENGINE = InnoDB
 COMMENT = 'The status of a report case. For example, in review, reviewed, waiting, etc.';
 
@@ -228,17 +229,18 @@ COMMENT = 'The status of a report case. For example, in review, reviewed, waitin
 -- Table `mydb`.`REPORT_CASE`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`REPORT_CASE` (
-  `report_case_id` INT NOT NULL,
+  `report_case_id` INT NOT NULL AUTO_INCREMENT,
   `from_user_id` INT NOT NULL COMMENT 'The user that is doing the reporting.',
   `towards_user_id` INT NOT NULL COMMENT 'The user that is being reported.',
   `report_state_id` INT NOT NULL,
+  `penalty_points_received` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`report_case_id`),
   UNIQUE INDEX `towardsUserID_UNIQUE` (`towards_user_id` ASC),
   INDEX `reportStatus_fk_idx` (`report_state_id` ASC),
   INDEX `fromUserID_fk_idx` (`from_user_id` ASC),
   CONSTRAINT `report_state_id_fk`
     FOREIGN KEY (`report_state_id`)
-    REFERENCES `mydb`.`REPORT_STATE` (`reportStateID`)
+    REFERENCES `mydb`.`REPORT_STATE` (`report_state_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `from_user_id_fk`
