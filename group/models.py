@@ -22,3 +22,26 @@ class Group(models.Model):
     )
     players_in_group = models.IntegerField()
 """
+
+class RunType(models.Model):
+    runTypeID = models.AutoField(primary_key=True)
+    ONE_BY_ONE = "one by one"
+    TWO_BY_TWO = "two by two"
+    FOUR_BY_FOUR = "four by four"
+
+    RUN_TYPE_NAME_CHOICES = [
+        (ONE_BY_ONE, 'one by One'),
+        (TWO_BY_TWO, 'two by two'),
+        (FOUR_BY_FOUR, 'four by four')
+    ]
+
+    typeName = models.CharField(
+        max_length=16, 
+        unique=True,
+        choices=RUN_TYPE_NAME_CHOICES
+    )
+
+    class Meta:
+        db_table = "group_run_type"
+
+
