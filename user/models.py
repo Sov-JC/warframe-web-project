@@ -32,9 +32,27 @@ class RunType(models.Model):
 class GamingPlatform(models.Model):
     gaming_platform_id = models.AutoField(primary_key=True)
 
+    PC = "PC"
+    XBOX = "XBOX"
+    NINTENDO_SWITCH = "Nintendo Switch"
+    PLAYSTATION = "PlayStation"
+
+    PLATFORM_NAME_CHOICES = [
+        (PC, 'PC'),
+        (XBOX, 'Xbox'),
+        (NINTENDO_SWITCH, 'Nintendo Switch'),
+        (PLAYSTATION, 'Playstation')
+    ]
+
      #NULL SHOULD BE FALSE! NULL=True for testing currently, CHANGE THIS LATER
      #Unique should be True! CHANGE LATER
-    platform_name = models.CharField(max_length=32, unique=False, null=True)
+    platform_name = models.CharField(
+        max_length=32, 
+        unique=False, 
+        null=True,
+        choices = PLATFORM_NAME_CHOICES,
+        default = PC
+    )
 
     class Meta:
         db_table = "user_gaming_platform"
