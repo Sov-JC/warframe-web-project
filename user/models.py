@@ -8,27 +8,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 import random
 
-"""
-class RunType(models.Model):
-    runTypeID = models.AutoField(primary_key=True)
-    ONE_BY_ONE = "OO"
-    TWO_BY_TWO = "TT"
-    FOUR_BY_FOUR = "FF"
-
-    TYPE_NAME_CHOICES = [
-        (ONE_BY_ONE, 'One by One'),
-        (TWO_BY_TWO, 'Two by Two'),
-        (FOUR_BY_FOUR, 'Four by Four')
-    ]
-
-    typeName = models.CharField(
-        max_length=16, 
-        unique=True,
-        choices=TYPE_NAME_CHOICES
-    )
-"""
-
-
 class GamingPlatform(models.Model):
     gaming_platform_id = models.AutoField(primary_key=True)
 
@@ -69,7 +48,8 @@ class WarframeAccount(models.Model):
         on_delete=models.PROTECT,
         unique=False,
         null=True,
-        db_column="gaming_platform_id")
+        db_column="gaming_platform_id"
+    )
     is_blocked = models.BooleanField(default=False)
 
     def __str__(self):
