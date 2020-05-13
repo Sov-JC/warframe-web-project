@@ -10,11 +10,13 @@ class Chat(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, blank=True)
 	person_one_warframe_account_id = models.ForeignKey(
 		WarframeAccount,
-		on_delete=models.PROTECT
+		on_delete=models.PROTECT,
+		related_name = "person_one_wf_account_id"
 	)
 	person_two_warframe_account_id = models.ForeignKey(
 		WarframeAccount,
-		on_delete=models.PROTECT
+		on_delete=models.PROTECT,
+		related_name = "person_two_wf_account_id"
 	)
 	
 	person_one_still_in_chat = models.BooleanField(default=True)
