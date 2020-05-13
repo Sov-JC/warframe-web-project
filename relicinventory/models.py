@@ -32,9 +32,3 @@ class OwnedRelic(models.Model):
 				name='unique_relic_owned'
 			)
 		]
-
-	
-
-
-	
-
