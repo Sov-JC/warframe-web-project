@@ -2,13 +2,14 @@ from django.db import models
 from django.conf import settings
 
 from user.models import User
+from user.models import WarframeAccount
 
 # Create your models here.
-"""
+
 class Group(models.Model):
     group_id = models.AutoField(primary_key=True)
-    host_user_id = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
+    host_warframe_account_id = models.OneToOneField(
+        WarframeAccount,
         on_delete = models.PROTECT,
         db_column = "host_user_id"
     )
@@ -21,7 +22,7 @@ class Group(models.Model):
         on_delete = models.PROTECT
     )
     players_in_group = models.IntegerField()
-"""
+
 
 class RunType(models.Model):
     runTypeID = models.AutoField(primary_key=True)
