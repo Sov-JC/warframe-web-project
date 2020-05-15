@@ -3,8 +3,9 @@ from django.conf import settings
 
 from user.models import User
 from user.models import WarframeAccount
+from relicinventory.models import Relic
 
-# Create your models here.
+from .managers import *
 
 class Group(models.Model):
     group_id = models.AutoField(primary_key=True)
@@ -14,8 +15,8 @@ class Group(models.Model):
         db_column = "host_user_id"
     )
     relic_id = models.ForeignKey(
-        'Relic', 
-        on_delete = models.PROTECT
+        Relic, 
+        on_delete = models.PROTECT,
     )
     run_type_id = models.ForeignKey(
         'RunType',
@@ -23,9 +24,11 @@ class Group(models.Model):
     )
     players_in_group = models.IntegerField()
 
+    objects = GroupManager()
+
 
 class RunType(models.Model):
-    runTypeID = models.AutoField(primary_key=True)
+    run_type_id = models.AutoField(primary_key=True)
     ONE_BY_ONE = "one by one"
     TWO_BY_TWO = "two by two"
     FOUR_BY_FOUR = "four by four"
@@ -36,11 +39,13 @@ class RunType(models.Model):
         (FOUR_BY_FOUR, 'four by four')
     ]
 
-    typeName = models.CharField(
+    type_name = models.CharField(
         max_length=16, 
         unique=True,
         choices=RUN_TYPE_NAME_CHOICES
     )
+
+    objects = RunTypeManager()
 
     class Meta:
         db_table = "group_run_type"
