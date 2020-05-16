@@ -1,13 +1,15 @@
 from django.conf import settings
 from django.db import models
 from user.models import User
-from .managers import OwnedRelicManager
+from .managers import RelicManager, OwnedRelicManager
 
 # Create your models here.
 class Relic(models.Model):
-    relic_id = models.AutoField(primary_key=True)
-    relic_name = models.CharField(max_length=32, unique=True, default=None)
-    wiki_url = models.CharField(max_length=512, default=None)
+	relic_id = models.AutoField(primary_key=True)
+	relic_name = models.CharField(max_length=32, unique=True, default=None)
+	wiki_url = models.CharField(max_length=512, default=None)
+
+	objects = RelicManager()
 
 class OwnedRelic(models.Model):
 	owned_relic_id = models.AutoField(primary_key=True)
@@ -25,7 +27,7 @@ class OwnedRelic(models.Model):
 	objects = OwnedRelicManager()
 
 	class Meta:
-		db_table = "owned_relic"
+		db_table = "relicinventory_owned_relic"
 		constraints = [
 			models.UniqueConstraint(
 				fields=['user_id','relic_id'],
