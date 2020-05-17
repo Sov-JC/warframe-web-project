@@ -1,10 +1,9 @@
 from django.db import models
 #from django.contrib.auth.models import AbstractUser
 from django.conf import settings
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import PermissionsMixin 
 from django.core.exceptions import ObjectDoesNotExist
+
+from .managers import *
 
 import random
 
@@ -33,6 +32,8 @@ class GamingPlatform(models.Model):
         default = PC
     )
 
+    objects = GamingPlatformManager()
+
     class Meta:
         db_table = "user_gaming_platform"
 
@@ -52,106 +53,13 @@ class WarframeAccount(models.Model):
     )
     is_blocked = models.BooleanField(default=False)
 
+    objects = WarframeAccountManager()
+
     def __str__(self):
         return self.warframe_alias
 
     class Meta:
-        db_table = "warframe_account"
-
-
-
-# code snippet from:
-# https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#abstractbaseuser
-class UserManager(BaseUserManager):
-
-    ''' helper function for generating a verification code for a warframe account'''
-    def _generate_warframe_account_verification_code(self):
-        VALID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        CODE_LENGTH = 12
-        generated_wfa_verification_code = ""
-
-        for i in range(0,CODE_LENGTH):
-            rand_char = VALID_CHARS[random.randint(0,len(VALID_CHARS)-1)]
-            generated_wfa_verification_code += rand_char
-
-
-        return generated_wfa_verification_code
-
-    def _generate_email_verification_code(self):
-        VALID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-        CODE_LENGTH = 32
-        generated_email_verification_code = ""
-
-        for i in range(0,CODE_LENGTH):
-            rand_char = VALID_CHARS[random.randint(0,len(VALID_CHARS)-1)]
-            generated_email_verification_code += rand_char
-
-        return generated_email_verification_code
-    
-
-
-    def _create_user(self, email, password=None, **extra_fields):
-        if not email:
-            raise ValueError('The given email must be set')
-        
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields) #???
-        user.set_password(password) #???
-
-        user.email_verification_code = self._generate_email_verification_code()
-        user.warframe_account_verification_code = self._generate_warframe_account_verification_code()
-        
-        user.save(using=self._db) #??
-        return user
-    
-    #required
-    def create_user(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_superuser', False)
-        extra_fields.setdefault('is_staff', False)
-        return self._create_user(email, password, **extra_fields)
-
-    #required
-    def create_superuser(self, email, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-        
-        return self._create_user(email, password, **extra_fields)
-
-    def create_staffuser(self, email, password):
-        user = self.create_user(
-            email,
-            password=password,
-        )
-        user.staff = True
-        user.save(using=self._db)
-        return user
-
-    def get_user_given_linked_wf_alias(self, wf_alias):
-        '''
-        Get the user whos linked warframe account has the alias of wf_alias
-
-        returns None is used does not exist. That is, there is no user who
-        has a warframe account linked with the alias of 'wf_alias' 
-        '''
-        warframe_account = None
-        user = None
-      
-        try:
-            warframe_account = WarframeAccount.objects.get(warframe_alias=wf_alias)
-            user = self.get(linked_warframe_account_id=warframe_account)
-        except ObjectDoesNotExist:
-            print("No such warframe account exists or no user has that warframe account linked.")
-            user = None
-
-        return user
-
-    def email_verified_users(self):
-        pass
+        db_table = "user_warframe_account"
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -179,7 +87,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     beta_tester = models.BooleanField(default=True)
 
     email_verification_code = models.EmailField(
-        unique=True
+        unique=True,
+        default=None
     )
 
     warframe_account_verification_code = models.CharField(
@@ -203,6 +112,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     def user_email_verified(self, email):
         pass
 
+    def generate_new_warframe_verification_code(self, new_wf_verfication_code=None):
+        '''
+        Changes the warframe verification code of a user. An automatic
+        one is generated by default, but
+        '''
+        pass
 
     #Just use the default one from PermissionsMixin
     '''
@@ -232,20 +147,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-"""
-class EmailVerificationCode(models.Model):
-    email_verification_code_id = models.AutoField(primary_key=True)
-    user_id = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
-        db_column="user_id"
-        )
-    email_verification_code = models.CharField(max_length=32, default="") #default set to "" for testing.
-
-    class Meta:
-        db_table = "user_email_verification_code"
-"""
-
 
 class PasswordRecovery(models.Model):
     password_recovery_id = models.AutoField(primary_key=True)
@@ -257,8 +158,10 @@ class PasswordRecovery(models.Model):
 
     #default should not execute
     recovery_code = models.CharField(max_length=32, default="") 
-    dateCodeCreated = models.DateTimeField(auto_now_add=True, blank=True)
-    dateCodeUsed = models.DateTimeField(null=True, blank=True, default=None)
+    datetime_code_created = models.DateTimeField(auto_now_add=True, blank=True)
+    datetime_code_used = models.DateTimeField(null=True, blank=True, default=None)
+
+    objects = PasswordRecoveryManager()
 
     def _generate_password_recovery_code(self):
         pass
