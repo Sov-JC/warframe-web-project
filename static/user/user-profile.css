@@ -1,0 +1,15 @@
+#top-section-info {
+	background-color: aqua;
+	height: 200px;
+	width: 452px;
+	border: 2px;
+	border-style: solid;
+	border-radius: 6px;
+	background-color: brown;
+
+}
+
+#top-section-box {
+	background-color: green;
+	height: 280px;
+}

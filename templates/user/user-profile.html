@@ -11,6 +11,54 @@
 	of the warframe alias "holder" is displayed, that is, their profile.
 {% endcomment %}
 
+{% block additional_imports %}
+<link href="{% static 'user/user-profile.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
-<h1> This is the user-profile.html page </h1>
+<!-- Profile information - Top Section -->
+
+<div id = "top-section-box" class="row justify-content-center align-items-center">
+	<div id = "top-section-info">
+		<div id="misc-info-row" class = "row h-100 no-gutters">
+
+			<!-- img and notification section -->
+			<div id = "img-and-notif-section" class = "col-5" style="background-color:blueviolet">
+				<div class="d-flex flex-column h-100">
+					<div class="row justify-content-center bg-purple">
+						<img src="{% static 'images/profile-image-default.png' %}" class="mx-auto d-block my-2" style = "height:135px; width:135px">
+					</div>
+					<div class="row justify-content-center flex-grow-1">
+						<img src="{% static 'images/nasty-user-alert.svg' %}" class="mx-auto d-block my-2" style = "height:20px; width:20px">
+					</div>
+				</div>
+			</div>
+
+			<!-- misc information section -->
+			<div id = "misc-info-section" class = "col-7" style = "background-color:chartreuse">
+				#misc-info-section<br>
+				#misc-info-section<br>
+				#misc-info-section<br>
+				#misc-info-section<br>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<!-- 
+	<div class="row" style="background-color:blue">
+		<div class = "col-11" style="background-color:green">
+			Profile image. Messaging. Etc.
+		</div>
+	</div>
+	<div class = "row">
+		<div class = "col-12">
+			Relic Log. Account Info. Etc.
+		</div>
+	</div>
+	 -->
+
+
+<!-- Profile information - Bottom Section -->
+
 {% endblock %}
