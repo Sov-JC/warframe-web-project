@@ -178,11 +178,11 @@ def populate_run_type_table():
 
 		run_type.save()
 
-	print("[Success] %s.csv data transfered to the %s table " % CSV_FILE_NAME, TABLE_NAME)
+	print("[Success] %s.csv data transfered to the %s table " % (CSV_FILE_NAME, TABLE_NAME))
 
 	return
 
-def populate_gaming_platform():
+def populate_gaming_platform_table():
 	CSV_FILE_NAME = "gaming_platform"
 	TABLE_NAME = "gaming_platform"
 	
@@ -211,10 +211,10 @@ def populate_gaming_platform():
 
 	return
 
-def populate_report_state():
+def populate_report_state_table():
 	pass
 
-def populate_warframe_account():
+def populate_warframe_account_table():
 	CSV_FILE_NAME = "warframe_account"
 	TABLE_NAME = "warframe_account"
 	
@@ -250,7 +250,7 @@ def populate_warframe_account():
 
 	print("[Success] %s.csv data transfered to the %s table " % (CSV_FILE_NAME, TABLE_NAME))
 
-def populate_user():
+def populate_user_table():
 	CSV_FILE_NAME = "user"
 	TABLE_NAME = "user"
 	
@@ -311,7 +311,103 @@ def populate_user():
 
 		user.save()
 
+
+def populate_password_recovery_table():
+	CSV_FILE_NAME = "password_recovery"
+	TABLE_NAME = "password_recovery"
+	
+	print("Reading csv file '%s'..." % CSV_FILE_NAME)
+	csv_data = csv.reader(open("%s.csv" % CSV_FILE_NAME),delimiter=",")
+
+	if table_is_populated(TABLE_NAME):
+		if display_table_is_populated_warning_and_continue(TABLE_NAME) is False:
+			return
+	
+	firstline = True
+	for row in csv_data:
+		if firstline:
+			firstline = False
+			continue
+		
+		password_recovery_id = row[0]
+		user_id = User.objects.get(user_id=row[1])
+		recovery_code = row[2]
+		datetime_code_created = row[3]
+		datetime_code_used = None if row[4] == '' else row[4]
+		print("[password_recovery_id:%s]" % password_recovery_id)
+		print("[user_id:%s]" % user_id)
+		print("[recovery_code:%s]" % recovery_code)
+		print("[datetime_code_created:%s]" % datetime_code_created)
+		print("[datetime_code_used:%s]" % datetime_code_used)
+
+		password_recovery = PasswordRecovery(
+			password_recovery_id = password_recovery_id,
+			user_id = user_id,
+			recovery_code = recovery_code,
+			datetime_code_created = datetime_code_created,
+			datetime_code_used = datetime_code_used
+		)
+
+		password_recovery.save()
+
+	print("[Success] %s.csv data transfered to the %s table " % (CSV_FILE_NAME, TABLE_NAME))
+
+def populate_chat_table():
 	pass
+
+def populated_owned_relic_table():
+	pass
+
+def populate_group_table():
+	CSV_FILE_NAME = "group"
+	TABLE_NAME = "group"
+	
+	print("Reading csv file '%s'..." % CSV_FILE_NAME)
+	csv_data = csv.reader(open("%s.csv" % CSV_FILE_NAME),delimiter=",")
+
+	if table_is_populated(TABLE_NAME):
+		if display_table_is_populated_warning_and_continue(TABLE_NAME) is False:
+			return
+	
+	firstline = True
+	for row in csv_data:
+		if firstline:
+			firstline = False
+			continue
+
+		group_id = row[0]
+		host_warframe_account_id = WarframeAccount.objects.get(warframe_account_id=row[1])
+		relic_id = Relic.objects.get(relic_id = row[2])
+		run_type_id = RunType.objects.get(run_type_id=row[3])
+		players_in_group = row[4]
+
+		print("[group_id:%s]" % group_id)
+		print("[host_warframe_account_id:%s]" % host_warframe_account_id)
+		print("[relic_id:%s]" % relic_id)
+		print("[run_type_id:%s]" % run_type_id)
+		print("[players_in_group:%s]" % players_in_group)
+
+		group = Group(
+			group_id = group_id,
+			host_warframe_account_id = host_warframe_account_id,
+			relic_id = relic_id,
+			run_type_id = run_type_id,
+			players_in_group = players_in_group
+		)
+
+		group.save()
+
+	print("[Success] %s.csv data transfered to the %s table " % (CSV_FILE_NAME, TABLE_NAME))
+
+def populate_report_case_table():
+	pass
+
+def populate_video_proof_table():
+	pass
+
+def populate_image_proof_table():
+	pass
+
 
 """
 "relic",
@@ -343,4 +439,7 @@ def transfer_csv_table_data_to_db():
 #populate_run_type_table()
 #populate_gaming_platform()
 #populate_warframe_account()
-populate_user()
+#populate_user()
+#populate_password_recovery()
+#populate_relic_table()
+populate_group_table()
