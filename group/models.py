@@ -7,6 +7,28 @@ from relicinventory.models import Relic
 
 from .managers import *
 
+class RelicQuality(models.Model):
+    relic_quality_id = models.AutoField(primary_key=True)
+    INTACT = "Intact"
+    EXCEPTIONAL = "Exceptional"
+    FLAWLESS = "Flawless"
+    RADIANT = "Radiant"
+    RELIC_QUALITY_NAME_CHOICES = [
+        (INTACT,"Intact"),
+        (EXCEPTIONAL,"Exceptional"),
+        (FLAWLESS, "Flawless"),
+        (RADIANT, "Radiant")
+    ]
+    relic_quality_name = models.CharField(
+        max_length=64, 
+        unique=True,
+        choices=RELIC_QUALITY_NAME_CHOICES
+    )
+
+    class Meta:
+        db_table = "group_relic_quality"
+
+
 class Group(models.Model):
     group_id = models.AutoField(primary_key=True)
     host_warframe_account_id = models.OneToOneField(
@@ -23,8 +45,16 @@ class Group(models.Model):
         on_delete = models.PROTECT
     )
     players_in_group = models.IntegerField()
+    relic_quality_id = models.ForeignKey(
+        RelicQuality,
+        on_delete = models.PROTECT
+    )
+    datetime_created = models.DateTimeField(auto_now_add=True)
 
     objects = GroupManager()
+
+    class Meta:
+        db_table="group_group"
 
 
 class RunType(models.Model):
