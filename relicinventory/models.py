@@ -11,9 +11,12 @@ class Relic(models.Model):
 
 	objects = RelicManager()
 
+	class Meta:
+		db_table = "relicinventory_relic"
+
 class OwnedRelic(models.Model):
 	owned_relic_id = models.AutoField(primary_key=True)
-	user_id = models.ForeignKey(
+	warframe_account_id = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
 		on_delete=models.PROTECT,
 		default=None # validation should make sure default doesn't execute
@@ -30,7 +33,7 @@ class OwnedRelic(models.Model):
 		db_table = "relicinventory_owned_relic"
 		constraints = [
 			models.UniqueConstraint(
-				fields=['user_id','relic_id'],
+				fields=['warframe_account_id','relic_id'],
 				name='unique_relic_owned'
 			)
 		]

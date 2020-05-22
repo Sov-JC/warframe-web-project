@@ -7,8 +7,8 @@ from relicinventory.models import Relic
 
 from .managers import *
 
-class RelicQuality(models.Model):
-    relic_quality_id = models.AutoField(primary_key=True)
+class GroupRunRelicQuality(models.Model):
+    group_relic_quality_id = models.AutoField(primary_key=True)
     INTACT = "Intact"
     EXCEPTIONAL = "Exceptional"
     FLAWLESS = "Flawless"
@@ -26,7 +26,7 @@ class RelicQuality(models.Model):
     )
 
     class Meta:
-        db_table = "group_relic_quality"
+        db_table = "group_group_run_relic_quality"
 
 
 class Group(models.Model):
@@ -46,15 +46,12 @@ class Group(models.Model):
     )
     players_in_group = models.IntegerField()
     relic_quality_id = models.ForeignKey(
-        RelicQuality,
+        GroupRunRelicQuality,
         on_delete = models.PROTECT
     )
     datetime_created = models.DateTimeField(auto_now_add=True)
 
     objects = GroupManager()
-
-    class Meta:
-        db_table="group_group"
 
 
 class RunType(models.Model):
@@ -69,7 +66,7 @@ class RunType(models.Model):
         (FOUR_BY_FOUR, 'four by four')
     ]
 
-    type_name = models.CharField(
+    run_type_name = models.CharField(
         max_length=16, 
         unique=True,
         choices=RUN_TYPE_NAME_CHOICES

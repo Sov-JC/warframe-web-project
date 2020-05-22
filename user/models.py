@@ -47,9 +47,7 @@ class WarframeAccount(models.Model):
     gaming_platform_id = models.ForeignKey(
         GamingPlatform, 
         on_delete=models.PROTECT,
-        unique=False,
-        null=True,
-        db_column="gaming_platform_id"
+        #db_column="gaming_platform_id"
     )
     is_blocked = models.BooleanField(default=False)
 
@@ -60,6 +58,17 @@ class WarframeAccount(models.Model):
 
     class Meta:
         db_table = "user_warframe_account"
+
+        
+        constraints = [
+            models.UniqueConstraint(
+                fields = [
+                    'warframe_alias',
+                    'gaming_platform_id',
+                ],
+                name = 'unique_together_platform_and_wf_account'
+            )
+        ]
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -84,16 +93,19 @@ class User(AbstractBaseUser, PermissionsMixin):
         db_column="linked_warframe_account_id", #if attribute ommited, would append another _id to this table column name
     )
 
-    beta_tester = models.BooleanField(default=True)
-
     email_verification_code = models.EmailField(
         unique=True,
-        default=None
+        default=None,
     )
 
     warframe_account_verification_code = models.CharField(
-        max_length=12, unique=True,
-        default=""
+        max_length=12, 
+        unique=True,
+        default="",
+    )
+
+    datetime_created = models.DateTimeField(
+        auto_now_add=True,
     )
         
     REQUIRED_FIELDS = [] #used in interactive only IT.
@@ -147,13 +159,24 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+class UserStatus(models.Model):
+    user_status_id = models.AutoField(primary_key=True)
+    user_status_name = models.CharField(
+        max_length=32,
+        unique=True
+    )
+    
+    class Meta:
+        db_table = "user_user_status"
+
 
 class PasswordRecovery(models.Model):
     password_recovery_id = models.AutoField(primary_key=True)
     user_id = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
-        default=None # validation should make sure default doesn't execute
+        default=None, # validation should make sure default doesn't execute
+        db_column="user_id"
     )
 
     #default should not execute
@@ -168,8 +191,4 @@ class PasswordRecovery(models.Model):
 
     class Meta: 
         db_table = "user_password_recovery"
-
-
-
-
-
+        
