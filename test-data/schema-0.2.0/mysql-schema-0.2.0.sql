@@ -34,14 +34,25 @@ CREATE TABLE IF NOT EXISTS `mydb`.`WARFRAME_ACCOUNT` (
   `warframe_alias` VARCHAR(45) NOT NULL,
   `is_blocked` TINYINT NOT NULL DEFAULT 0,
   `gaming_platform_id` INT NOT NULL,
-  UNIQUE INDEX `waframeUserName_UNIQUE` (`warframe_alias` ASC),
   PRIMARY KEY (`warframe_account_id`),
   INDEX `gamingPlatform_fk_idx` (`gaming_platform_id` ASC),
+  UNIQUE INDEX `unique_together` (`warframe_alias` ASC, `gaming_platform_id` ASC),
   CONSTRAINT `gaming_platform_id_fk`
     FOREIGN KEY (`gaming_platform_id`)
     REFERENCES `mydb`.`GAMING_PLATFORM` (`gaming_platform_id`)
     ON DELETE RESTRICT
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`USER_STATUS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`USER_STATUS` (
+  `user_status_id` INT NOT NULL,
+  `user_status_name` VARCHAR(32) NOT NULL,
+  PRIMARY KEY (`user_status_id`),
+  UNIQUE INDEX `user_status_name_UNIQUE` (`user_status_name` ASC))
 ENGINE = InnoDB;
 
 
@@ -53,11 +64,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`USER` (
   `email` VARCHAR(255) NOT NULL,
   `email_verified` TINYINT(1) NOT NULL DEFAULT 0,
   `linked_warframe_account_id` INT NOT NULL,
-  `beta_tester` TINYINT NOT NULL DEFAULT 0 COMMENT 'True is the user was a beta tester during beta testing. False otherwise.',
   `email_verificaiton_code` CHAR(32) NOT NULL COMMENT 'Verification code sent to a newly registered user\'s email address to verify the email.',
   `warframe_account_verification_code` VARCHAR(12) NOT NULL COMMENT 'Code used to verify a user\'s warframe account for users that want to link a warframe account to a [WEBSITE NAME] user account. This code is used by a bot that web scrapes the accounts messages on WarFrame\'s forum.\n\nIf a user messages a warframe forum bot this code, the warframe bot knows that the warframe account belongs to this USER. As such a relationship should be established between a WARFRAME_ACCOUNT and the USER.\n\nFor implementation, this field might have to be set to null by default and only be set when a user requests that his profile be linked to an account. When the user makes this request, the verificaition code is set. When the verirication code is set, and the user links his account by successfully messaging the bot the correct code, the account is linked and this field is set to NULL.',
   `is_staff` TINYINT(1) NOT NULL DEFAULT 0,
   `is_active` TINYINT(1) NOT NULL DEFAULT 0,
+  `datetime_created` DATETIME NOT NULL DEFAULT now(),
+  `user_status_id` INT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `UserID_UNIQUE` (`user_id` ASC),
   UNIQUE INDEX `Email_UNIQUE` (`email` ASC),
@@ -65,9 +77,15 @@ CREATE TABLE IF NOT EXISTS `mydb`.`USER` (
   UNIQUE INDEX `linkedWarframeAccountID_UNIQUE` (`linked_warframe_account_id` ASC),
   UNIQUE INDEX `userVerificationEmailCode_UNIQUE` (`email_verificaiton_code` ASC),
   UNIQUE INDEX `warframeAccountVerificationCode_UNIQUE` (`warframe_account_verification_code` ASC),
+  INDEX `user_status_id_fk_idx` (`user_status_id` ASC),
   CONSTRAINT `linked_warframe_account_id_fk`
     FOREIGN KEY (`linked_warframe_account_id`)
     REFERENCES `mydb`.`WARFRAME_ACCOUNT` (`warframe_account_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `user_status_id_fk`
+    FOREIGN KEY (`user_status_id`)
+    REFERENCES `mydb`.`USER_STATUS` (`user_status_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -79,7 +97,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mydb`.`RELIC` (
   `relic_id` INT NOT NULL AUTO_INCREMENT,
   `relic_name` VARCHAR(32) NOT NULL,
-  `wiki_url` VARCHAR(256) NULL COMMENT 'wikiURL - A wiki url, representing the page corresponding to this relic. Usually used to provide a convenient link for the user to view information about this particular relic.',
+  `wiki_url_path` VARCHAR(256) NULL COMMENT 'wikiURL - A wiki url, representing the page corresponding to this relic. Usually used to provide a convenient link for the user to view information about this particular relic.',
   PRIMARY KEY (`relic_id`),
   UNIQUE INDEX `relicName_UNIQUE` (`relic_name` ASC))
 ENGINE = InnoDB;
@@ -90,23 +108,32 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`CHAT` (
   `chat_id` INT NOT NULL AUTO_INCREMENT,
-  `date_created` DATETIME NOT NULL,
-  `person_one_warframe_account_id` INT NOT NULL,
-  `person_two_warframe_account_id` INT NOT NULL,
-  `person_one_still_in_chat` TINYINT NOT NULL DEFAULT 1,
-  `person_two_still_in_chat` TINYINT NOT NULL DEFAULT 1,
-  PRIMARY KEY (`chat_id`),
-  INDEX `user_fk_idx` (`person_one_warframe_account_id` ASC),
-  INDEX `user_fk_2_idx` (`person_two_warframe_account_id` ASC),
-  CONSTRAINT `user_fk_1`
-    FOREIGN KEY (`person_one_warframe_account_id`)
-    REFERENCES `mydb`.`USER` (`user_id`)
-    ON DELETE NO ACTION
+  `datetime_created` DATETIME NOT NULL,
+  PRIMARY KEY (`chat_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`CHAT_USER`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`CHAT_USER` (
+  `chat_user_id` INT NOT NULL,
+  `warframe_account_id` INT NOT NULL,
+  `chat_id` INT NOT NULL,
+  `still_in_chat` TINYINT(1) NOT NULL,
+  `datetime_left_chat` DATETIME GENERATED ALWAYS AS (0) VIRTUAL,
+  PRIMARY KEY (`chat_user_id`),
+  INDEX `warframe_account_id_fk_idx` (`warframe_account_id` ASC),
+  INDEX `chat_id_fk_idx` (`chat_id` ASC),
+  CONSTRAINT `warframe_account_id_fk`
+    FOREIGN KEY (`warframe_account_id`)
+    REFERENCES `mydb`.`WARFRAME_ACCOUNT` (`warframe_account_id`)
+    ON DELETE RESTRICT
     ON UPDATE NO ACTION,
-  CONSTRAINT `user_fk_2`
-    FOREIGN KEY (`person_two_warframe_account_id`)
-    REFERENCES `mydb`.`USER` (`user_id`)
-    ON DELETE NO ACTION
+  CONSTRAINT `chat_id_fk`
+    FOREIGN KEY (`chat_id`)
+    REFERENCES `mydb`.`CHAT` (`chat_id`)
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -115,23 +142,16 @@ ENGINE = InnoDB;
 -- Table `mydb`.`CHAT_MESSAGE`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`CHAT_MESSAGE` (
-  `chatMessageID` INT NOT NULL,
-  `chatID` INT NOT NULL,
-  `fromUserID` INT NOT NULL,
-  `message` VARCHAR(45) NOT NULL,
-  `messageCreated` DATETIME NOT NULL,
-  PRIMARY KEY (`chatMessageID`),
-  INDEX `userID_fk_idx` (`fromUserID` ASC),
-  INDEX `chatID_fk_idx` (`chatID` ASC),
-  CONSTRAINT `chatID_fk`
-    FOREIGN KEY (`chatID`)
-    REFERENCES `mydb`.`CHAT` (`chat_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `userID_fk`
-    FOREIGN KEY (`fromUserID`)
-    REFERENCES `mydb`.`USER` (`user_id`)
-    ON DELETE NO ACTION
+  `chat_message_id` INT NOT NULL,
+  `chat_user_id` INT NOT NULL,
+  `message` VARCHAR(512) NOT NULL,
+  `datetime_created` DATETIME NOT NULL,
+  PRIMARY KEY (`chat_message_id`),
+  INDEX `chat_user_id_idx` (`chat_user_id` ASC),
+  CONSTRAINT `chat_user_id`
+    FOREIGN KEY (`chat_user_id`)
+    REFERENCES `mydb`.`CHAT_USER` (`chat_user_id`)
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -141,9 +161,19 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`RUN_TYPE` (
   `run_type_id` INT NULL,
-  `type_name` VARCHAR(32) NOT NULL COMMENT 'The type of relic run, such as 1 by 1, 2 by 2, or 4 by 4.',
+  `run_type_name` VARCHAR(32) NOT NULL COMMENT 'The type of relic run, such as 1 by 1, 2 by 2, or 4 by 4.',
   PRIMARY KEY (`run_type_id`),
-  UNIQUE INDEX `typeName_UNIQUE` (`type_name` ASC))
+  UNIQUE INDEX `typeName_UNIQUE` (`run_type_name` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`GROUP_RUN_RELIC_QUALITY`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`GROUP_RUN_RELIC_QUALITY` (
+  `relic_quality_id` INT NOT NULL,
+  `relic_quality_names` VARCHAR(64) NOT NULL,
+  PRIMARY KEY (`relic_quality_id`))
 ENGINE = InnoDB;
 
 
@@ -156,10 +186,13 @@ CREATE TABLE IF NOT EXISTS `mydb`.`GROUP` (
   `relic_id` INT NOT NULL,
   `run_type_id` INT NOT NULL,
   `players_in_group` INT NOT NULL,
+  `group_run_relic_quality_id` INT NOT NULL,
+  `datetime_created` DATETIME NOT NULL,
   PRIMARY KEY (`group_id`),
   INDEX `relic_id_fk` (`relic_id` ASC),
   INDEX `runTypeID_fk_idx` (`run_type_id` ASC),
   UNIQUE INDEX `host_warframe_account_id_UNIQUE` (`host_warframe_account_id` ASC),
+  INDEX `relic_quality_id_fk_idx` (`group_run_relic_quality_id` ASC),
   CONSTRAINT `relic_id_fk`
     FOREIGN KEY (`relic_id`)
     REFERENCES `mydb`.`RELIC` (`relic_id`)
@@ -174,6 +207,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`GROUP` (
     FOREIGN KEY (`host_warframe_account_id`)
     REFERENCES `mydb`.`WARFRAME_ACCOUNT` (`warframe_account_id`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `relic_quality_id_fk`
+    FOREIGN KEY (`group_run_relic_quality_id`)
+    REFERENCES `mydb`.`GROUP_RUN_RELIC_QUALITY` (`relic_quality_id`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -183,17 +221,17 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`OWNED_RELIC` (
   `owned_relic_id` INT NOT NULL,
-  `user_id` INT NOT NULL,
+  `warframe_account_id` INT NOT NULL,
   `relic_id` INT NOT NULL,
   PRIMARY KEY (`owned_relic_id`),
-  INDEX `userID_fk_idx` (`user_id` ASC),
   INDEX `relicID_fk_idx` (`relic_id` ASC),
-  CONSTRAINT `userID_fk`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `mydb`.`USER` (`user_id`)
+  INDEX `user_id_fk_idx` (`warframe_account_id` ASC),
+  CONSTRAINT `user_id_fk`
+    FOREIGN KEY (`warframe_account_id`)
+    REFERENCES `mydb`.`WARFRAME_ACCOUNT` (`warframe_account_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `relicID_fk`
+  CONSTRAINT `relic_id_fk`
     FOREIGN KEY (`relic_id`)
     REFERENCES `mydb`.`RELIC` (`relic_id`)
     ON DELETE NO ACTION
@@ -230,27 +268,28 @@ COMMENT = 'The status of a report case. For example, in review, reviewed, waitin
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`REPORT_CASE` (
   `report_case_id` INT NOT NULL AUTO_INCREMENT,
-  `from_user_id` INT NOT NULL COMMENT 'The user that is doing the reporting.',
-  `towards_user_id` INT NOT NULL COMMENT 'The user that is being reported.',
+  `from_warframe_account_id` INT NOT NULL COMMENT 'The user that is doing the reporting.',
+  `toward_warframe_account_id` INT NOT NULL COMMENT 'The user that is being reported.',
   `report_state_id` INT NOT NULL,
   `penalty_points_received` INT NOT NULL DEFAULT 0,
+  `datetime_created` DATETIME NOT NULL,
   PRIMARY KEY (`report_case_id`),
-  UNIQUE INDEX `towardsUserID_UNIQUE` (`towards_user_id` ASC),
+  UNIQUE INDEX `towardsUserID_UNIQUE` (`toward_warframe_account_id` ASC),
   INDEX `reportStatus_fk_idx` (`report_state_id` ASC),
-  INDEX `fromUserID_fk_idx` (`from_user_id` ASC),
+  INDEX `from_warframe_account_id_fk_idx` (`from_warframe_account_id` ASC),
   CONSTRAINT `report_state_id_fk`
     FOREIGN KEY (`report_state_id`)
     REFERENCES `mydb`.`REPORT_STATE` (`report_state_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `from_user_id_fk`
-    FOREIGN KEY (`from_user_id`)
-    REFERENCES `mydb`.`USER` (`user_id`)
+  CONSTRAINT `from_warframe_account_id_fk`
+    FOREIGN KEY (`from_warframe_account_id`)
+    REFERENCES `mydb`.`WARFRAME_ACCOUNT` (`warframe_account_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `towards_user_id_fk`
-    FOREIGN KEY (`towards_user_id`)
-    REFERENCES `mydb`.`USER` (`user_id`)
+  CONSTRAINT `toward_warframe_account_id_fk`
+    FOREIGN KEY (`toward_warframe_account_id`)
+    REFERENCES `mydb`.`WARFRAME_ACCOUNT` (`warframe_account_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -275,12 +314,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mydb`.`PASSWORD_RECOVERY` (
   `password_recovery_id` INT NOT NULL,
   `user_id` INT NOT NULL,
-  `recovery_code` VARCHAR(32) NOT NULL,
-  `dateCodeCreated` DATETIME NOT NULL,
-  `dateCodeUsed` DATETIME NOT NULL,
+  `recovery_code` VARCHAR(10) NOT NULL,
+  `datetime_code_created` DATETIME NOT NULL,
+  `datetime_code_used` DATETIME NULL,
   PRIMARY KEY (`password_recovery_id`),
   INDEX `userID_fk_idx` (`user_id` ASC),
-  UNIQUE INDEX `dateCodeUsed_UNIQUE` (`dateCodeUsed` ASC),
+  UNIQUE INDEX `dateCodeUsed_UNIQUE` (`datetime_code_used` ASC),
   CONSTRAINT `userID_fk`
     FOREIGN KEY (`user_id`)
     REFERENCES `mydb`.`USER` (`user_id`)
@@ -343,17 +382,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`VIDEO_PROOF` (
     REFERENCES `mydb`.`REPORT_CASE` (`report_case_id`)
     ON DELETE RESTRICT
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`ZOLD_EMAIL_VERIFICATION_CODE`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`ZOLD_EMAIL_VERIFICATION_CODE` (
-  `email_verification_code_id` INT NOT NULL,
-  `email_verification_code` VARCHAR(32) NULL DEFAULT 'django-function',
-  PRIMARY KEY (`email_verification_code_id`),
-  UNIQUE INDEX `email_verification_code_UNIQUE` (`email_verification_code` ASC))
 ENGINE = InnoDB;
 
 
