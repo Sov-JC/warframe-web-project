@@ -18,7 +18,7 @@
 {% block content %}
 <!-- Profile information - Top Section -->
 
-<div id = "top-section-box" class="row justify-content-center align-items-center">
+<div id = "top-section-box" class="row justify-content-center align-items-center no-gutters">
 	<div id = "top-section-info">
 		<div id="misc-info-row" class = "row h-100 no-gutters">
 
@@ -41,11 +41,11 @@
 						<div id="player-info-col" class = "col-10" style = "background-color:darkkhaki;border-style:solid">
 							<div class = "row">
 								<div class="col-12 text-center">
-									Warframe Username:
+									Warframe Alias
 								</div>
 								<div class="col-12 text-center">
-										Sovlol
-									</div>
+										<h5><b>Sovlol</b></h5>
+								</div>
 							</div>
 							<div class = "row">
 								<div class="col-12">
@@ -74,20 +74,93 @@
 	</div>
 </div>
 
-	<!-- 
-	<div class="row" style="background-color:blue">
-		<div class = "col-11" style="background-color:green">
-			Profile image. Messaging. Etc.
-		</div>
-	</div>
-	<div class = "row">
-		<div class = "col-12">
-			Relic Log. Account Info. Etc.
-		</div>
-	</div>
-	 -->
-
-
 <!-- Profile information - Bottom Section -->
+<!--
+<div id="bottom-section" class = "container justify-content-center" style="background-color:yellow">
+	<div id="relic-log" style="border:solid;min-height: 200px; max-width:320px">
+		<div class="row">
+			<div class="col-6">
+				Relics in possession: 48
+			</div>
+			<div class="col-6" style="border:solid; border-width: 0px 0px 0px 1px; text-align:center; margin-top:auto; margin-bottom:auto;">
+				<button type="button" class="btn btn-dark">Dark</button>
+			</div>
+		</div>
+	</div>
+</div>
+-->
+
+<div class="container" style="max-width:640px">
+		<div class="card my-2">
+			<h5 class="card-header">Relic Log</h5>
+			<div class="card-body">
+				<!-- <h5 class="card-title">Special title treatment</h5> -->
+				<p>Unique vaulted relics in inventory: 48 </p>
+
+				<!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+				<a href="#" class="btn btn-primary">View Relic Log</a>
+			</div>
+		</div>
+		<div class="card my-2">
+				<h5 class="card-header">Account information</h5>
+				<div class="card-body">
+					<h5 class="card-title">Report History</h5>
+					Recent reports against user: <span class="badge badge-pill badge-success"> None </span><br>
+				</div>
+		</div>
+		<div class="card my-2">
+			<h5 class="card-header">Group Hosting</h5>
+			<div class="card-body">
+				Currently hosting a group? Nope.
+			</div>
+		</div>
+</div>
+
+
+<!--
+<div class="row justify-content-center">
+	<div class="col-4 bg-primary prof-info-tab">
+		col-4
+	</div>
+	<div class="col-4 bg-success prof-info-tab">
+		col-4
+	</div>
+</div>
+
+<div class="container-sm">
+	<div class="row justify-content-center">
+		<div class="col-4 mr-2 bg-primary ">
+				col-4
+		</div>
+		<div class="col-4 bg-primary ">
+				col-4
+		</div>
+	</div>
+</div>
+
+<div class ="test">
+	hello
+</div>
+
+<div class="d-flex p-2 justify-content-center" style="background-color:darkgray">
+	<div class="bgc-4" style = "height:200px;width:450px">
+		Flex item 1
+	</div>
+	<div class="p2 bgc-2 mx-4" style = "height:200px;width:450px">
+		Flex item 2
+	</div>
+</div>
+-->
+
+<!-- <div class="container" style="background-color: darkkhaki"></div> -->
+<!--
+	<div class="row justify-content-center" style="background-color:coral">
+		<div class="col-8" style="background-color:darkcyan; max-width:400px">
+			first col
+		</div>
+		
+	</div>
+	-->
+<!-- </div> -->
 
 {% endblock %}
