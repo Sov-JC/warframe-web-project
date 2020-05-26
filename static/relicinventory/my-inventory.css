@@ -1,0 +1,40 @@
+#search-bar {
+	width:100%;
+	border-bottom:1px solid black;
+}
+
+#filter-button{
+	overflow:hidden
+}
+
+input[name="filter"]{
+	width:100%;
+	padding-left:10px;
+}
+
+button[type="submit"] {
+	float:right;
+	border-style:solid;
+	border-color:gray;
+	background-color: gray;
+}
+
+.relic{
+	padding-left:12px;
+	padding:10px;
+	border-bottom: 1px solid black;
+}
+
+.relic label{
+	margin-bottom:0;
+}
+
+@media only screen and (max-width: 340px) {
+	#header h1.display-4{
+		font-size:2.5rem
+	}
+}
+
+#save a{
+	color:green;
+}
