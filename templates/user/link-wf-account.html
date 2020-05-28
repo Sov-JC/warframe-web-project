@@ -7,30 +7,21 @@
 
 {% block content %}
 
-<div class="container-fluid" style="border-bottom: 1px solid black">
-	
-		<div class="row justify-content-center" style="background-color:aquamarine">
-			<div class="col-8" style="background-color:goldenrod;min-width:300px;max-width:500px">
-				col-4
-			</div>
-		</div>
-	
-</div>
 
 ---
-<div class="container" style="background-color:dimgray">
-	<div style="background-color:rgba(9, 105, 9, 0.288);max-width:500px;margin:auto;border:solid 1px black;">
-		<div class="row">
-			<div class="col-6" style="border-right: solid 1px black;padding-left:30px">
-				Linked Warframe Account
+<div class="container">
+	<div id="acc-info" style="background-color:rgba(9, 105, 9, 0.288);max-width:500px;margin:auto;border:solid 1px darkgray">
+		<div class="row no-gutters">
+			<div id="link-wf-acc" class="col-6">
+				Linked Warframe Account:
 			</div>
-			<div class="col-6">
+			<div id="wf-acc" class="col-6">
 				Sov93
 			</div>
-			<div class="col-6" style="border-right: solid 1px black;padding-left:30px">
-				Verification Code
+			<div id="verif-code-header" class="col-6">
+				Verification Code:
 			</div>
-			<div class="col-6">
+			<div id="verif-code-info" class="col-6">
 				JQ9W0WJEJ2J2O2J
 			</div>
 		</div>
@@ -39,32 +30,24 @@
 ---
 
 <div class="container">
-	<div class="list-group">
-		<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">	
-			<div class="d-flex w-100 justify-content-between">
-			<h5 class="mb-1">List group item heading</h5>
-			<small>3 days ago</small>
-			</div>
-			<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-			<small>Donec id elit non mi porta.</small>
-		</a>
-			
-			<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-			<div class="d-flex w-100 justify-content-between">
-				<h5 class="mb-1">List group item heading</h5>
-				<small class="text-muted">3 days ago</small>
-			</div>
-			<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-			<small class="text-muted">Donec id elit non mi porta.</small>
-		</a>
-			<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-			<div class="d-flex w-100 justify-content-between">
-				<h5 class="mb-1">List group item heading</h5>
-				<small class="text-muted">3 days ago</small>
-			</div>
-			<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-			<small class="text-muted">Donec id elit non mi porta.</small>
-			</a>
+	<ul class="list-group">
+		<li class="list-group-item">Step 1</li>
+		<li class="list-group-item">Step 2</li>
+		<li class="list-group-item">Step 3</li>
+		<li class="list-group-item">Step 4</li>
+		<li class="list-group-item">Step 5</li>
+	</ul>
+</div>
+
+<div id="footer-container" class="container" style="margin-top:10px;max-width:500px">
+	<div id="footer-content">
+		<p>
+			<s>
+			Please wait at least 5 minutes after messaging the verification code.
+
+			If the verification code didn’t work after this time, please click the button below to generate a new verification code
+			</s>
+		</p>
 	</div>
 </div>
 

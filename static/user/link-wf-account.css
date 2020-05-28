@@ -1,0 +1,24 @@
+#link-wf-acc {
+	border-right: solid 1px black;
+	padding: 15px;
+	border-bottom: solid 1px black;
+	margin-left:0px;
+	background-color:whitesmoke
+}
+
+#wf-acc {
+	padding: 15px;
+	border-bottom: solid 1px black;
+	background-color:whitesmoke;
+}
+
+#verif-code-header{
+	padding: 15px;
+	border-right: solid 1px black;
+	background-color:rgba(194, 192, 192, 0.534);
+}
+
+#verif-code-info{
+	padding: 15px;
+	background-color:rgba(194, 192, 192, 0.534);
+}
