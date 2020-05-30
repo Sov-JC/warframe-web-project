@@ -29,12 +29,19 @@ button[type="submit"] {
 	margin-bottom:0;
 }
 
+.relics-container{
+	max-height:500px;
+}
+
 @media only screen and (max-width: 340px) {
 	#header h1.display-4{
 		font-size:2.5rem
 	}
 }
 
-#save a{
-	color:green;
+@media only screen and (max-height: 650px) {
+	.relics-container{ 
+		max-height: 320px;
+	}
 }
+
