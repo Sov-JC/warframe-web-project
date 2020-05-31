@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additional_imports %}
+<link href="{% static 'relicinventory/my-inventory.css' %}" rel="stylesheet">
+<link href="{% static 'relicinventory/my-inventory.js' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<!-- 
+<div id="header-old">
+	<h1 class="display-4 text-center">Relic Inventory</h1>
+	<div class="text-center">
+		<small><a href="#">What is this for?</a></small>
+		<div id="save">
+			<a href="">Save <i class="fas fa-save"></i></a> |
+			Display: <a> Checked</a> Unchecked
+		</div>
+	</div>
+</div> -->
+
+<div id = "header" class="container mb-1" style="max-width: 600px">
+	<h1 class="display-4 text-center">Relic Inventory</h1>
+	<div id="display-type-option" style="float:right">
+		Display: <a>All</a> | <a>Checked</a> | <a> Unchecked</a>
+	</div>
+	<div id="save">
+		<button type="button" class="btn btn-primary btn-sm">Save <i class="fas fa-save"></i></button>
+	</div>
+</div>
+
+<!--
+<div class="container">
+	<div class="row">
+		<div class="col-12" style="background-color:green">col-12</div>
+		<div class="col-6" style="background-color:orange">col-6</div>
+		<div class="col-6" style="background-color:purple">col-6</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12" style="background-color:green">col-12</div>
+	<div class="col-6" style="background-color:orange">col-6</div>
+	<div class="col-6" style="background-color:purple">col-6</div>
+</div>
+-->
+
+<div id="main-container" class="container px-0" style="max-width:600px;background-color:cadetblue;border:1px solid black">
+	{# Search bar modified from http://jsfiddle.net/o3uxaczh/3/ #}
+	<!-- Search Bar-->
+	<div id="search-bar">
+		<button type="submit"><i class="fas fa-filter"></i></button>
+		<div id="filter-button">
+			<input type="text" placeholder="Filter..." name="filter">
+		</div>
+	</div>
+
+	<!-- Relic List-->
+	<div class="relics-container" style="overflow:auto">
+		<div class="relic">
+			<input type="checkbox" id="scales" name="scales" checked>
+			<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+			<input type="checkbox" id="scales" name="scales" checked>
+			<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+			<input type="checkbox" id="scales" name="scales" checked>
+			<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+			<input type="checkbox" id="scales" name="scales" checked>
+			<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+			<input type="checkbox" id="scales" name="scales" checked>
+			<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+				<input type="checkbox" id="scales" name="scales" checked>
+				<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+				<input type="checkbox" id="scales" name="scales" checked>
+				<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+				<input type="checkbox" id="scales" name="scales" checked>
+				<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+				<input type="checkbox" id="scales" name="scales" checked>
+				<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+				<input type="checkbox" id="scales" name="scales" checked>
+				<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+				<input type="checkbox" id="scales" name="scales" checked>
+				<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+				<input type="checkbox" id="scales" name="scales" checked>
+				<label for="scales">Scales</label>
+		</div>
+		<div class="relic">
+				<input type="checkbox" id="scales" name="scales" checked>
+				<label for="scales">Scales</label>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block additional_imports %}
+<link href="{% static 'user/register.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div id="login-area" class="text-center">
+		<form class="form-register" method="post" action="{% url 'user:register' %}">
+			{% csrf_token %}
+			<img class="mb-4" src="{% static 'images/login-box-image.png' %}" alt="" width="80%" height="100%" border-radius="10px" style="border-radius:30px">
+			<h1 class = "h1 mb-4 font-weight-normal"> Register </h1>
+			<!-- <h3 class="h3 mb-3 font-weigh-normal"> Please login </h3> -->
+			<!--
+			{# form.non_field_errors #}
+			{# form.email_address.errors #}
+			{# form.password.errors #}
+
+			{{ form.as_p }} -->
+			<div class = "field-name-header" style="width:100%; text-align:left;">
+				Email address
+			</div>
+			<input type="email" id="email" name = "email" class="form-control" placeholder="Email address">
+
+			<!-- <label for="email_address" class="sr-only">Email address</label> -->
+			<div class = "field-name-header" style="width:100%; text-align:left;">
+				Password <br>
+				<small>Select a password with at least 8 characters mixed with numbers, letters, and symbols. </small>
+			</div>
+			<input type="password" id="password" name = "password1" class="form-control" placeholder="Password" required>
+
+			<div class = "field-name-header" style="width:100%; text-align:left;">
+				Repeat Password
+			</div>
+			
+			<!-- <label for="password" class="sr-only">Password</label> -->
+			<input type="password" id="repeat-password" name="password2" class="form-control" placeholder="Repeat password" required>
+
+			<!--
+			<div class="checkbox mb-3">
+				<label>
+					<input type="checkbox" value="remember-me"> Remember me
+				</label>
+			</div>
+			-->
+
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+
+			<!-- <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>-->
+		</form>
+	</div>
+</div>
+{% endblock %}
