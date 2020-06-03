@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('user.urls')),
     path('', include('home.urls')),
+    path('relicinventory/', include('relicinventory.urls'))
 ]
