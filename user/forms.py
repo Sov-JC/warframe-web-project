@@ -2,8 +2,11 @@
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.core.exceptions import ValidationError
 
 from .models import User
+
+from .validators import valid_password_characters
 
 
 '''
@@ -45,6 +48,8 @@ class LoginForm(forms.Form):
         }
     )
     
+
+    
     password = forms.CharField(
         min_length=5,
         max_length=32,
@@ -53,5 +58,54 @@ class LoginForm(forms.Form):
         }
     )
 
+class RegistrationForm2(UserCreationForm):
+    email = forms.EmailField(
+        max_length=254,
+        error_messages = {
+            "required": "Email address is required",
+            "invalid": "Email is invalid"
+        },
+    )
+
+    class Meta:
+        model = User
+        fields={'email', 'password1', 'password2'}
+
 class RegistrationForm(forms.Form):
-    pass
+    email = forms.EmailField(
+        max_length=254,
+        error_messages = {
+            "required": "Email address is required",
+            "invalid": "Email is invalid"
+        },
+    )
+
+    password1 = forms.CharField(
+        max_length=32,
+        min_length=8,
+        validators=[valid_password_characters],
+        error_messages = {
+            "required": "Password field is required",
+        }
+    )
+
+    password2 = forms.CharField(
+        max_length=32,
+        min_length=8,
+        validators=[valid_password_characters],
+        error_messages = {
+            "required": "Confirmation password is required"
+        }
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        pw1 = cleaned_data.get("password1")
+        pw2 = cleaned_data.get("password2")
+
+        if pw1 != pw2:
+            raise forms.ValidationError(
+                "Password and confirmation password do not match. The two passwords must be the same.",
+                code="password_mismatch",
+            )
