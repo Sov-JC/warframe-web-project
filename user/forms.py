@@ -58,19 +58,6 @@ class LoginForm(forms.Form):
         }
     )
 
-class RegistrationForm2(UserCreationForm):
-    email = forms.EmailField(
-        max_length=254,
-        error_messages = {
-            "required": "Email address is required",
-            "invalid": "Email is invalid"
-        },
-    )
-
-    class Meta:
-        model = User
-        fields={'email', 'password1', 'password2'}
-
 class RegistrationForm(forms.Form):
     email = forms.EmailField(
         max_length=254,
