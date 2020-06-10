@@ -1,0 +1,16 @@
+[
+	{
+		"model": "user.userstatus",
+		"pk": 1,
+		"fields": {
+			"user_status_name": "Offline"
+		}
+	},
+	{
+		"model": "user.userstatus",
+		"pk": 2,
+		"fields": {
+			"user_status_name": "Online"
+		}
+	}
+]

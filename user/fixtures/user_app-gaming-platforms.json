@@ -1,0 +1,30 @@
+[
+	{
+		"model": "user.gamingplatform",
+		"pk": 1,
+		"fields": {
+			"platform_name": "PC"
+		}
+	},
+	{
+		"model": "user.gamingplatform",
+		"pk": 2,
+		"fields": {
+			"platform_name": "Xbox"
+		}
+	},
+	{
+		"model": "user.gamingplatform",
+		"pk": 3,
+		"fields": {
+			"platform_name": "Nintendo Switch"
+		}
+	},
+	{
+		"model": "user.gamingplatform",
+		"pk": 4,
+		"fields": {
+			"platform_name": "PlayStation"
+		}
+	}
+]
