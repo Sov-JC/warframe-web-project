@@ -2,15 +2,12 @@ from django.test import TestCase
 #from django.test import Client
 from django.urls import reverse
 from .models import *
+from .managers import *
 
 from django.db.utils import IntegrityError
 
-# Test utility functions
-def create_user(email = None, password = None):
-	User.objects.create_user(email=email, password=password)
-	pass
 
-def crate_super_user(email = None, password = None):
+class PasswordValidatorTests(TestCase):
 	pass
 
 class UserManagerTests(TestCase):
@@ -87,34 +84,55 @@ class UserManagerTests(TestCase):
 
 		self.assertEqual(linked_wf_user.email, VALID_EMAIL)
 
+	def test_email_verified_users_with_no_verified_users(self):
+		'''
+		Should return an empty queryset when searching the database for all verified users
+		'''
+
+		verified_users = User.objects.email_verified_users()
+		
+		self.assertEqual(len(verified_users), 0)
+
+	def test_email_verified_users_with_one_verified_user(self):
+		user_one = User.objects.create_user("example@example.com",password="pw123")
+		user_two = User.objects.create_user("example2@example.com",password="pw123")
+
+		user_two_instance = User.objects.get(user_id=user_two.user_id)
+
+		self.assertEquals(user_two_instance.email_verified, False)
+
+		user_two_from_query_set = User.objects.filter(user_id=user_two.user_id)
+		user_two_from_query_set.update(email_verified=True)
+
+		verified_users = User.objects.email_verified_users()
+		
+		self.assertEqual(len(verified_users), 1)
+
+	def test_email_verified_users_with_multiple_verified_users(self):
+		verified_user_one = User.objects.create_user("example@example.com")
+		verified_user_two = User.objects.create_user("example2@example.com")
+		User.objects.create_user("example3@example.com")
+
+		User.objects.filter(user_id=verified_user_one.user_id).update(email_verified=True)
+		User.objects.filter(user_id=verified_user_two.user_id).update(email_verified=True)
+		
+		verified_users = User.objects.email_verified_users()
+
+		self.assertEqual(len(verified_users), 2)
+
+
 class UserModelTests(TestCase):
 	pass
 
 class LoginViewTestCase(TestCase):
+	pass
+	
 
-	def test_valid_login_form_but_failed_authentication(self):
-		"""
-		When a user inputs valid login information but authentication fails
-		user should be redirected to the same login page with an error message
-		saying the email/password combination was incorrect.
-		"""
-		pass
+class RegistrationViewTest(TestCase):
+	pass
 
-	def test_user_login_attempt_when_user_already_logged_in(self):
-		"""
-		A 404 should be displayed if a user attempts to visit the login page when
-		they are already logged in.
-		"""
-		pass
-
-	def test_home_page_redirect_when_loggin_attempt_successful(self):
-		"""
-		User should be sent to the login page when they've successfully logged in
-		"""
-		pass
 
 class LogoutViewTestCase(TestCase):
-
 	pass
 
 class ProfileViewTestCase(TestCase):
