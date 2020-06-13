@@ -11,10 +11,19 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from .emailsettings import EMAIL_HOST, EMAIL_HOST_PASSWORD, EMAIL_HOST_USER, EMAIL_PORT, EMAIL_USE_TLS
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
+
+# Email settings
+EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_HOST = EMAIL_HOST
+EMAIL_PORT = EMAIL_PORT
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+
 
 
 
@@ -125,9 +134,10 @@ AUTH_PASSWORD_VALIDATORS = [
     # {
     #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     # },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    #
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
     {
         'NAME': 'user.password_validation.ValidCharactersValidator'
     },
@@ -138,6 +148,7 @@ AUTH_PASSWORD_VALIDATORS = [
         }
     }
 ]
+
 
 
 # Internationalization
@@ -164,4 +175,8 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'user.User'
 
-LOGIN_URL = 'home:index'
+LOGIN_URL = 'user:login'
+
+#email backend is the console. CHANGE IN PRODUCTION.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
