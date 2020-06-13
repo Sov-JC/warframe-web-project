@@ -12,8 +12,8 @@ from django.urls import reverse
 from .forms import LoginForm
 from .forms import RegistrationForm
 from .models import User
-
-
+from django.template.loader import render_to_string
+from django.core import mail
 
 # Create your views here.
 def index(request):
@@ -39,7 +39,7 @@ def login_view(request):
 					msg = "You must verify your email before logging in. "
 					msg += "Please click 'Can't log in' below for instructions."
 					error = ValidationError(message=msg, code=CODE)
-					form.add_err(error)
+					form.add_error(field=None, error=error)
 					return render(request, 'user/login.html', context={'form':form})
 				else:
 					login(request, user)
@@ -49,10 +49,11 @@ def login_view(request):
 				CODE = "invalid_email_password_combination"
 				msg = "Email/Password combination is incorrect, please try again."
 				error = ValidationError(message=msg, code=CODE)
-				form.add_error(error)
+				form.add_error(field=None, error=error)
+				
 				return render(request, 'user/login.html', context={'form':form})
 		else:
-			print("form is invalid")
+			#print("form is invalid")
 			return render(request, 'user/login.html', context = {'form':form})
 	else:
 		print("request is not 'POST'")
@@ -96,15 +97,13 @@ def register(request):
 			email = form.cleaned_data["email"]
 			password = form.cleaned_data["password1"]
 
-			
-
 			try:
 				user = User.objects.create_user(email, password)
 				email_verification_code = user.email_verification_code
-				#TODO: send email verification email.
-				"""
-				Send Email Login Here. 
-				"""
+				
+				#Send verification message to their email
+				user.send_email_verification_msg(fail_silently=True)
+				
 			except IntegrityError:
 				msg = "The email address is already registered on our site."
 				code = "email_not_unique"
