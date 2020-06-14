@@ -5,9 +5,63 @@ from chat.models import *
 from relicinventory.models import *
 from user.managers import *
 from django.contrib import auth
+import django.core.mail
 
 class RegistrationViewTests(TestCase):
-	pass
+	fixtures = ['user_app-gaming-platforms.json', 'user_app-user-status.json']
+
+	def test_registration_view_displays_registration_form(self):
+		'''
+		If a non POST request is made the registration form should be
+		initialized and sent as context to the view as an unbound form.
+		'''
+
+		client = self.client
+
+		path = reverse('user:register')
+
+		response = client.get(path)
+		
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, 'Email address')
+		self.assertContains(response, 'Password')
+		self.assertContains(response, 'Select a password with at least')
+		self.assertContains(response, "Repeat Password")
+
+	def test_valid_registration_form_registers_user_and_redirects(self):
+		'''
+		A user that enters valid form data should have their account information stored
+		in the database, and a message is sent to their registered email address with
+		the remaining instructions.
+		'''
+		path = reverse('user:register')
+
+		email = "example@gmail.com"
+		password1 = "pw823j48293j4"
+		password2 = "pw823j48293j4"
+
+		
+		self.assertRaises(User.DoesNotExist, User.objects.get, email=email)
+		
+		data = {"email":email, "password1": password1, "password2": password2}
+
+		client = self.client
+
+		response = client.post(path=path, data=data)
+
+		self.assertEqual(response.status_code, 200)
+
+		users = User.objects.all().filter(email=email)
+
+		self.assertEqual(len(users), 1)
+
+		#TODO: STILL NEEDS TO CHECK THAT IT REDIRECTS BUT REDIRECTION LINK HASN"T BEEN DETERMINED
+		#YET. COME BACK TO THIS TEST LATER.
+		raise Exception
+
+	
+
+
 
 class LoginViewTests(TestCase):
 	fixtures = ['user_app-gaming-platforms.json', 'user_app-user-status.json']
@@ -67,13 +121,17 @@ class LoginViewTests(TestCase):
 
 		pass
 
+	
+
+
 
 	def test_user_login_sets_session_cookie_to_one_month(self):
 		'''
 		When a user successfully logs in, their session cookie 
 		should be set to 1 month
 		'''
-		pass
+		assert False
+		
 
 	def test_user_login_attempts_cause_timeout(self):
 		'''
