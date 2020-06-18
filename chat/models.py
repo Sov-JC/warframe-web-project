@@ -50,7 +50,8 @@ class ChatUser(models.Model):
 	warframe_account_id = models.ForeignKey(
 		WarframeAccount,
 		on_delete=models.PROTECT,
-		default=None
+		default=None,
+		db_column='warframe_account_id'
 	)
 	chat_id = models.ForeignKey(
 		Chat,
@@ -59,6 +60,9 @@ class ChatUser(models.Model):
 	)
 	still_in_chat = models.BooleanField(default=True)
 	datetime_left_chat = models.DateTimeField(null=True, default=None)
+	datetime_last_viewed_chat = models.DateTimeField(null=True, default=None)
+
+	objects = ChatUserManager()
 
 	class Meta:
 		db_table = "chat_chat_user"
