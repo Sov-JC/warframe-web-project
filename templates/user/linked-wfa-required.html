@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additional_imports %}
+<link href="{% static 'user/linked-wfa-required.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div class="container" style="max-width:720px;text-align:center">
+	<h1 class="display-4 mt-3" style="font-size:3.0em;">Oops! This feature required you to link your Warframe account.</h1>
+	<p style="font-size:120%;">
+		Please click <a href="{% url 'user:link_wf_acc' %}">here</a> for instructions on how <br>to
+		link your warframe account
+	</p>
+</div>
+
+{% endblock %}

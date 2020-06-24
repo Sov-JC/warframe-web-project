@@ -15,6 +15,7 @@ from .models import User
 from django.template.loader import render_to_string
 from django.core import mail
 
+
 # Create your views here.
 def index(request):
 	return HttpResponse("Hello, world. You're at the users index.")
@@ -93,7 +94,7 @@ def register(request):
 		form = RegistrationForm(request.POST)
 
 		if form.is_valid():
-			#valid form
+			#valid 
 			email = form.cleaned_data["email"]
 			password = form.cleaned_data["password1"]
 
@@ -124,6 +125,10 @@ def register(request):
 def link_warframe_account(request):
 	return render(request, 'user/link-wf-account.html')
 
+@login_required
+def linked_warframe_account_required(request):
+	return render(request, 'user/linked-wfa-required.html')
+
 #DEP
 def verify_email(request):
 	'''
@@ -133,3 +138,19 @@ def verify_email(request):
 	that require the user to have their email verified.
 	'''
 	pass
+
+#TODO: REMOVE!
+def test_send_email_verification_msg(request):
+	template_name = "email/email-verification.html"
+	context = None
+	subject = "Email Verification"
+	html_message = render_to_string(template_name, context)
+
+	from django.conf import settings
+	from_email = settings.EMAIL_HOST_USER if settings.EMAIL_HOST_USER else None
+	
+	to = "marilisdiaz@bellsouth.net"
+
+	mail.send_mail(subject=subject, message = "msg2", html_message=html_message, from_email=from_email, recipient_list=[to],)
+	
+	return HttpResponse("test_send_email_verification_msg :: view")
