@@ -317,16 +317,49 @@ class ChatManager(models.Manager):
 
 		return chats_still_in
 
-	#TODO: review tests, finish documentation
-	#Tested
+	#TODO: Test
+	def _get_non_duplicate_chats(self, chats):
+		''' Accesses an array of Chat instances
+		and removes all duplicates (based off primary key) 
+		from the array, returning an array of unique 'chats' '''
+		if chats is None:
+			return []
+			
+		
+		#holds all non-duplicate chat and chat ids of 'chats'
+		chats_no_duplicate_ids = set()
+		chats_no_duplicates = []
+		
+		for chat in chats:
+			len_before_insertion = len(chats_no_duplicate_ids)
+			chats_no_duplicate_ids.add(chat.pk)
+			len_after_insertion = len(chats_no_duplicate_ids)
+
+			if len_before_insertion != len_after_insertion:
+				#This chat is unique because it was successfully inserted into the set.
+				#Becuase this chat is unique, it means it does not exist in 'chats_no_duplicates'
+				chats_no_duplicates.append(chat)
+			else:
+				#the chat already exists in 'chats_no_duplicate_ids', thefore
+				#it must also exist in (and the chat should be be added to) 'chats_no_duplicates'
+				pass
+
+		return chats_no_duplicates 
+		
+
+	#TODO: Test
 	def get_displayable_chats(self, warframe_account):
-		'''Returns all displayable chats
+		'''Returns all displayable chats as an array of Chat instances
 		
 		'''
 		chats_still_in = self.chats_wfa_still_in(warframe_account)
 		chats_with_new_msgs = self.chats_with_new_msgs(warframe_account)
 
-		return chats_still_in + chats_with_new_msgs
+		# Array containing chats_still_in and _chats_with_new_msgs might contain duplicates.
+		# We don't want duplicates so let's remove them.
+		displayable_chats = self._get_non_duplicate_chats(chats_still_in + chats_with_new_msgs)
+
+		return displayable_chats
 
 
 	#INCOMPLETE
