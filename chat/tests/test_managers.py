@@ -35,18 +35,18 @@ class TestChatManager(TestCase):
 		chat_user_joe = ChatUser(
 			warframe_account_id=joe_wfa,
 			chat_id = chat_joe_and_daniel,
-			still_in_chat = True,
-			datetime_left_chat = None,
-			datetime_last_viewed_chat = timezone.now()
+			#still_in_chat = True,
+			#datetime_left_chat = None,
+			#datetime_last_viewed_chat = timezone.now()
 		)
 		chat_user_joe.save()
 
 		chat_user_daniel = ChatUser(
 			warframe_account_id=daniel_wfa,
 			chat_id = chat_joe_and_daniel,
-			still_in_chat = True,
-			datetime_left_chat = None,
-			datetime_last_viewed_chat = timezone.now()
+			#still_in_chat = True,
+			#datetime_left_chat = None,
+			#datetime_last_viewed_chat = timezone.now()
 		)
 		chat_user_daniel.save()
 
@@ -76,6 +76,7 @@ class TestChatManager(TestCase):
 		joe_to_daniel_msg_1.save()
 		daniel_to_joe_msg_1.save()
 
+	#TODO: Fix logic
 	def test_get_chat_user_partner_returns_correct_partner(self):
 		joe_wfa = WarframeAccount.objects.get(warframe_alias="joe_wfa")
 		daniel_wfa = WarframeAccount.objects.get(warframe_alias="daniel_wfa")
@@ -91,59 +92,27 @@ class TestChatManager(TestCase):
 		# Get the chat_ids
 		chats_with_joe_as_ids = [chat.chat_id for chat in chats_with_joe]
 		chats_with_daniel_as_ids = [chat.chat_id for chat in chats_with_daniel]
-		print("chats_with_joe_as_ids:")
-		print(chats_with_joe_as_ids)
-		print("chats_with_daniel_as_ids:")
-		print(chats_with_daniel_as_ids)
+		#print("chats_with_joe_as_ids:")
+		#print(chats_with_joe_as_ids)
+		#print("chats_with_daniel_as_ids:")
+		#print(chats_with_daniel_as_ids)
 
 		chat_ids_containing_joe_and_daniel = chats_with_joe_as_ids + (chats_with_daniel_as_ids)
-		print("chat_ids_containing_joe_and_daniel:")
-		print(chat_ids_containing_joe_and_daniel)
+		#print("chat_ids_containing_joe_and_daniel:")
+		#print(chat_ids_containing_joe_and_daniel)
 
 		chat_with_joe_and_daniel = Chat.objects.filter(chat_id__in = chat_ids_containing_joe_and_daniel)[0]
-		print("chats with joe and daniel")
-		print(chat_with_joe_and_daniel)
+		#print("chats with joe and daniel")
+		#print(chat_with_joe_and_daniel)
 
-		joe_partner = Chat.objects.get_chat_user_partner(chat_user = joe_wfa, chat=chat_with_joe_and_daniel)
-		daniel_partner = Chat.objects.get_chat_user_partner(chat_user = daniel_wfa, chat=chat_with_joe_and_daniel)
+		#Chat.objects.create_chat()
+		joe_partner = Chat.objects.get_chat_user_partner(chat_user = joe_wfa)
+		daniel_partner = Chat.objects.get_chat_user_partner(chat_user = daniel_wfa)
 
 		self.assertEqual(joe_partner.warframe_account_id.warframe_alias, "daniel_wfa",
 			msg="Expected daniel to be joe's chat partner for the chat with joe and daniel")
 		self.assertEqual(daniel_partner.warframe_account_id.warframe_alias, "joe_wfa",
 			msg="Expected joe to be daniel's partner for the chat with joe and daniel")
-
-
-
-		'''
-		print("chats_with_joe_and_daniel:")
-		print(chats_with_joe_and_daniel)
-		
-		print("chats_with_joe:")
-		print(chats_with_joe)
-		print("chats_with_daniel:")
-		print(chats_with_daniel)
-
-		chat_ids_with_joe = ChatUser.objects.select_related('chat_id').filter(warframe_account_id=joe_wfa).only('chat_id')
-		print("chat_ids_with_joe:")
-		print(chat_ids_with_joe)
-		print("[0]")
-		print(chat_ids_with_joe[0])
-		'''
-		
-
-		"""
-		chats_with_joe_or_daniel = Chat.objects.raw(
-			'''
-			select c.*
-			from chat_chat as c
-			where c.chat_id in (
-				select chat_chat.chat_id
-				from ((chat_chat natural join chat_chat_user) natural join user_warframe_account)
-				where warframe_alias = "joe_wfa" or warframe_alias = "daniel_wfa"
-			)
-			'''
-		)
-		"""
 		
 		return
 
@@ -187,9 +156,9 @@ class TestChatManager(TestCase):
 		chat_user_carl = ChatUser(
 			warframe_account_id=carl_wfa,
 			chat_id = ariel_and_carl_chat,
-			still_in_chat = True,
-			datetime_left_chat = None,
-			datetime_last_viewed_chat = timezone.now()
+			#still_in_chat = True,
+			#datetime_left_chat = None,
+			#datetime_last_viewed_chat = timezone.now()
 		)
 
 		chat_user_carl.save()
@@ -197,9 +166,9 @@ class TestChatManager(TestCase):
 		chat_user_ariel = ChatUser(
 			warframe_account_id=ariel_wfa,
 			chat_id = ariel_and_carl_chat,
-			still_in_chat = True,
-			datetime_left_chat = None,
-			datetime_last_viewed_chat = timezone.now()
+			#still_in_chat = True,
+			#datetime_left_chat = None,
+			#datetime_last_viewed_chat = timezone.now()
 		)
 
 		chat_user_ariel.save()
@@ -259,6 +228,7 @@ class TestChatManager(TestCase):
 		
 		self.assertEqual((joe_and_vanessa_chat in chats_joe_been_in), True, msg)
 	
+	"""
 	#@query_debugger
 	def test_chats_wfa_still_in_returns_correct_chats(self):
 		'''
@@ -297,7 +267,9 @@ class TestChatManager(TestCase):
 		bob_chat_user.enter_chat().save()
 		chat = Chat.objects.chats_wfa_still_in(bob_wfa)[0]
 		self.assertEqual(chat, bob_and_dan_chat, "Bob is suppose to be in the same chat as Dan.")
-		
+	"""
+	
+	'''
 	def test_DEBUG_get_chats_wfa_still_in(self):
 		
 		#create 50 chats. Joe is in each chat. 
@@ -317,6 +289,7 @@ class TestChatManager(TestCase):
 			chat_user_2 = ChatUser.objects.create_chat_user(warframe_account_id=wfa_2, chat_id=some_chat)
 
 		Chat.objects.get_chats_wfa_still_in(None)
+		'''
 
 	#TODO: Reread
 	#Done
@@ -409,6 +382,99 @@ class TestChatManager(TestCase):
 		chats_with_new_msgs = Chat.objects.chats_with_new_msgs(eve_wfa)
 		msg="func call should return length of chats that eve has been in"
 		self.assertEqual(len(chats_with_new_msgs), len(chats_with_eve), msg)
+
+	#Done
+	def test__get_non_duplicate_chats_with_none_chat(self):
+		'''
+		Calling _get_non_duplicate_chats with none for 'chat' as an argument should return
+		an empty list
+		'''
+		self.assertEqual(Chat.objects._get_non_duplicate_chats(None), [])
+	
+	#Done
+	def test__get_non_duplicate_chats_with_list_of_chats_returns_list_of_unique_chats(self):
+		'''
+		Calling _get_non_duplicate_chats with an array of duplicate chat instances returns
+		should return a new list of chat instances with duplicates removed.
+		'''
+		chat1 = Chat.objects.create_chat()
+		chat2 = chat1
+		chat3 = chat1
+		chat4 = Chat.objects.create_chat()
+
+		#chats with duplicates
+		chats = []
+		chats.append(chat1)
+		chats.append(chat2)
+		chats.append(chat3)
+		chats.append(chat4)
+
+		#chats with no duplicates
+		chats_no_duplicates = Chat.objects._get_non_duplicate_chats(chats)
+
+		self.assertEqual(len(chats_no_duplicates), 2, msg="chats should contain 2 chats")
+
+		contains_chat1 = False
+		contains_chat4 = False
+
+		for chat in chats_no_duplicates:
+			if chat.pk == chat1.pk:
+				contains_chat1 = True
+			elif chat.pk == chat4.pk:
+				contains_chat4 = True
+
+		msg="chats_no_duplicates should only have 2 unique chats, chat1 and chat4"
+		self.assertEqual(contains_chat1, True, msg=msg)
+		self.assertEqual(contains_chat4, True, msg=msg)
+
+	def test_get_displayable_chats_with_warframe_still_in_chats_and_having_new_msgs_in_some_chats_returns_these_chats(self):
+		'''
+		Calling get_displayable_chats should return the list (with duplicates remove) of
+		chat instances for which he is still in a chat with or has received new msgs from.
+		'''
+
+		'''create a chat between wfa_bob and wfa_ellen and have ellen send bob a message'''
+		wfa_bob = WarframeAccount.objects.create_warframe_account("bob_wfa")
+		wfa_ellen = WarframeAccount.objects.create_warframe_account("ellen_wfa")
+
+		#chat for bob and ellen
+		#Chat.objects.create_chat_for_two_warframe_accounts(wfa_bob, wfa_ellen)
+		bob_and_ellen_chat = Chat.objects.create_chat()
+		bob_chat_user1 = ChatUser.objects.create_chat_user(wfa_bob, bob_and_ellen_chat)
+		ellen_chat_user1 = ChatUser.objects.create_chat_user(wfa_ellen, bob_and_ellen_chat)
+
+		#have ellen send bob a message, marking bob_and_ellen_chat as a chat
+		#bob is still in and has received a new message for.
+		ChatMessage.objects.create_chat_message(ellen_chat_user1, "Hi, Bob!")
+
+		msg = "The chat between bob and ellen should be a displayable chat because the chat checks the requirements " \
+			"for being a displayable chat."
+
+		for chat in Chat.objects.all():
+			print("chat: " + str(chat.pk))
+			for chat_user in chat.chatuser_set.all():
+				print("	users in chat: " + chat_user.warframe_account_id.warframe_alias)
+
+		self.assertEqual(len(Chat.objects.get_displayable_chats(wfa_bob)), 1, msg=msg)
+
+		msg = "Chat between bob and ellen should be a displayable chat."
+		self.assertEqual(Chat.objects.get_displayable_chats(wfa_bob)[0], bob_and_ellen_chat, msg=msg)
+
+		''' Create a chat between Bob and Greg with no new messages for Bob from Greg'''
+		wfa_greg = WarframeAccount.objects.create_warframe_account("greg_wfa")
+		
+		bob_and_greg_chat = Chat.objects.create_chat()
+
+		Chat.objects.create_chat_for_two_warframe_accounts(wfa_bob, wfa_greg)
+
+		msg = "Bob should have two displayable chats, one between him and ellen, the other between him and greg"
+		self.assertEqual(len(Chat.objects.get_displayable_chats(wfa_bob)),2, msg=msg)
+
+	#Tests after rewrite of chat app.
+
+	
+
+
 
 	@query_debugger
 	def test_DEBUG_chats_with_new_msgs(self):
