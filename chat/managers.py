@@ -6,6 +6,8 @@ from django.db import transaction
 
 from projectutils.utils import query_debugger
 
+from django.db.models import Count, Q
+
 class ChatManager(models.Manager):
 
 	def create_chat(self, **extra_fields):
@@ -16,8 +18,7 @@ class ChatManager(models.Manager):
 
 		return chat
 
-	#untested
-	#TODO: Fix docstring
+	#TODO: Rewrite to return the two chat user references created.
 	def _create_chat_for_two_warframe_accounts(self, warframe_account_one, warframe_account_two):
 		'''
 		Create and return a chat for 'warframe_account_one' and 'warframe_account_two'
@@ -43,6 +44,8 @@ class ChatManager(models.Manager):
 		Create a chat for 'warframe_account_one' and 'warframe_account_two'
 
 		@param: atomic If the chat should be created using a transaction (default True)
+
+		returns the chat instance created for the two warframe accounts
 		'''
 		if atomic:
 			with transaction.atomic():
@@ -106,8 +109,26 @@ class ChatManager(models.Manager):
 		
 		return chat
 
+	#Untested
 	def get_chat_user_partner(self, chat_user):
-		raise NotImplementedError()
+		'''
+		Returns the ChatUser instance that's 'chat_user's partner in the chat
+		'chat_user' is in. Returns None if there is no other chat user in 'chat_user's
+		chat.
+		'''
+		chat_user_m = apps.get_model(app_label="chat", model_name="chatuser")
+		#print('typeof(chat_user)')
+		#print(type(chat_user))
+		chat_users = chat_user_m.objects.filter(chat_id=chat_user.chat_id.pk).prefetch_related('warframe_account_id')
+
+		if len(chat_users) < 2:
+			return None
+
+		if len(chat_users) == 2:
+			if chat_users[0].warframe_account_id == chat_user.warframe_account_id:
+				return chat_users[1]
+			else:
+				return chat_users[0]
 	
 	def get_chat_user_partner_REFACTOR_THIS(self, chat_user, chat):
 		'''
@@ -141,18 +162,22 @@ class ChatManager(models.Manager):
 		return partner
 	
 	#TODO: review tests
-	#Tested
-	def chats_wfa_has_been_in(self, warframe_account):
-		'''
-		Returns an array of Chat instances that 'warframe_account' has been in.
+	#Untested
+	def chats_wfa_is_in(self, warframe_account):
+		'''Returns an array of Chat instances that 'warframe_account' has been in.
+
+		:param [ParamName]: [ParamDescription], defaults to [DefaultParamVal]
+		:type [ParamName]: [ParamType](, optional)
+		...
+		:raises [ErrorType]: [ErrorDescription]
+		...
+		:return: [ReturnDescription]
+		:rtype: [ReturnType]
 		'''
 		chat_user_m = apps.get_model(app_label="chat",model_name="ChatUser")
-		#chat_m = apps.get_model(app_label="chat", model_name="Chat")
 
 		# chat_user instances of 'warframe_account'
 		wfa_chat_user_instances = chat_user_m.objects.select_related('chat_id').filter(warframe_account_id=warframe_account)
-
-		#len(wfa_chat_user_instances)
 
 		chats = [] # chats been in
 		for chat_user in wfa_chat_user_instances:
@@ -189,6 +214,7 @@ class ChatManager(models.Manager):
 
 		return new_chat_messages
 	
+	"""
 	def chats_wfa_has_left(self, warframe_account):
 		'''
 		returns a query set of chat objects that the 'warframe_account'
@@ -212,11 +238,50 @@ class ChatManager(models.Manager):
 		chats_left = chat_m.object.filter(chat_id__in=ids_of_chats_left)
 		
 		return chats_left
-
-	def chats_left_but_received_new_messages(self, warframe_account):
-		raise NotImplementedError()
+	"""
 	
-	#tested
+	def get_chats_in_and_count_new_msgs(self, warframe_account):
+		'''Returns that Chat instances that 'warframe_account' is in, along with
+		the ammount of new messages received for a particular chat.
+
+		:param warframe_account: The WarframeAccount instance to determine the chats it is
+		in.
+		...
+		:return: A list of pairs. In each pair, the first element represents the chat
+		'warframe_account' is in, and the number of new messages present in that chat for
+		'waframe_account'.
+		:rtype: List
+		'''
+		chat_user_m = apps.get_model(app_label="chat", model_name="chatuser")
+
+		# obtain chat pks that 'warframe_account' is in
+		wfa_chats_as_values = self.chats_wfa_is_in(warframe_account)
+
+		#get the chat_user instances that are a partner of "warframe_account"
+		wfa_partner_chat_user_instances = chat_user_m.objects.filter(chat_id__in=wfa_chats_as_values).exclude(warframe_account_id=warframe_account)
+		#print("wfa_partner_chat_user_instances.query:")
+		#print(wfa_partner_chat_user_instances.query)
+		#print("wfa_partner_chat_user_instances:")
+		#print(wfa_partner_chat_user_instances)
+
+		# Annotate the ChatUser instances to obtain all the new messages
+		# received by 'warframe_account' for each chat present in.
+		msgs_not_read = Count('chatmessage', filter=Q(chatmessage__has_been_read=False))
+		#print("wfa_partner_chat_user_instances.annotate(new_msgs = msgs_not_read).query:")
+		#print(wfa_partner_chat_user_instances.annotate(new_msgs = msgs_not_read).query)
+		#print("wfa_partner_chat_user_instances.annotate(new_msgs = msgs_not_read):")
+		#print(wfa_partner_chat_user_instances.annotate(new_msgs = msgs_not_read))
+		wfa_partner_chat_user_instances = wfa_partner_chat_user_instances.annotate(new_msgs = msgs_not_read)
+
+		# generate the list of pairs
+		chats_with_new_messages_count = []
+		for chat_user in wfa_partner_chat_user_instances:
+			chats_with_new_messages_count.append((chat_user.chat_id, chat_user.new_msgs))
+
+		return chats_with_new_messages_count
+
+	#TODO: Rewrite
+	#TODO: Can likely be optimized?
 	def chats_with_new_msgs(self, warframe_account):
 		'''
 		Get an array of Chat instances that WarframeAccount instance
@@ -254,7 +319,7 @@ class ChatManager(models.Manager):
 			# that 'warframe_account' has been in. This means that this
 			# chat_user instance's warframe_account id refers to only
 			# two possible waframe_account instances (either the 'warframe_account
-			# itsself, or the partner due to the business logic of a chat - a chat can only
+			# itsself, or the partner due to the business logic of a chat -- a chat can only
 			# contain 2 chat users)
 
 			if(chat_user.warframe_account_id.pk == wfa.pk):
@@ -290,14 +355,18 @@ class ChatManager(models.Manager):
 			#the chat partner to 'warframe_account'
 			new_message_count = 0
 			for chat_message in wfa_partner_chat_user.chatmessage_set.all():
-				if chat_message.datetime_created > wfa_chat_user.datetime_last_viewed_chat:
-					new_message_count += 1
+				# if chat_message.datetime_created > wfa_chat_user.datetime_last_viewed_chat:
+				# 	new_message_count += 1
+
+				if chat_message.has_been_read == 0:
+					new_message_count +=1
 
 			if new_message_count > 0:
 				chats_with_new_msgs.append(chat)
 	
 		return chats_with_new_msgs
 
+	"""
 	#tested
 	def chats_wfa_still_in(self, warframe_account):
 		'''
@@ -316,6 +385,7 @@ class ChatManager(models.Manager):
 				chats_still_in.append(chat_user.chat_id)
 
 		return chats_still_in
+	"""
 
 	#TODO: Test
 	def _get_non_duplicate_chats(self, chats):
@@ -350,10 +420,18 @@ class ChatManager(models.Manager):
 	#TODO: Test
 	def get_displayable_chats(self, warframe_account):
 		'''Returns all displayable chats as an array of Chat instances
-		
+
+		:param [ParamName]: [ParamDescription], defaults to [DefaultParamVal]
+		:type [ParamName]: [ParamType](, optional)
+		...
+		:raises [ErrorType]: [ErrorDescription]
+		...
+		:return: [ReturnDescription]
+		:rtype: [ReturnType]
 		'''
-		chats_still_in = self.chats_wfa_still_in(warframe_account)
-		chats_with_new_msgs = self.chats_with_new_msgs(warframe_account)
+		#chats_still_in = self.chats_wfa_still_in(warframe_account)
+		chats_in = self.chats_wfa_is_in
+		#chats_with_new_msgs = self.chats_with_new_msgs(warframe_account)
 
 		# Array containing chats_still_in and _chats_with_new_msgs might contain duplicates.
 		# We don't want duplicates so let's remove them.
@@ -407,9 +485,9 @@ class ChatUserManager(models.Manager):
 		if chat_id is None:
 			raise ValueError("chat_id is required")
 
-		extra_fields.setdefault('still_in_chat', True)
-		extra_fields.setdefault('datetime_left_chat', None)
-		extra_fields.setdefault('datetime_last_viewed_chat', timezone.now())
+		#extra_fields.setdefault('still_in_chat', True)
+		#extra_fields.setdefault('datetime_left_chat', None)
+		#extra_fields.setdefault('datetime_last_viewed_chat', timezone.now())
 
 		chat_user = self.model(warframe_account_id=warframe_account_id, chat_id=chat_id, **extra_fields)
 
