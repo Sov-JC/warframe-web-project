@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additional_imports %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4" style="max-width:600px">
+	<div class="text-center">
+		<a class="btn btn-primary text-center" href="#" role="button">Message New User</a>
+	</div>
+<!-- 		
+		<div id="manager" class="list-group mt-3">
+			<a href="#" class="list-group-item list-group-item-action"> 
+				WarframeAccountName99
+				<span data-close-chat-id="48" class="js-close-chat close-chat mr-2 float-right"> &#120; </span>
+				<span class="badge badge-primary badge-pill float-right mr-2">14</span>
+			</a>
+		</div> -->
+
+		<ul id="manager" class="list-group mt-3">
+			<li data-chat-id="48" data-chat-url="#" class="list-group-item">
+				<span data-close-chat-id="48" data-close-chat-url= "#" class="js-close-chat close-chat pl-2 pr-2 float-right"> &#120; </span>
+				<span class="badge badge-primary badge-pill float-right mr-2">14</span>
+				WarframeAccountName99
+			</li>
+		</ul>
+
+		{% for chat in displayable_chats %}
+		<div id="manager">
+			<div  class="chat-user bg-light">
+				<a style="display:none"></a>
+				<span class="mr-2" style="float:right"> &#120; </span>
+				<div class="new-msgs mr-2" style="float:right">
+					8
+				</div>
+				<div class="ml-2" style="width:100px">
+					Tenno98329
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		
+	</div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+	$('#manager .list-group-item').on("click", function(event){
+		$target = $(event.target)
+
+		if($target.attr("data-close-chat-id")){
+			console.log("this is the x button")
+			url = $target.attr("data-close-chat-url")
+			console.log("Url path to deletion: " + url)
+
+			console.log("preparing ajax statement")
+			$.ajax({
+				url: url,
+				dataType: 'json',
+				success: function(data) {
+					if (data.was_deleted === true){
+						//If deletion occured successfully, delete
+						//the appropriate chat from the list
+						var chatIdDeleted = data.chat_id_deleted
+						console.log("Deletion successful in front-end")
+
+						$('#manager .list-group-item').each( function(index, element){
+							if(chatIdDeleted === element.getAttribute("data-chat-id")){
+								$(element).remove()
+							}
+						});
+
+						console.log("Chat was deleted successfully")
+					}else{
+						alert("Ajax request successful but server failed to delete chat.")
+					}
+				},
+				error: function(data){
+					console.log("Ajax request failed")
+				}
+			});
+			console.log("sent ajax")
+			
+		}else{
+			console.log("this is just the chat list")
+		}
+	});
+</script>
+{% endblock %}
