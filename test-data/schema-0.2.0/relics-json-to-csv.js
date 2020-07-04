@@ -5,7 +5,7 @@ console.log(items[0].category)
 
 relics = new Set()
 
-
+//Extract all the relics and place them in the 'relics' set
 for(i=0; i<items.length; i++){
 	if(items[i].category === 'Relics'){
 		var relic = items[i].name
@@ -30,9 +30,40 @@ for(i=0; i<items.length; i++){
 
 console.log("--- List of Unique Relics ---")
 
+// for(let r of relics){
+// 	console.log(r)
+// }
+
+//Generate the text for the fixture of the relics
+i=1
+fixture = []
 for(let r of relics){
-	console.log(r)
+	MODEL_NAME = 'relicinventory.relic'
+	var modelFields = {relic_name:r, wiki_url:"#"}
+	var primaryKey = i
+	var modelName = MODEL_NAME
+
+	row = {model: modelName, pk: primaryKey, fields: modelFields}
+
+	console.log("Adding row: " + row.model + " | " + row.pk)
+
+	fixture.push(row)
+
+	i+=1
 }
 
+//Create and save the fixtures as a json file in this directory
+// called relics-fixture.json
+const fs = require('fs')
+const storeData = (data, path) => {
+  try {
+    fs.writeFileSync(path, JSON.stringify(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
 
-
+//If you run the code below, it will replace relics-fixture.json. If you do so,
+//make sure you visit a site to 'pretty up' the json if you decide to generate 
+//the fixtures again by using wep based beautify services.
+storeData(fixture, 'relics-fixture.json')
