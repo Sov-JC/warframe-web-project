@@ -9,17 +9,19 @@
 {% block content %}
 <div class="container">
 	<div id="login-area" class="text-center">
-		<form class="form-register" method="post" action="{% url 'user:register' %}">
+		<form class="form-register" method="post" novalidate action="{% url 'user:register' %}">
 			{% csrf_token %}
 			<img class="mb-4" src="{% static 'images/login-box-image.png' %}" alt="" width="80%" height="100%" border-radius="10px" style="border-radius:30px">
 			<h1 class = "h1 mb-4 font-weight-normal"> Register </h1>
 			<!-- <h3 class="h3 mb-3 font-weigh-normal"> Please login </h3> -->
-			<!--
-			{# form.non_field_errors #}
-			{# form.email_address.errors #}
-			{# form.password.errors #}
-
-			{{ form.as_p }} -->
+			
+		
+			{{ form.non_field_errors }}
+			{{ form.email.errors }}
+			{{ form.password1.errors }}
+			{{ form.password2.errors }}
+		
+			
 			<div class = "field-name-header" style="width:100%; text-align:left;">
 				Email address
 			</div>
