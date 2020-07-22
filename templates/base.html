@@ -22,8 +22,6 @@
     <title>Website Title</title>
   </head>
   <body>
-      
-
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
             <!-- Brand -->
@@ -37,22 +35,45 @@
             </button>
         
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                
-                <!-- Home link -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                     </li>
+                    
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Platform
+                            <img id="platform-drop-down-img" style="max-height:30px">
+                        </a>
+                        <div id="platform-selection" class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a id="platform-pc" class="dropdown-item" href="#">
+                                <img id="pc-svg-img" style="max-height:20px" src="{% static 'images/gaming-platform-svgs/pc.svg' %}">
+                                PC
+                            </a>
+                            <a id="platform-playstation" class="dropdown-item" href="#">
+                                <img id="playstation-svg-img" style="max-height:20px" src="{% static 'images/gaming-platform-svgs/playstation.svg' %}">
+                                PlayStation
+                            </a>
+                            <a id="platform-xbox" class="dropdown-item" href="#">
+                                <img id="xbox-svg-img" style="max-height:20px" src="{% static 'images/gaming-platform-svgs/xbox.svg' %}">
+                                Xbox
+                            </a>
+                            <a id="platform-nintendo-switch" class="dropdown-item" href="#">
+                                <img id="nintendo-switch-svg-img" style="max-height:20px" src="{% static 'images/gaming-platform-svgs/nintendo-switch.svg' %}">
+                                Nintendo Switch
+                            </a>
+                        </div>
+                    </li>
                 </ul>
-
+                
                 <!-- Login/Register/Admin Button-->
                 {% if user.is_authenticated %}
-                    {% if user is not None %}
+                    {% if user.linked_warframe_account_id is not None %}
                         <span class="navbar-text mr-sm-2">
-                            Hello, {{user.username}}
+                            Hello, {{user.linked_warframe_account_id.warframe_alias}}
                         </span>
                     {% else %}
-                        <span class="navbar-text mr-sm-2"> Anonymous User Status </span>
+                        <!-- <span class="navbar-text mr-sm-2"> Warframe account not linked. </span> -->
                     {% endif %}
                 {% else %}
                     <div class="btn-group m-sm-2">
@@ -83,32 +104,18 @@
     {% endblock %}
     <!-- </div> -->
   
-    
+    <script id="js-cookie" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script id="ajax-csrf-security">
-        // using jQuery
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
-        var csrftoken = getCookie('csrftoken');
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script id="ajax-setup-and-csrf-security">
+       const csrftoken = Cookies.get('csrftoken')
 
         function csrfSafeMethod(method) {
             // these HTTP methods do not require CSRF protection
             return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
         }
+
         $.ajaxSetup({
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -117,8 +124,85 @@
             }
         }); 
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script id="gaming-platform-selection">
+        const PC = "PC"
+        const XBOX = "Xbox"
+        const SWITCH = "Nintendo Switch"
+        const PLAYSTATION = "PlayStation"
+
+        const gamingPlatformCookie = Cookies.get('gaming-platform')
+
+        // Obtain the image url of a gaming platform svg image from the value
+        // of the src attribute of choices for the gaming platform drop down menu
+        // in the navigation bar.
+        function getImgUrlFromGamingPlatformDropDownItem(gamingPlatform){
+            var url = null
+
+            if(gamingPlatform === PC || gamingPlatform == null){
+                var el = document.getElementById("pc-svg-img")
+                var url = el.getAttribute('src')
+            }else if(gamingPlatform === XBOX){
+                var el = document.getElementById("xbox-svg-img")
+                var url = el.getAttribute('src')
+            }else if(gamingPlatform === PLAYSTATION){
+                var el = document.getElementById("playstation-svg-img")
+                var url = el.getAttribute('src')
+            }else if(gamingPlatform === SWITCH){
+                var el = document.getElementById("nintendo-switch-svg-img")
+                var url = el.getAttribute('src')
+            }
+
+            return url
+        }
+        
+        //Sets the image of the gaming platform drop down menu. The image is determined
+        //by the 'gaming-platform' cookie.
+        function setGamingPlatformDropDownMenuImage(){
+            var el = document.getElementById('platform-drop-down-img')
+            console.log("#platform-drop-down-img is: " + el)
+            var url = null
+            if(gamingPlatformCookie === PC || gamingPlatformCookie == null){
+                url = getImgUrlFromGamingPlatformDropDownItem(PC)
+            }else if(gamingPlatformCookie === XBOX){
+                url = getImgUrlFromGamingPlatformDropDownItem(XBOX)
+            }else if(gamingPlatformCookie === PLAYSTATION){
+                url = getImgUrlFromGamingPlatformDropDownItem(PLAYSTATION)
+            }else if(gamingPlatformCookie === SWITCH){
+                url = getImgUrlFromGamingPlatformDropDownItem(SWITCH)
+            }
+            
+            el.setAttribute('src', url)
+        }
+
+        $(document).ready(function() {
+
+            setGamingPlatformDropDownMenuImage()
+
+            // Gaming platform selection - event handler
+            // Sets the 'gaming-platform' cookie to the appropriate
+            // value determined by the gaming platform choice from the
+            // gaming platform drop down menu. Reloads the page
+            // when the cookie has been set.
+            $('#platform-selection .dropdown-item').on('click', function(event){
+                console.log("clicked on " + this.id)
+                var EXPIRES = 7 // 7 days
+                if(this.id === "platform-pc"){
+                    Cookies.set('gaming-platform', PC, {expires: EXPIRES})
+                }else if(this.id === "platform-xbox"){
+                    Cookies.set('gaming-platform', XBOX, {expires: EXPIRES})
+                }else if (this.id === "platform-playstation"){
+                    Cookies.set('gaming-platform', PLAYSTATION, {expires: EXPIRES})
+                }else if(this.id === "platform-nintendo-switch"){
+                    Cookies.set('gaming-platform', SWITCH, {expires: EXPIRES})
+                }
+
+                event.preventDefault()
+                location.reload()
+                
+            });
+
+        }); //document.ready()
+    </script>
     <!-- Optional JavaScript -->
     {% block scripts %}
     {% endblock %}
