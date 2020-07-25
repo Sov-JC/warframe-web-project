@@ -11,6 +11,14 @@ def email_validated_user(function):
 			raise Exception("User must confirm their email address before accessing this view.")
 
 	return wrap
+
+def login_required_and_linked(function):
+	def wrap(request, *args, **kwards):
+		user = User.objects.get(pk=kwards['email'])
+
+	raise NotImplementedError
+
+		
 		
 
 
