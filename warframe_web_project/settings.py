@@ -116,6 +116,16 @@ DATABASES = {
         'PASSWORD': 'admin',
         'HOST': 'localhost',
         'PORT': '3306',
+    },
+
+    #The test database that's generated when tests are executed by django.
+    'auto_generated_test_db': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test_warframe_project', #os.path.join(BASE_DIR, 'db.sqlite3'),
+        'USER': 'jorge',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -135,9 +145,9 @@ AUTH_PASSWORD_VALIDATORS = [
     #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     # },
     #
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    # },
+    #{
+    #    'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    #},
     {
         'NAME': 'user.password_validation.ValidCharactersValidator'
     },
