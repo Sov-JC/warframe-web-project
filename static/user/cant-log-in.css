@@ -1,0 +1,11 @@
+#resend-email-card, #forgot-pw-card{
+	margin-left:auto;
+	margin-right:auto;
+	width:400px;
+}
+
+@media only screen and (max-width: 450px) {
+	#resend-email-card, #forgot-pw-card {
+		width:300px;
+	}
+}
