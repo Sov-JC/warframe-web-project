@@ -3,13 +3,18 @@
 	border-bottom:1px solid black;
 }
 
-#filter-button{
-	overflow:hidden
+#filter-text-box{
+	overflow:hidden;
 }
 
 input[name="filter"]{
 	width:100%;
 	padding-left:10px;
+	border-top-style: hidden;
+	border-right-style: hidden;
+	border-left-style: hidden;
+	border-bottom-style: hidden;
+	background-color: white;
 }
 
 button[type="submit"] {
@@ -17,6 +22,10 @@ button[type="submit"] {
 	border-style:solid;
 	border-color:gray;
 	background-color: gray;
+	border-bottom-style:hidden;
+	border-top-style:hidden;
+	border-left-style:hidden;
+	border-right-style:hidden;
 }
 
 .relic{
@@ -30,6 +39,7 @@ button[type="submit"] {
 }
 
 .relics-container{
+	border-top-style:hidden;
 	max-height:500px;
 }
 
