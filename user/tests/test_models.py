@@ -23,3 +23,4 @@ class TestUserModel(TestCase):
 		assert(user.send_email_verification_msg(fail_silently=False) == 1)
 
 	
+	

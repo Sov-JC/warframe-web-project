@@ -59,10 +59,6 @@ class RegistrationViewTests(TestCase):
 		#YET. COME BACK TO THIS TEST LATER.
 		raise Exception
 
-	
-
-
-
 class LoginViewTests(TestCase):
 	fixtures = ['user_app-gaming-platforms.json', 'user_app-user-status.json']
 
@@ -162,3 +158,13 @@ class LoginViewTests(TestCase):
 		User should be sent to the login page when they've successfully logged in
 		"""
 		pass
+
+class ForgotPwEmailSentViewTests(TestCase):
+	def test_view_is_displayed(self):
+		'''
+		Simple test case to check that the view is displayed.
+		'''
+		response = self.client.get(reverse('user:forgot_pw_email_sent'))
+
+		self.assertEqual(response.status_code, 200, msg="Expected status code to be 200")
+	

@@ -67,6 +67,24 @@ class RegistrationFormTests(SimpleTestCase):
 		#check for error code
 		self.assertEqual(form.non_field_errors().as_data()[0].code, "password_mismatch")
 		
-		err_msg = "Password and confirmation password do not match. The two passwords must be the same."
-		
+class TestForgotPasswordForm(SimpleTestCase):
+
+	def test_forgot_password_form_accepts_email(self):
+		email = "testaccount@gmail.com"
+		data = {'email_address':email}
+		self.assertEqual(ForgotPasswordForm(data=data).is_valid(), True)
+
+		email = ""
+		data = {'emailaddress':email}
+		self.assertEqual(ForgotPasswordForm(data=data).is_valid(), False)
+
+		email = None
+		data = {'emailaddress':email}
+		self.assertEqual(ForgotPasswordForm(data=data).is_valid(), False)
+
+		email = "123"
+		data = {'emailaddress':email}
+		self.assertEqual(ForgotPasswordForm(data=data).is_valid(), False)
+
+
 
