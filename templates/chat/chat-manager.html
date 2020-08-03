@@ -46,8 +46,12 @@
 </div>
 {% endblock %}
 
-{% block javascript %}
+{% block scripts %}
+
+
 <script>
+	//Adds removal of chat functionality to each chat
+	//in the chat manager list.
 	$('#manager .list-group-item').on("click", function(event){
 		$target = $(event.target)
 

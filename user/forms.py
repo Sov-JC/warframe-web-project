@@ -48,8 +48,6 @@ class LoginForm(forms.Form):
         }
     )
     
-
-    
     password = forms.CharField(
         min_length=5,
         max_length=32,
@@ -67,6 +65,9 @@ class RegistrationForm(forms.Form):
         },
     )
 
+    #NOTE: if any of the password validators are modified for this form,
+    #you should likely make sure they synchronize with the AUTH_PASSWORD_VALIDORS
+    #settings.
     password1 = forms.CharField(
         max_length=32,
         min_length=8,
@@ -96,3 +97,13 @@ class RegistrationForm(forms.Form):
                 "Password and confirmation password do not match. The two passwords must be the same.",
                 code="password_mismatch",
             )
+
+class ForgotPasswordForm(forms.Form):
+    email_address = forms.EmailField()
+    error_messages={
+        'required': 'Email field is required',
+        'invalid': 'Email field is invalid',
+    }
+
+
+
