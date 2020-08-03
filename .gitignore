@@ -25,3 +25,7 @@ warframe_web_project/__pycache__/urls.cpython-36.pyc
 
 #email settings file
 /*/emailsettings.py
+
+#Web drivers - used by Selenium
+chromedriver.exe
+geckodriver.exe

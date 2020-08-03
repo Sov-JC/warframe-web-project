@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additional_imports %}
+<link rel="stylesheet" type="text/css" href="{% static 'user/cant-log-in.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+	
+<h2 class="text-center mt-3"> Can't log in?</h2>
+
+<div id="forgot-pw-card" class="card mt-3">
+	<div class="card-body">
+		<h5 class="card-title">Forgot Password</h5>
+		<!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+		<p class="card-text">Forgot your password? Click the button below to reset your password.</p>
+		<a href="{% url 'user:forgot_pw' %}" class="card-link btn btn-success">Reset Password</a>
+		<!-- <a href="#" class="card-link">Another link</a> -->
+	</div>
+</div>
+
+<div id="resend-email-card" class="card mt-3 mb-3">
+	<div class="card-body">
+		<h5 class="card-title">Resend Email Verification Code</h5>
+		<!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+		<p class="card-text">Registered but didn't receive a verification code via email? Click
+			the button below to receive a new one.
+		</p>
+		<a href="{% url 'user:resend_email_code' %}" class="card-link btn btn-primary">Send New Code</a>
+		<!-- <a href="#" class="card-link">Another link</a> -->
+	</div>
+</div>
+
+
+
+
+
+{% endblock %}

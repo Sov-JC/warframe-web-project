@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additional_imports %}
+{% endblock %}
+
+{% block content %}
+
+<h2 class="text-center mt-3"> Password recovery message sent.</h2>
+
+<p class="text-center">Please check your email for a link to reset your password</p>
+<div class="text-center">
+	Return <a id="return-home" href="{% url 'home:index' %}">Home</a>
+</div>
+
+{% endblock %}
