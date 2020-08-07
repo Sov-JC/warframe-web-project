@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from user.models import User
+from user.models import User, WarframeAccount
 from .managers import RelicManager, OwnedRelicManager
 
 # Create your models here.
@@ -17,14 +17,16 @@ class Relic(models.Model):
 class OwnedRelic(models.Model):
 	owned_relic_id = models.AutoField(primary_key=True)
 	warframe_account_id = models.ForeignKey(
-		settings.AUTH_USER_MODEL,
+		WarframeAccount,
 		on_delete=models.PROTECT,
-		default=None # validation should make sure default doesn't execute
+		default=None, # validation should make sure default doesn't execute
+		db_column="warframe_account_id"
 	)
 	relic_id = models.ForeignKey(
 		'Relic',
 		on_delete=models.PROTECT,
-		default=None # validation should make sure default doesn't execute
+		default=None, # validation should make sure default doesn't execute
+		db_column="relic_id"
 	)
 
 	objects = OwnedRelicManager()

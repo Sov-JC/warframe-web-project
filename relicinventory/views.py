@@ -12,9 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 
-
-# Create your views here.
-#Untested
 @login_required
 def my_inventory(request):
 	linked_wfa = request.user.linked_warframe_account_id
@@ -25,17 +22,25 @@ def my_inventory(request):
 		relics_in_inventory = OwnedRelic.objects.get_wfa_relics(linked_wfa)
 		ids_relics_in_inventory = relics_in_inventory.values_list('relic_id', flat=True)
 
-		#The ids of the relics the user owned as a set of relic ids
+		#The ids of the relics the user owned as a set of ids
 		relic_ids_owned = set(ids_relics_in_inventory)
 
 		all_relics = Relic.objects.all()
 
-		context = {'relic_ids_owned':relic_ids_owned, 'all_relics': all_relics}
+		relic_names = Relic.objects.all().values_list('relic_name', flat=True)
+		relic_names = list(relic_names)
+		relic_names = {"relic_names": relic_names}
+
+		# List of all relics in the database as a list of pairs
+		all_relics_json_script = list(Relic.objects.all().values_list('relic_id', 'relic_name'))
+
+		# Convert into a dictionary to make use of json_script in template
+		all_relics_json_script = {'relics': all_relics_json_script}
+
+		context = {'relic_ids_owned':relic_ids_owned, 'all_relics': all_relics, "all_relics_json_script": all_relics_json_script}
 		return render(request, 'relicinventory/my-inventory.html', context = context)
 
-#Untested
-#@login_required
-#@csrf_exempt
+@login_required
 def ajax_save_inventory_changes(request):
 	
 	linked_wfa = request.user.linked_warframe_account_id
@@ -48,12 +53,18 @@ def ajax_save_inventory_changes(request):
 				checked_relic_ids = json.loads(request.body)
 				print("checked_relic_ids: ")
 				print(checked_relic_ids)
+
+				msg = {'success': 'Inventory updated successfully.'}
 				
 				# Clear the Warframe account's inventory.
-				OwnedRelic.objects.filter(warframe_account_id=linked_wfa).delete()
-				OwnedRelic.objects.add_relics_to_inventory(linked_wfa, checked_relic_ids)
+				try:
+					OwnedRelic.objects.filter(warframe_account_id=linked_wfa).delete()
+					OwnedRelic.objects.add_relics_to_inventory(linked_wfa, checked_relic_ids)
+				except Exception as e:
+					print(e)
+					msg = {'error': 'Inventory failed to update'}
 
-				response = {'success': 'Inventory updated successfully.'}
+				response = msg
 				
 				return JsonResponse(response)
 			else:
