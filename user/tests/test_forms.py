@@ -6,6 +6,7 @@ from chat.models import *
 from relicinventory.models import *
 from user.managers import *
 from user.forms import *
+from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
 
 class RegistrationFormTests(SimpleTestCase):
 
@@ -85,6 +86,35 @@ class TestForgotPasswordForm(SimpleTestCase):
 		email = "123"
 		data = {'emailaddress':email}
 		self.assertEqual(ForgotPasswordForm(data=data).is_valid(), False)
+
+class TestChangePasswordForm(SimpleTestCase):
+	
+	def test_clean_raises_validation_error_on_different_passwords(self):
+		'''Should return a Validation Error with code 'password_mismatch'
+		if password1 and password2 don't match
+		'''
+		data = {'password1': "aaaaaaaaa", 'password2':"bbbbbbbbbb"}
+		f = ChangePasswordForm(data=data)
+		msg = "Form should not be valid because password1 and password2 are different"
+		self.assertEqual(f.is_valid(), False, msg=msg)
+
+		msg="Expected password_mismatch error because password1 and password2 are not equal"
+		self.assertEqual(f.has_error(field=NON_FIELD_ERRORS, code='password_mismatch'), True, msg=msg)
+
+	def test_clean_raises_no_error_when_pw1_and_pw_are_equal(self):
+		'''
+		Should return no Validation Error when password1 and password2 are equal
+		'''
+		data = {'password1': "testpassword123", 'password2':"testpassword123"}
+		form = ChangePasswordForm(data=data)
+		msg = "Form should be valid because password1 and password2 are equal and valid"
+		self.assertEqual(form.is_valid(), True, msg = msg)
+
+		msg = "Error with code 'password_mismatch' should not have occured because password1 "\
+			"and password2 are equal."
+		print("-------->" + str(form.errors))
+		print("type: " + str(type(form.errors)))
+		self.assertEqual("password_mismatch" not in form.errors, True, msg=msg)
 
 
 

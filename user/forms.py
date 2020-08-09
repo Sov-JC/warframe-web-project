@@ -99,11 +99,44 @@ class RegistrationForm(forms.Form):
             )
 
 class ForgotPasswordForm(forms.Form):
-    email_address = forms.EmailField()
-    error_messages={
-        'required': 'Email field is required',
-        'invalid': 'Email field is invalid',
-    }
+    email_address = forms.EmailField(
+        error_messages={
+            'required': 'Email field is required',
+            'invalid': 'Email field is invalid',
+        }
+    )
+    
 
+class ChangePasswordForm(forms.Form):
+    password1 = forms.CharField(
+        max_length=32,
+        min_length=8,
+        validators=[valid_password_characters],
+        error_messages={
+            'required': 'Password field is required',
+            'invalid': 'Password field is invalid',
+        }
+    )
+    password2 = forms.CharField(
+        max_length=32,
+        min_length=8,
+        validators=[valid_password_characters],
+        error_messages={
+            'required': 'Confirmation field is required',
+            'invalid': 'Confirmation field is invalid',
+        }
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        pw1 = cleaned_data.get("password1")
+        pw2 = cleaned_data.get("password2")
+
+        if pw1 != pw2:
+            raise forms.ValidationError(
+                "Password and confirmation password do not match. The two passwords must be the same.",
+                code="password_mismatch",
+            )
 
 
