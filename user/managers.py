@@ -10,6 +10,8 @@ from django.core import mail
 from django.conf import settings
 from projectutils import generators
 from django.utils import timezone
+from django.utils.html import escape
+from django.conf import settings
 
 
 import random
@@ -76,7 +78,6 @@ class OnlineAndLinkedWarframeAccountManager(models.Manager):
 		# return super().get_queryset().filter("user_user_status_id__user_status_name = 'online'")
 		pass
 
-
 class PasswordRecoveryManager(models.Manager):
 
 	def create_recovery_code_for_user(self):
@@ -96,7 +97,7 @@ class PasswordRecoveryManager(models.Manager):
 		password_recovery.save()
 
 		return password_recovery
-
+	
 	def create_password_recovery(self, user, **extra_fields):
 		generated_recovery_code = self.generate_password_recovery_code()
 		extra_fields.setdefault('recovery_code', generated_recovery_code)
@@ -131,13 +132,17 @@ class PasswordRecoveryManager(models.Manager):
 
 		chars = (string.ascii_letters + "0123456789")
 		return self._generate_password_recovery_code(chars, length)
-
+		
 	#Untested
-	def send_password_recovery_email(self, user, fail_silently=False):
-		'''Send a password recovery email to a user's registered email
-		address. Note: This deletes the currenct recovery code held by the referncing
-		PasswordRecovery instance of 'user' and then creates a new one. The recovery code
-		for the new PasswordRecovery instance is sent via email.
+	def send_pw_recovery_email(self, user, fail_silently=False):
+		'''Send a new password recovery email to a user's registered email
+		address. Note: This implicitly updates the password recovery code by deleting
+		the record of the old password recovery code and then creating a new one. The newly created
+		recovery code is then sent along with the pw recovery email integrated into a link
+		that the user may click on.
+
+		:param user: User to send a password recovery email to
+		:type user: User model instance
 		'''
 		password_recovery_code = self.generate_password_recovery_code()
 
@@ -149,16 +154,23 @@ class PasswordRecoveryManager(models.Manager):
 			print("About to delete password_recovery record with code: " + user.password_recovery.recovery_code)
 			rows_deleted = user.password_recovery.delete()
 			print("rows deleted - " + str(rows_deleted))
-		else:
-			print("user.password_recovery is None. No referencing PasswordRecovery deleted.")
-			#delete
 
 		password_recovery_code = self.create_password_recovery(user)
+
+		# Generate the url that the user will click on to be redirected to the 'change
+		# password page.
+		PROTOCOL = "https://"
+		SUBDOMAIN = "www."
+		DOMAIN = settings.DOMAIN_NAME
+		from django.urls import reverse
+		PATH = (reverse('user:change_pw', args=[password_recovery_code.recovery_code]))
+		change_pw_url = ("%s%s%s%s") % (PROTOCOL,SUBDOMAIN,DOMAIN,PATH)
+		print("change_pw_url is: " + str(change_pw_url))
 		
 		#email content setup
-		EMAIL_VERIFICATION_MSG_PATH = "email/forgot-password.html"
-		template_name = EMAIL_VERIFICATION_MSG_PATH
-		context = {"password_recovery_code": password_recovery_code}
+		PW_RECOVERY_EMAIL_PATH = "email/forgot-password.html"
+		template_name = PW_RECOVERY_EMAIL_PATH
+		context = {'change_pw_url':change_pw_url}
 		subject = "Vaulted Runs - Password Recovery Request"
 		html_message = render_to_string(template_name, context)
 		from_email = settings.EMAIL_HOST_USER if settings.EMAIL_HOST_USER else None
@@ -166,13 +178,13 @@ class PasswordRecoveryManager(models.Manager):
 
 		return mail.send_mail(subject=subject, message = "", html_message=html_message, from_email=from_email, recipient_list=[to], fail_silently=fail_silently)
 
+#DEP
 class LinkedOnlineUsersManager(models.Manager):
 	def get_queryset(self):
 		users = super().get_queryset().exclude(linked_warframe_account_id__isnull=True).filter(user_status_id__user_status_name="online")
 		print("query is: " + users.query)
 		return users
 		
-
 # code reference from:
 # https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#abstractbaseuser
 class UserManager(BaseUserManager):
@@ -212,7 +224,7 @@ class UserManager(BaseUserManager):
 		email = self.normalize_email(email)
 		user = self.model(email=email, **extra_fields) #???
 		user.set_password(password) #???
-		extra_fields.setdefault('user_status', 'offline')
+		extra_fields.setdefault('user_status', 'Offline')
 
 		#TODO: make reference to .utils.py
 		user.email_verification_code = self._generate_email_verification_code()
