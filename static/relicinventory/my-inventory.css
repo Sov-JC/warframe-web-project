@@ -7,6 +7,14 @@
 	overflow:hidden;
 }
 
+/* jQuery UI's search suggestion bar */
+.ui-autocomplete {
+	max-height: 200px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+}
+
 input[name="filter"]{
 	width:100%;
 	padding-left:10px;

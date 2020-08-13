@@ -2,116 +2,93 @@
 {% load static %}
 
 {% block additional_imports %}
+<link href="{% static 'jquery-ui/jquery-ui.min.css' %}" rel="stylesheet">
+<link href="{% static 'jquery-ui/jquery-ui.structure.min.css' %}" rel="stylesheet">
+<link href="{% static 'jquery-ui/jquery-ui.theme.min.css' %}" rel="stylesheet">
 <link href="{% static 'relicinventory/my-inventory.css' %}" rel="stylesheet">
-<link href="{% static 'relicinventory/my-inventory.js' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 
-<!-- 
-<div id="header-old">
-	<h1 class="display-4 text-center">Relic Inventory</h1>
-	<div class="text-center">
-		<small><a href="#">What is this for?</a></small>
-		<div id="save">
-			<a href="">Save <i class="fas fa-save"></i></a> |
-			Display: <a> Checked</a> Unchecked
-		</div>
-	</div>
-</div> -->
-
 <div id = "header" class="container mb-1" style="max-width: 600px">
 	<h1 class="display-4 text-center">Relic Inventory</h1>
 	<div id="display-type-option" style="float:right">
-		Display: <a>All</a> | <a>Checked</a> | <a> Unchecked</a>
-	</div>
+		Display: 
+		<a href="#" id="all-relics">All</a> | 
+		<a href="#" id="checked-relics">Checked</a> | 
+		<a href="#"id="unchecked-relics"> Unchecked</a>
+	</div> 
 	<div id="save">
 		<button type="button" class="btn btn-primary btn-sm">Save <i class="fas fa-save"></i></button>
 	</div>
 </div>
 
-<!--
-<div class="container">
-	<div class="row">
-		<div class="col-12" style="background-color:green">col-12</div>
-		<div class="col-6" style="background-color:orange">col-6</div>
-		<div class="col-6" style="background-color:purple">col-6</div>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-12" style="background-color:green">col-12</div>
-	<div class="col-6" style="background-color:orange">col-6</div>
-	<div class="col-6" style="background-color:purple">col-6</div>
-</div>
--->
-
 <div id="main-container" class="container px-0" style="max-width:600px;background-color:cadetblue;border:1px solid black">
 	{# Search bar modified from http://jsfiddle.net/o3uxaczh/3/ #}
 	<!-- Search Bar-->
-	<div id="search-bar">
+	<!-- <div id="search-bar">
 		<button type="submit"><i class="fas fa-filter"></i></button>
-		<div id="filter-button">
+		<div id="filter-text-box">
 			<input type="text" placeholder="Filter..." name="filter">
 		</div>
+	</div> -->
+
+	<!-- Filter -->
+	<!-- jq-ui autocomplete -->
+	<div class="ui-widget" style="border-radius:0px">
+		<!-- <label for="tags">Tags: </label> -->
+		<!-- <div class="text-center" style="background-color:gray;width:30px;height:100%;float:right;"><i class="fas fa-filter"></i></div> -->
+		<input style="width:100%" id="relic-input" placeholder="Filter...">
 	</div>
 
 	<!-- Relic List-->
-	<div class="relics-container" style="overflow:auto">
+	<div class="relics-container" data-save-url="{% url 'relicinventory:save-changes' %}" style="overflow:auto">
+		{% for relic in all_relics %}
 		<div class="relic">
-			<input type="checkbox" id="scales" name="scales" checked>
-			<label for="scales">Scales</label>
+			{% if relic.pk in relic_ids_owned %}
+			<input type="checkbox" id="{{ relic.relic_id }}" name="relic" checked>
+			<label for="{{ relic.relic_id }}">{{ relic.relic_name }}</label>
+			{% else %}
+			<input type="checkbox" id="{{ relic.relic_id }}" name="relic" unchecked>
+			<label for="{{ relic.relic_id }}">{{ relic.relic_name }}</label>
+			{% endif %}
 		</div>
-		<div class="relic">
-			<input type="checkbox" id="scales" name="scales" checked>
-			<label for="scales">Scales</label>
-		</div>
-		<div class="relic">
-			<input type="checkbox" id="scales" name="scales" checked>
-			<label for="scales">Scales</label>
-		</div>
-		<div class="relic">
-			<input type="checkbox" id="scales" name="scales" checked>
-			<label for="scales">Scales</label>
-		</div>
-		<div class="relic">
-			<input type="checkbox" id="scales" name="scales" checked>
-			<label for="scales">Scales</label>
-		</div>
-		<div class="relic">
-				<input type="checkbox" id="scales" name="scales" checked>
-				<label for="scales">Scales</label>
-		</div>
-		<div class="relic">
-				<input type="checkbox" id="scales" name="scales" checked>
-				<label for="scales">Scales</label>
-		</div>
-		<div class="relic">
-				<input type="checkbox" id="scales" name="scales" checked>
-				<label for="scales">Scales</label>
-		</div>
-		<div class="relic">
-				<input type="checkbox" id="scales" name="scales" checked>
-				<label for="scales">Scales</label>
-		</div>
-		<div class="relic">
-				<input type="checkbox" id="scales" name="scales" checked>
-				<label for="scales">Scales</label>
-		</div>
-		<div class="relic">
-				<input type="checkbox" id="scales" name="scales" checked>
-				<label for="scales">Scales</label>
-		</div>
-		<div class="relic">
-				<input type="checkbox" id="scales" name="scales" checked>
-				<label for="scales">Scales</label>
-		</div>
-		<div class="relic">
-				<input type="checkbox" id="scales" name="scales" checked>
-				<label for="scales">Scales</label>
-		</div>
+		{% endfor %}
 	</div>
 </div>
 
 
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'jquery-ui/jquery-ui.min.js' %}"></script>
+<script src="{% static 'relicinventory/my-inventory.js' %}"></script>
+{{ all_relics_json_script|json_script:"all_relics_json_script" }}
+<script>
+	// Set up the search bar's autocomplete feature using JQuery UI.
+	$( function() {
+		// Obtain a list of all the relic names by parsing the data in 'relic-names' script
+		//var availableTags = JSON.parse(document.getElementById('all_relics_json_script').textContent)["relic_names"];
+
+		//console.log(availableTags)
+		
+		// Obtain the list of all relics
+		var relics = JSON.parse(document.getElementById('all_relics_json_script').textContent)["relics"]
+
+		console.log("relics is: " + relics)
+		
+		// Obtain a list of relic names
+		var relicNames = []
+		var RELIC_ID_INDEX = 0 // Index of the relic id
+		var RELIC_NAME_INDEX = 1 // Index of the relic name
+		relics.forEach(el => relicNames.push(el[1]))
+
+		var availableTags = relicNames
+		
+		// jquery-ui autocomplete function
+		$( "#relic-input" ).autocomplete({
+			source: availableTags
+		});
+	} );
+</script>
 {% endblock %}

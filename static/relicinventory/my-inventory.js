@@ -3,7 +3,6 @@ var SHOW_CHECKED = "Show Checked"
 var SHOW_ALL = "Show All"
 var SHOW_UNCHECKED = "Show Unchecked"
 
-
 function show(showTypeConstant){
 	/*Filter the list of relics by the show type constants.
 	For example, show(SHOW_CHECKED) displays all the relics that are
@@ -80,6 +79,65 @@ function getCheckedRelicIds(){
 	return checkedRelicIds
 }
 
+// Set the display setting to visible for all .relic elements
+// with an id in 'Ids' param in .relics-container. Hide the .relic elements with Ids 
+// not in 'Ids'
+function displayRelicsWithId(ids){
+	$relics = $(".relic")
+
+	var RELIC_CHECKBOX_DEFAULT_DISPLAY = "block"
+
+	var idsSet = new Set(ids)
+
+	//idsSet.values().forEach(id => console.log("typeof(id): " + typeof(id)))
+	//console.log("idsSet.values()[0]: " + idsSet.values()[0])
+
+	// Hide or unhide each .relic depending on whether or not
+	// it's corresponding relic's id belongs in 'ids' param
+	$.each($relics, function(index, value){
+		//document.getElementById().nextElementSibling
+		//document.getElementById().getAttribute
+		inputEl = value.firstElementChild
+		labelEl = value.firstElementChild.nextElementSibling
+		//document.getElementById()
+
+		//console.log("inputEl.id is: " + inputEl.id)
+		
+
+		// Determine if this .relic element should be hidden, or displayed
+		
+		
+		
+		//console.log("idsSet.get('Axi S3') type is: " + typeof(idsSet.get('Axi S3')))
+		//console.log("idsSet.has(" + inputEl.id + ")" + idsSet.has(inputEl.id))
+		if(idsSet.has(parseInt(inputEl.id)))
+			value.style.display = RELIC_CHECKBOX_DEFAULT_DISPLAY
+		else
+			value.style.display = "none"
+	})
+}
+
+// Obtain the ids of relics that contain the string 'relicName' (case-insensitive).
+// Each id represents the id of the checkbox of each relic
+// in the relic list.
+function getRelicIdsContainingRelicName(relicName){
+
+	var relics = JSON.parse(document.getElementById('all_relics_json_script').textContent)["relics"] //Get all the relics
+	
+	var relicIds = new Set()
+	relics.forEach(relic => {
+		var RELIC_ID_INDEX = 0;
+		var RELIC_NAME_INDEX = 1;
+		if(relic[RELIC_NAME_INDEX].toLowerCase().includes(relicName.toLowerCase()))
+			relicIds.add(relic[RELIC_ID_INDEX])
+	});
+
+	// console.log("IDs containing name: " + relicName)
+	// console.log(relicIds)
+	console.log("relicIds in getRelicIdsContainingRelicName is: " + [...relicIds])
+	return [...relicIds]
+}
+
 $('#save button').on('click', function(event){
 	//relicCheckStates = getRelicCheckStates()
 	//var jsonStr = JSON.stringify(relicCheckStates)
@@ -112,6 +170,18 @@ $('#save button').on('click', function(event){
 	});
 });
 
+// Search bar functionality
+document.querySelector('#relic-input').onkeyup = function(event) {
+	var ENTER = 13
+	if (event.keyCode === ENTER) {  // enter, return
+		console.log("Relic search is for : " + this.value)
+		var searchValue = this.value.trim()
+		var ids = getRelicIdsContainingRelicName(searchValue)
+		console.log("Ids to search is: " + ids)
+		displayRelicsWithId(ids)
+	}
+};
+
 // checked, all, and unchecked links
 $('#all-relics').on('click', function(event){
 	showAll()
@@ -127,3 +197,8 @@ $('#unchecked-relics').on('click', function(event){
 	showUnchecked()
 	event.preventDefault()
 });
+
+
+
+
+
