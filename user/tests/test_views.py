@@ -1,11 +1,14 @@
 from django.test import TestCase, SimpleTestCase
 from django.urls import reverse
 from user.models import *
+from user.forms import *
 from chat.models import *
 from relicinventory.models import *
 from user.managers import *
 from django.contrib import auth
 import django.core.mail
+
+import datetime
 
 class RegistrationViewTests(TestCase):
 	fixtures = ['user_app-gaming-platforms.json', 'user_app-user-status.json']
@@ -168,3 +171,86 @@ class ForgotPwEmailSentViewTests(TestCase):
 
 		self.assertEqual(response.status_code, 200, msg="Expected status code to be 200")
 	
+class ChangePasswordViewTests(TestCase):
+	fixtures = ['user_app-gaming-platforms.json', 'user_app-user-status.json']
+
+	def setUp(self):
+		'''Create a user that had made a request to change their password
+		Create another user who has not made a password request'''
+		user1 = User.objects.create_user(email='user1@gmail.com',password="Kabcdefg1800")
+		recovery_code="aaaabbbbccccddddeeeeffffgggghhhh" #32 chars long
+		PasswordRecovery.objects.create_password_recovery(user1, recovery_code=recovery_code)
+
+		user2 = User.objects.create_user(email="user2@gmail.com", password="J9ejwfjowejroij")
+
+	def testRuns(self):
+		self.fail()
+
+	def test_no_such_key_sets_appropriate_error(self):
+		'''A requst to the change_password view with a key that does
+		not exist in the databse should set the error context variable
+		to "Key does not exist".
+		'''
+
+		response = self.client.get(path=reverse("user:change_pw", args=["someinvalidkey2000"]))
+		self.assertEqual(response.status_code, 200)
+
+		NO_SUCH_KEY = "Key does not exist"
+		
+		msg = "Expected 'Key does not exist' error to be passed to the context via 'error' variable."
+		self.assertEqual(response.context['error'], NO_SUCH_KEY, msg=msg)
+
+	def test_expired_key_sets_appropriate_error(self):
+		'''A key that exists in the database, but has expired, should set the 
+		'error' context variable to 'Key has expired'. The expired time period,
+		determined by the view, is 24 hours.
+		'''
+		password_recovery = User.objects.get(email="user1@gmail.com").password_recovery
+
+		print("recovery code is %s" % (password_recovery.recovery_code))
+
+		# Modify password_recovery's datetimecode to be 24 hours 5 seconds from now 
+		now = timezone.now()
+		twentyFourHours = datetime.timedelta(hours=23)
+		fiveSeconds = datetime.timedelta(seconds=5)
+		expiredDatetime = now-twentyFourHours-fiveSeconds
+		PasswordRecovery.objects.all().filter(pk=password_recovery.pk).update(datetime_code_created = expiredDatetime)
+
+		response = self.client.get(reverse("user:change_pw", args=[password_recovery.recovery_code]))
+		self.assertEqual(response.status_code, 200)
+
+		EXPIRED_KEY = "Key has expired"
+		msg = "Expected context to have 'error' key with value of '%s.'" %(EXPIRED_KEY)
+		self.assertIn('error',response.context, msg=msg)
+		self.assertEqual(response.context['error'], EXPIRED_KEY, msg=msg)
+
+	def test_valid_and_non_expired_key_on_non_post_request_displays_view(self):
+		'''A valid key that is not expired should display the view with an
+		unbound form and the key argument (passed to the view) as context.
+		'''
+		key = User.objects.get(email="user1@gmail.com").password_recovery.recovery_code
+
+		response = self.client.get(reverse('user:change_pw', args=[key]))
+		self.assertEqual(response.status_code, 200)
+
+		msg= "Dicitonary keys 'form' and 'key' should be passed into the context."
+		self.assertIn('form', response.context)
+		self.assertIn('key', response.context)
+		
+		self.assertFalse(response.context['form'].is_bound, msg="Expected form to not be bound")
+		self.assertTrue(isinstance(response.context['form'], ChangePasswordForm))
+		msg="Expected the key received by the view as an argument to be passed to the context."
+		self.assertEqual(response.context['key'], key, msg=msg)
+
+	def test_post_request_with_valid_and_non_expired_key_but_invalid_form_displays_error(self):
+		'''A POST request made with a valid and non-expired key (passed into the view as an argument).
+		should display the error messages if the form was not filled out correctly.
+		'''
+		self.fail()
+	
+	def test_post_request_with_valid_key_and_no_form_errors_resets_users_password(self):
+		'''A POST request made with a valid and non-expired key (passed into the view as an argument).
+		should change the user's password if the 'Change Password' form was filled out correctly.
+		'''
+		self.fail()
+

@@ -1,4 +1,4 @@
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
@@ -9,19 +9,72 @@ from django.http import HttpResponseRedirect
 from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse
-from .forms import LoginForm
-from .forms import RegistrationForm
-from .models import User
+from .forms import *
+from .models import User, PasswordRecovery
 from django.template.loader import render_to_string
 from django.core import mail
 
 
-# Create your views here.
+
 def index(request):
 	return HttpResponse("Hello, world. You're at the users index.")
 
+#Untested
 def cant_log_in(request):
-	return HttpResponse("cant_log_in::view")
+	return render(request, 'user/cant-log-in.html')
+
+#Untested
+#name="forgot_pw_email_sent"
+def forgot_pw_email_sent(request):
+	'''
+	View that gives user small instructions on what to do 
+	after they've successfully submitted a password recovery request.
+	'''
+	return render(request, 'user/forgot-pw-email-sent.html')
+
+#Untested
+#name="forgot_pw"
+def forgot_password(request):
+	#print("[request.post:%s]" % request.POST)
+	#print("request data: %s" % request.body)
+
+	if request.method == 'POST':
+		form = ForgotPasswordForm(request.POST)
+
+		if form.is_valid():
+			# Check if the email address is registered in the database.
+			try:
+				user = User.objects.get(email = form.cleaned_data['email_address'])
+
+				delivered_msgs = PasswordRecovery.objects.send_pw_recovery_email(user)
+				
+				if delivered_msgs == 0:
+					print("Failed to send password recovery email.")
+					code = "send_mail_failed"
+					msg = "The password recovery email failed to transmit."
+					form.add_error(None, ValidationError(message=msg, code=code))
+				else:
+					# Email sent successfully. Redirect to success page.
+					print("Email sent successfully")
+					return HttpResponseRedirect(reverse('user:forgot_pw_email_sent'))
+			except ObjectDoesNotExist:
+				# User with that email does not exist. Set appropriate form error.
+				code = "email_does_not_exist"
+				msg = "There exists no registered account with that email address on this site. Are you sure "\
+					"that's the correct email address?"
+				form.add_error(None, ValidationError(message=msg, code=code))
+
+		context = {'form': form}
+		return render(request, 'user/forgot-password.html', context)
+	else:
+		form = ForgotPasswordForm()
+		context = {'form': form}
+		return render(request, 'user/forgot-password.html', context)
+
+#Untested
+#name="resend_email_code"
+def resend_email_code(request):
+	return HttpResponse("resent_email_code::view")
 
 def login_view(request):
 	if request.method == 'POST':
@@ -61,7 +114,6 @@ def login_view(request):
 		form = LoginForm()
 		return render(request, 'user/login.html', context={'form':form})
 	
-
 @login_required
 def log_user_out(request):
 	logout(request)
@@ -128,6 +180,57 @@ def link_warframe_account(request):
 @login_required
 def linked_warframe_account_required(request):
 	return render(request, 'user/linked-wfa-required.html')
+
+#Untested
+#name="change_pw"
+def change_password(request, key):
+	'''
+	Change a user's password whose password recovery code matches 'key'.
+	'''
+	password_recovery = None 
+	user = None
+
+	KEY_VALIDITY_DURATION = 24*60*60*1000 # Keys (password recovery code) are valid for up to 24 hours
+
+	NO_SUCH_KEY = "Key does not exist" # The key does not exist in the DB
+	EXPIRED_KEY = "Key has expired" # They key has expired
+
+	# Check if the key exists in the database
+	try:
+		password_recovery = PasswordRecovery.objects.get(recovery_code=key)
+		user = password_recovery.user_id
+	except ObjectDoesNotExist:
+		context = {'error': NO_SUCH_KEY}
+		#print("NO_SUCH_KEY error")
+		return render(request, 'user/change-password.html', context=context)
+
+	key_has_expired = password_recovery.has_recovery_code_expired(KEY_VALIDITY_DURATION)
+
+	# Check if the key has expired
+	if key_has_expired:
+		context = {'error': EXPIRED_KEY, 'form': None}
+		#print("EXPIRED_KEY error")
+		return render(request, 'user/change-password.html', context=context)
+	
+	if request.method == 'POST':
+		#print("request.POST is: ", request.POST)
+		form = ChangePasswordForm(request.POST)
+
+		if form.is_valid():
+			#print("form is valid with key: ", key)
+			user.set_password(form.cleaned_data['password1'])
+			PasswordRecovery.objects.filter(pk=password_recovery.pk).delete()
+			return HttpResponseRedirect(reverse("home:index"))
+			#redirect user to home page with a flash message.
+		else:
+			#print("form is invalid!")
+			context= {'form':form, 'key':key}
+			return render(request, 'user/change-password.html', context=context)
+	else:
+		#print("request method is not POST")
+		form = ChangePasswordForm()
+		context = {'form': form, 'key':key}
+		return render(request, 'user/change-password.html', context=context)
 
 #DEP
 def verify_email(request):

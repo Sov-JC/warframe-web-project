@@ -99,6 +99,9 @@ class PasswordRecoveryManager(models.Manager):
 		return password_recovery
 	
 	def create_password_recovery(self, user, **extra_fields):
+		'''
+		
+		'''
 		generated_recovery_code = self.generate_password_recovery_code()
 		extra_fields.setdefault('recovery_code', generated_recovery_code)
 		extra_fields.setdefault('datetime_code_used', None)
@@ -160,11 +163,11 @@ class PasswordRecoveryManager(models.Manager):
 		# Generate the url that the user will click on to be redirected to the 'change
 		# password page.
 		PROTOCOL = "https://"
-		SUBDOMAIN = "www."
 		DOMAIN = settings.DOMAIN_NAME
 		from django.urls import reverse
 		PATH = (reverse('user:change_pw', args=[password_recovery_code.recovery_code]))
-		change_pw_url = ("%s%s%s%s") % (PROTOCOL,SUBDOMAIN,DOMAIN,PATH)
+		print("PROTOCOL: %s, DOMAIN: %s, PATH: %s" % (PROTOCOL, DOMAIN, PATH))
+		change_pw_url = ("%s%s%s") % (PROTOCOL,DOMAIN,PATH)
 		print("change_pw_url is: " + str(change_pw_url))
 		
 		#email content setup
