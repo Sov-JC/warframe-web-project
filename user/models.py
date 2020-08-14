@@ -2,16 +2,21 @@ from django.db import models
 #from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-
 from .managers import *
+from dbinfo import db_constants
+from django.template.loader import render_to_string
+from django.core import mail
+from django.conf import settings
+from django.apps import apps
 
 import random
+import datetime
 
 class GamingPlatform(models.Model):
     gaming_platform_id = models.AutoField(primary_key=True)
 
     PC = "PC"
-    XBOX = "XBOX"
+    XBOX = "Xbox"
     NINTENDO_SWITCH = "Nintendo Switch"
     PLAYSTATION = "PlayStation"
 
@@ -19,7 +24,7 @@ class GamingPlatform(models.Model):
         (PC, 'PC'),
         (XBOX, 'Xbox'),
         (NINTENDO_SWITCH, 'Nintendo Switch'),
-        (PLAYSTATION, 'Playstation')
+        (PLAYSTATION, 'PlayStation')
     ]
 
      #NULL SHOULD BE FALSE! NULL=True for testing currently, CHANGE THIS LATER
@@ -34,6 +39,9 @@ class GamingPlatform(models.Model):
 
     objects = GamingPlatformManager()
 
+    def __str__(self):
+        return self.platform_name
+
     class Meta:
         db_table = "user_gaming_platform"
 
@@ -47,14 +55,27 @@ class WarframeAccount(models.Model):
     gaming_platform_id = models.ForeignKey(
         GamingPlatform, 
         on_delete=models.PROTECT,
-        #db_column="gaming_platform_id"
+        db_column="gaming_platform_id"
     )
     is_blocked = models.BooleanField(default=False)
 
     objects = WarframeAccountManager()
+    #onlined_and_linked_wf_acc_objects = OnlineAndLinkedWarframeAccountManager
 
     def __str__(self):
         return self.warframe_alias
+
+    def is_chat_interaction_displayable(self):
+        pass
+
+    def has_received_new_messages_from(self, warframe_account):
+        '''
+        Return the number of new messages received by 'warframe_account' in the chat
+        that this Warframe account and 'warframe_account' belong to.
+        '''
+        #ChatModel = apps.get_model(app_label="Chat", model_name="Chat")
+        pass
+
 
     class Meta:
         db_table = "user_warframe_account"
@@ -70,11 +91,31 @@ class WarframeAccount(models.Model):
             )
         ]
 
+class UserStatus(models.Model):
+    user_status_id = models.AutoField(primary_key=True)
+
+    OFFLINE = "Offline"
+    ONLINE = "Online"
+
+    USER_STATUS_NAME_CHOICE_SET = [
+        (OFFLINE, "Offline"),
+        (ONLINE, "Online"),
+    ]
+
+    user_status_name = models.CharField(
+        max_length=32,
+        unique=True,
+        choices = USER_STATUS_NAME_CHOICE_SET,
+    )
+    
+    class Meta:
+        db_table = "user_user_status"
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     user_id = models.AutoField(primary_key=True)
     email = models.EmailField(
-        verbose_name='email address',
+        verbose_name='Email address',
         max_length=255,
         unique=True,
     )
@@ -107,10 +148,21 @@ class User(AbstractBaseUser, PermissionsMixin):
     datetime_created = models.DateTimeField(
         auto_now_add=True,
     )
+
+    #non primary key foreign key reference
+    user_status = models.ForeignKey(
+        UserStatus,
+        db_column = "user_status",
+        on_delete=models.PROTECT,
+        to_field='user_status_name',
+        default='offline'
+    )
         
     REQUIRED_FIELDS = [] #used in interactive only IT.
 
+    #managers
     objects = UserManager()
+    online_and_linked_users = OnlineAndLinkedWarframeAccountManager()
 
     def get_full_name(self):
         return self.email
@@ -120,9 +172,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return True
-
-    def user_email_verified(self, email):
-        pass
 
     def generate_new_warframe_verification_code(self, new_wf_verfication_code=None):
         '''
@@ -156,18 +205,45 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.active
     '''
 
+    #Delete this?
+    def is_linked(self):
+        '''Check if the User has linked a Warframe account.
+        
+        :return: The WarframeAccount instance of the Warframe account the user
+            is linked. Returns None if the user has not linked their Warframe account.
+        :rtype: WarframeAccount instance.
+        '''
+        raise NotImplementedError()
+
+
+    def send_email_verification_msg(self, fail_silently=False):
+        '''
+        Send a message to the registered email of the user so they may 
+        verify their email address
+        '''
+        EMAIL_VERIFICATION_MSG_PATH = "email/email-verification.html"
+        template_name = EMAIL_VERIFICATION_MSG_PATH
+        context = {"email_verification_code": self.email_verification_code}
+        subject = "Vaulted Runs - Email Verification"
+        html_message = render_to_string(template_name, context)
+        
+        from_email = settings.EMAIL_HOST_USER if settings.EMAIL_HOST_USER else None
+        to = self.email
+
+        return mail.send_mail(subject=subject, message = "", html_message=html_message, from_email=from_email, recipient_list=[to], fail_silently=fail_silently)
+
+    
+    def mark_user_email_as_verified(self):
+        '''
+        Sets a user's email_is_verified field to True,
+        signifying the user has verified their email address.
+        '''
+        raise NotImplementedError
+
     def __str__(self):
         return self.email
 
-class UserStatus(models.Model):
-    user_status_id = models.AutoField(primary_key=True)
-    user_status_name = models.CharField(
-        max_length=32,
-        unique=True
-    )
-    
-    class Meta:
-        db_table = "user_user_status"
+
 
 
 class PasswordRecovery(models.Model):
@@ -176,6 +252,7 @@ class PasswordRecovery(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
         default=None, # validation should make sure default doesn't execute
+        related_name='password_recovery',
         db_column="user_id"
     )
 
@@ -185,10 +262,43 @@ class PasswordRecovery(models.Model):
     datetime_code_used = models.DateTimeField(null=True, blank=True, default=None)
 
     objects = PasswordRecoveryManager()
+    
+    def has_recovery_code_expired(self, validity_duration):
+        '''
+        Determine if the recovery code is still valid after
+        a certain ammount of time (in milliseconds) after
+        the code was created. 
 
-    def _generate_password_recovery_code(self):
-        pass
+        :param validity_duration: The time in milliseconds that
+        the code is considered valid.
+        :type validity_duration: Integer
+        ...
+        :return: True if the recovery code has expired (as a result of
+        the current time being less than datetime_code_created + validity_duration),
+        False otherwise
+        :rtype: Boolean
+        '''
+        tdelta = datetime.timedelta(milliseconds=validity_duration)
+
+        if validity_duration < 0:
+            raise ValueError("validity_duration must be positive")
+
+        now = timezone.now()
+
+        print("now: %s" % now)
+        print("validity_duration: %s" % validity_duration)
+        print("self.datetime_code_created: %s" % self.datetime_code_created)
+
+        # Time delta of validity_duration to perform datetime arithmetic
+        validity_duration_td = datetime.timedelta(milliseconds=validity_duration)
+
+        if now > (self.datetime_code_created + validity_duration_td):
+            #print("Returning True because %s < %s" %(now, self.datetime_code_created + validity_duration_td))
+            return True
+        else:
+            #print("Returning False because %s is not less than %s" %(now, self.datetime_code_created + validity_duration_td))
+            return False
+
 
     class Meta: 
         db_table = "user_password_recovery"
-        
