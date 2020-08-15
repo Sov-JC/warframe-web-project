@@ -163,6 +163,9 @@ class LoginViewTests(TestCase):
 		pass
 
 class ForgotPwEmailSentViewTests(TestCase):
+	def setUp(self):
+		pass
+
 	def test_view_is_displayed(self):
 		'''
 		Simple test case to check that the view is displayed.
@@ -170,6 +173,8 @@ class ForgotPwEmailSentViewTests(TestCase):
 		response = self.client.get(reverse('user:forgot_pw_email_sent'))
 
 		self.assertEqual(response.status_code, 200, msg="Expected status code to be 200")
+
+	
 	
 class ChangePasswordViewTests(TestCase):
 	fixtures = ['user_app-gaming-platforms.json', 'user_app-user-status.json']
@@ -182,9 +187,6 @@ class ChangePasswordViewTests(TestCase):
 		PasswordRecovery.objects.create_password_recovery(user1, recovery_code=recovery_code)
 
 		user2 = User.objects.create_user(email="user2@gmail.com", password="J9ejwfjowejroij")
-
-	def testRuns(self):
-		self.fail()
 
 	def test_no_such_key_sets_appropriate_error(self):
 		'''A requst to the change_password view with a key that does
@@ -200,6 +202,9 @@ class ChangePasswordViewTests(TestCase):
 		msg = "Expected 'Key does not exist' error to be passed to the context via 'error' variable."
 		self.assertEqual(response.context['error'], NO_SUCH_KEY, msg=msg)
 
+		text = "Oops! That's an invalid link!"
+		self.assertContains(response, text=text)
+
 	def test_expired_key_sets_appropriate_error(self):
 		'''A key that exists in the database, but has expired, should set the 
 		'error' context variable to 'Key has expired'. The expired time period,
@@ -211,7 +216,7 @@ class ChangePasswordViewTests(TestCase):
 
 		# Modify password_recovery's datetimecode to be 24 hours 5 seconds from now 
 		now = timezone.now()
-		twentyFourHours = datetime.timedelta(hours=23)
+		twentyFourHours = datetime.timedelta(hours=24)
 		fiveSeconds = datetime.timedelta(seconds=5)
 		expiredDatetime = now-twentyFourHours-fiveSeconds
 		PasswordRecovery.objects.all().filter(pk=password_recovery.pk).update(datetime_code_created = expiredDatetime)
@@ -223,6 +228,9 @@ class ChangePasswordViewTests(TestCase):
 		msg = "Expected context to have 'error' key with value of '%s.'" %(EXPIRED_KEY)
 		self.assertIn('error',response.context, msg=msg)
 		self.assertEqual(response.context['error'], EXPIRED_KEY, msg=msg)
+
+		text = "Oops! This link has expired."
+		self.assertContains(response, text=text)
 
 	def test_valid_and_non_expired_key_on_non_post_request_displays_view(self):
 		'''A valid key that is not expired should display the view with an
@@ -246,11 +254,51 @@ class ChangePasswordViewTests(TestCase):
 		'''A POST request made with a valid and non-expired key (passed into the view as an argument).
 		should display the error messages if the form was not filled out correctly.
 		'''
-		self.fail()
+		key = User.objects.get(email="user1@gmail.com").password_recovery.recovery_code
+
+		response = self.client.get(reverse('user:change_pw', args=[key]))
+		self.assertEqual(response.status_code, 200)
+
+		form_data = {
+			'password1': "",
+			'password2': "bbb"
+		}
+
+		path = reverse('user:change_pw', args=[key])
+		response = self.client.post(path, data=form_data)
+
+		text="Password field is required"
+		self.assertContains(response, text)
 	
 	def test_post_request_with_valid_key_and_no_form_errors_resets_users_password(self):
 		'''A POST request made with a valid and non-expired key (passed into the view as an argument).
-		should change the user's password if the 'Change Password' form was filled out correctly.
+		should change the user's password if the 'Change Password' form was filled out correctly. Should
+		also redirect user after the password information has been changed.
 		'''
-		self.fail()
+		key = User.objects.get(email="user1@gmail.com").password_recovery.recovery_code
+
+		OLD_PW = "Kabcdefg1800" # from self.setUp method
+		NEW_PW = "abc123abc123"
+		self.assertTrue(User.objects.get(email="user1@gmail.com").check_password(OLD_PW))
+
+		form_data = {
+			'password1': NEW_PW,
+			'password2': NEW_PW,
+		}
+
+		path = reverse('user:change_pw', args=[key])
+
+		response = self.client.post(path, data=form_data)
+		self.assertEqual(response.status_code, 302, msg="Expected redirect after password changed successfully.")
+
+		#self.assertTrue(ChangePasswordForm(data=form_data).is_valid())
+
+		#self.assertEqual(response.status_code, 302, )
+		
+		user = User.objects.get(email="user1@gmail.com")
+
+		msg="Expected password to have changed to NEW_PW but it was not."
+		self.assertTrue(user.check_password(NEW_PW),msg=msg)
+
+		
 

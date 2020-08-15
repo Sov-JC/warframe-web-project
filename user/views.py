@@ -216,14 +216,18 @@ def change_password(request, key):
 		#print("request.POST is: ", request.POST)
 		form = ChangePasswordForm(request.POST)
 
+		#print("request.POST is: " + str(request.POST))
+
 		if form.is_valid():
 			#print("form is valid with key: ", key)
 			user.set_password(form.cleaned_data['password1'])
+			user.save()
 			PasswordRecovery.objects.filter(pk=password_recovery.pk).delete()
 			return HttpResponseRedirect(reverse("home:index"))
 			#redirect user to home page with a flash message.
 		else:
 			#print("form is invalid!")
+			
 			context= {'form':form, 'key':key}
 			return render(request, 'user/change-password.html', context=context)
 	else:
