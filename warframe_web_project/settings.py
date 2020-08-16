@@ -49,12 +49,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'user',
     'home',
     'chat',
     'group',
     'relicinventory',
     'report',
+    'privatemessage',
+    'findplayers',
 ]
 
 MIDDLEWARE = [
@@ -188,5 +191,16 @@ AUTH_USER_MODEL = 'user.User'
 LOGIN_URL = 'user:login'
 
 #email backend is the console. CHANGE IN PRODUCTION.
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+#path of Chrome web driver that's used by Selenium for functional tests.
+CHROME_DRIVER_PATH = os.path.join(BASE_DIR, "drivers/chromedriver.exe")
+FIREFOX_DRIVER_PATH = os.path.join(BASE_DIR, "drivers/geckodriver.exe")
+
+SITE_ID = 1
+
+# Settings varibles not part of Django core settings
+#DOMAIN_NAME = "vaultedruns.com"
+DOMAIN_NAME = "localhost:8000"
+
 
