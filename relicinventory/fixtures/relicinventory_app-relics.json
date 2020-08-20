@@ -3,7 +3,7 @@
     "model": "relicinventory.relic",
     "pk": 1,
     "fields": {
-      "relic_name": "Axi A1 ",
+      "relic_name": "Axi A1",
       "wiki_url": "#"
     }
   },
@@ -11,7 +11,7 @@
     "model": "relicinventory.relic",
     "pk": 2,
     "fields": {
-      "relic_name": "Axi A10 ",
+      "relic_name": "Axi A10",
       "wiki_url": "#"
     }
   },
@@ -19,7 +19,7 @@
     "model": "relicinventory.relic",
     "pk": 3,
     "fields": {
-      "relic_name": "Axi A2 ",
+      "relic_name": "Axi A2",
       "wiki_url": "#"
     }
   },
@@ -27,7 +27,7 @@
     "model": "relicinventory.relic",
     "pk": 4,
     "fields": {
-      "relic_name": "Axi A3 ",
+      "relic_name": "Axi A3",
       "wiki_url": "#"
     }
   },
@@ -35,7 +35,7 @@
     "model": "relicinventory.relic",
     "pk": 5,
     "fields": {
-      "relic_name": "Axi A4 ",
+      "relic_name": "Axi A4",
       "wiki_url": "#"
     }
   },
@@ -43,7 +43,7 @@
     "model": "relicinventory.relic",
     "pk": 6,
     "fields": {
-      "relic_name": "Axi A5 ",
+      "relic_name": "Axi A5",
       "wiki_url": "#"
     }
   },
@@ -51,7 +51,7 @@
     "model": "relicinventory.relic",
     "pk": 7,
     "fields": {
-      "relic_name": "Axi A6 ",
+      "relic_name": "Axi A6",
       "wiki_url": "#"
     }
   },
@@ -59,7 +59,7 @@
     "model": "relicinventory.relic",
     "pk": 8,
     "fields": {
-      "relic_name": "Axi A7 ",
+      "relic_name": "Axi A7",
       "wiki_url": "#"
     }
   },
@@ -67,7 +67,7 @@
     "model": "relicinventory.relic",
     "pk": 9,
     "fields": {
-      "relic_name": "Axi A8 ",
+      "relic_name": "Axi A8",
       "wiki_url": "#"
     }
   },
@@ -75,7 +75,7 @@
     "model": "relicinventory.relic",
     "pk": 10,
     "fields": {
-      "relic_name": "Axi A9 ",
+      "relic_name": "Axi A9",
       "wiki_url": "#"
     }
   },
@@ -83,7 +83,7 @@
     "model": "relicinventory.relic",
     "pk": 11,
     "fields": {
-      "relic_name": "Axi B1 ",
+      "relic_name": "Axi B1",
       "wiki_url": "#"
     }
   },
@@ -91,7 +91,7 @@
     "model": "relicinventory.relic",
     "pk": 12,
     "fields": {
-      "relic_name": "Axi B2 ",
+      "relic_name": "Axi B2",
       "wiki_url": "#"
     }
   },
@@ -99,7 +99,7 @@
     "model": "relicinventory.relic",
     "pk": 13,
     "fields": {
-      "relic_name": "Axi B3 ",
+      "relic_name": "Axi B3",
       "wiki_url": "#"
     }
   },
@@ -107,7 +107,7 @@
     "model": "relicinventory.relic",
     "pk": 14,
     "fields": {
-      "relic_name": "Axi C1 ",
+      "relic_name": "Axi C1",
       "wiki_url": "#"
     }
   },
@@ -115,7 +115,7 @@
     "model": "relicinventory.relic",
     "pk": 15,
     "fields": {
-      "relic_name": "Axi C2 ",
+      "relic_name": "Axi C2",
       "wiki_url": "#"
     }
   },
@@ -123,7 +123,7 @@
     "model": "relicinventory.relic",
     "pk": 16,
     "fields": {
-      "relic_name": "Axi C3 ",
+      "relic_name": "Axi C3",
       "wiki_url": "#"
     }
   },
@@ -131,7 +131,7 @@
     "model": "relicinventory.relic",
     "pk": 17,
     "fields": {
-      "relic_name": "Axi C4 ",
+      "relic_name": "Axi C4",
       "wiki_url": "#"
     }
   },
@@ -139,7 +139,7 @@
     "model": "relicinventory.relic",
     "pk": 18,
     "fields": {
-      "relic_name": "Axi D1 ",
+      "relic_name": "Axi D1",
       "wiki_url": "#"
     }
   },
@@ -147,7 +147,7 @@
     "model": "relicinventory.relic",
     "pk": 19,
     "fields": {
-      "relic_name": "Axi D2 ",
+      "relic_name": "Axi D2",
       "wiki_url": "#"
     }
   },
@@ -155,7 +155,7 @@
     "model": "relicinventory.relic",
     "pk": 20,
     "fields": {
-      "relic_name": "Axi E1 ",
+      "relic_name": "Axi E1",
       "wiki_url": "#"
     }
   },
@@ -163,7 +163,7 @@
     "model": "relicinventory.relic",
     "pk": 21,
     "fields": {
-      "relic_name": "Axi E2 ",
+      "relic_name": "Axi E2",
       "wiki_url": "#"
     }
   },
@@ -171,7 +171,7 @@
     "model": "relicinventory.relic",
     "pk": 22,
     "fields": {
-      "relic_name": "Axi G1 ",
+      "relic_name": "Axi G1",
       "wiki_url": "#"
     }
   },
@@ -179,7 +179,7 @@
     "model": "relicinventory.relic",
     "pk": 23,
     "fields": {
-      "relic_name": "Axi G2 ",
+      "relic_name": "Axi G2",
       "wiki_url": "#"
     }
   },
@@ -187,7 +187,7 @@
     "model": "relicinventory.relic",
     "pk": 24,
     "fields": {
-      "relic_name": "Axi G3 ",
+      "relic_name": "Axi G3",
       "wiki_url": "#"
     }
   },
@@ -195,7 +195,7 @@
     "model": "relicinventory.relic",
     "pk": 25,
     "fields": {
-      "relic_name": "Axi G4 ",
+      "relic_name": "Axi G4",
       "wiki_url": "#"
     }
   },
@@ -203,7 +203,7 @@
     "model": "relicinventory.relic",
     "pk": 26,
     "fields": {
-      "relic_name": "Axi H1 ",
+      "relic_name": "Axi H1",
       "wiki_url": "#"
     }
   },
@@ -211,7 +211,7 @@
     "model": "relicinventory.relic",
     "pk": 27,
     "fields": {
-      "relic_name": "Axi H2 ",
+      "relic_name": "Axi H2",
       "wiki_url": "#"
     }
   },
@@ -219,7 +219,7 @@
     "model": "relicinventory.relic",
     "pk": 28,
     "fields": {
-      "relic_name": "Axi H3 ",
+      "relic_name": "Axi H3",
       "wiki_url": "#"
     }
   },
@@ -227,7 +227,7 @@
     "model": "relicinventory.relic",
     "pk": 29,
     "fields": {
-      "relic_name": "Axi H4 ",
+      "relic_name": "Axi H4",
       "wiki_url": "#"
     }
   },
@@ -235,7 +235,7 @@
     "model": "relicinventory.relic",
     "pk": 30,
     "fields": {
-      "relic_name": "Axi K1 ",
+      "relic_name": "Axi K1",
       "wiki_url": "#"
     }
   },
@@ -243,7 +243,7 @@
     "model": "relicinventory.relic",
     "pk": 31,
     "fields": {
-      "relic_name": "Axi K2 ",
+      "relic_name": "Axi K2",
       "wiki_url": "#"
     }
   },
@@ -251,7 +251,7 @@
     "model": "relicinventory.relic",
     "pk": 32,
     "fields": {
-      "relic_name": "Axi K3 ",
+      "relic_name": "Axi K3",
       "wiki_url": "#"
     }
   },
@@ -259,7 +259,7 @@
     "model": "relicinventory.relic",
     "pk": 33,
     "fields": {
-      "relic_name": "Axi K4 ",
+      "relic_name": "Axi K4",
       "wiki_url": "#"
     }
   },
@@ -267,7 +267,7 @@
     "model": "relicinventory.relic",
     "pk": 34,
     "fields": {
-      "relic_name": "Axi K5 ",
+      "relic_name": "Axi K5",
       "wiki_url": "#"
     }
   },
@@ -275,7 +275,7 @@
     "model": "relicinventory.relic",
     "pk": 35,
     "fields": {
-      "relic_name": "Axi L1 ",
+      "relic_name": "Axi L1",
       "wiki_url": "#"
     }
   },
@@ -283,7 +283,7 @@
     "model": "relicinventory.relic",
     "pk": 36,
     "fields": {
-      "relic_name": "Axi L2 ",
+      "relic_name": "Axi L2",
       "wiki_url": "#"
     }
   },
@@ -291,7 +291,7 @@
     "model": "relicinventory.relic",
     "pk": 37,
     "fields": {
-      "relic_name": "Axi L3 ",
+      "relic_name": "Axi L3",
       "wiki_url": "#"
     }
   },
@@ -299,7 +299,7 @@
     "model": "relicinventory.relic",
     "pk": 38,
     "fields": {
-      "relic_name": "Axi L4 ",
+      "relic_name": "Axi L4",
       "wiki_url": "#"
     }
   },
@@ -307,7 +307,7 @@
     "model": "relicinventory.relic",
     "pk": 39,
     "fields": {
-      "relic_name": "Axi L5 ",
+      "relic_name": "Axi L5",
       "wiki_url": "#"
     }
   },
@@ -315,7 +315,7 @@
     "model": "relicinventory.relic",
     "pk": 40,
     "fields": {
-      "relic_name": "Axi M1 ",
+      "relic_name": "Axi M1",
       "wiki_url": "#"
     }
   },
@@ -323,7 +323,7 @@
     "model": "relicinventory.relic",
     "pk": 41,
     "fields": {
-      "relic_name": "Axi N1 ",
+      "relic_name": "Axi N1",
       "wiki_url": "#"
     }
   },
@@ -331,7 +331,7 @@
     "model": "relicinventory.relic",
     "pk": 42,
     "fields": {
-      "relic_name": "Axi N2 ",
+      "relic_name": "Axi N2",
       "wiki_url": "#"
     }
   },
@@ -339,7 +339,7 @@
     "model": "relicinventory.relic",
     "pk": 43,
     "fields": {
-      "relic_name": "Axi N3 ",
+      "relic_name": "Axi N3",
       "wiki_url": "#"
     }
   },
@@ -347,7 +347,7 @@
     "model": "relicinventory.relic",
     "pk": 44,
     "fields": {
-      "relic_name": "Axi N4 ",
+      "relic_name": "Axi N4",
       "wiki_url": "#"
     }
   },
@@ -355,7 +355,7 @@
     "model": "relicinventory.relic",
     "pk": 45,
     "fields": {
-      "relic_name": "Axi N5 ",
+      "relic_name": "Axi N5",
       "wiki_url": "#"
     }
   },
@@ -363,7 +363,7 @@
     "model": "relicinventory.relic",
     "pk": 46,
     "fields": {
-      "relic_name": "Axi N6 ",
+      "relic_name": "Axi N6",
       "wiki_url": "#"
     }
   },
@@ -371,7 +371,7 @@
     "model": "relicinventory.relic",
     "pk": 47,
     "fields": {
-      "relic_name": "Axi O1 ",
+      "relic_name": "Axi O1",
       "wiki_url": "#"
     }
   },
@@ -379,7 +379,7 @@
     "model": "relicinventory.relic",
     "pk": 48,
     "fields": {
-      "relic_name": "Axi O2 ",
+      "relic_name": "Axi O2",
       "wiki_url": "#"
     }
   },
@@ -387,7 +387,7 @@
     "model": "relicinventory.relic",
     "pk": 49,
     "fields": {
-      "relic_name": "Axi O3 ",
+      "relic_name": "Axi O3",
       "wiki_url": "#"
     }
   },
@@ -395,7 +395,7 @@
     "model": "relicinventory.relic",
     "pk": 50,
     "fields": {
-      "relic_name": "Axi O4 ",
+      "relic_name": "Axi O4",
       "wiki_url": "#"
     }
   },
@@ -403,7 +403,7 @@
     "model": "relicinventory.relic",
     "pk": 51,
     "fields": {
-      "relic_name": "Axi P1 ",
+      "relic_name": "Axi P1",
       "wiki_url": "#"
     }
   },
@@ -411,7 +411,7 @@
     "model": "relicinventory.relic",
     "pk": 52,
     "fields": {
-      "relic_name": "Axi P2 ",
+      "relic_name": "Axi P2",
       "wiki_url": "#"
     }
   },
@@ -419,7 +419,7 @@
     "model": "relicinventory.relic",
     "pk": 53,
     "fields": {
-      "relic_name": "Axi P3 ",
+      "relic_name": "Axi P3",
       "wiki_url": "#"
     }
   },
@@ -427,7 +427,7 @@
     "model": "relicinventory.relic",
     "pk": 54,
     "fields": {
-      "relic_name": "Axi R1 ",
+      "relic_name": "Axi R1",
       "wiki_url": "#"
     }
   },
@@ -435,7 +435,7 @@
     "model": "relicinventory.relic",
     "pk": 55,
     "fields": {
-      "relic_name": "Axi R2 ",
+      "relic_name": "Axi R2",
       "wiki_url": "#"
     }
   },
@@ -443,7 +443,7 @@
     "model": "relicinventory.relic",
     "pk": 56,
     "fields": {
-      "relic_name": "Axi R3 ",
+      "relic_name": "Axi R3",
       "wiki_url": "#"
     }
   },
@@ -451,7 +451,7 @@
     "model": "relicinventory.relic",
     "pk": 57,
     "fields": {
-      "relic_name": "Axi S1 ",
+      "relic_name": "Axi S1",
       "wiki_url": "#"
     }
   },
@@ -459,7 +459,7 @@
     "model": "relicinventory.relic",
     "pk": 58,
     "fields": {
-      "relic_name": "Axi S2 ",
+      "relic_name": "Axi S2",
       "wiki_url": "#"
     }
   },
@@ -467,7 +467,7 @@
     "model": "relicinventory.relic",
     "pk": 59,
     "fields": {
-      "relic_name": "Axi S3 ",
+      "relic_name": "Axi S3",
       "wiki_url": "#"
     }
   },
@@ -475,7 +475,7 @@
     "model": "relicinventory.relic",
     "pk": 60,
     "fields": {
-      "relic_name": "Axi S4 ",
+      "relic_name": "Axi S4",
       "wiki_url": "#"
     }
   },
@@ -483,7 +483,7 @@
     "model": "relicinventory.relic",
     "pk": 61,
     "fields": {
-      "relic_name": "Axi S5 ",
+      "relic_name": "Axi S5",
       "wiki_url": "#"
     }
   },
@@ -491,7 +491,7 @@
     "model": "relicinventory.relic",
     "pk": 62,
     "fields": {
-      "relic_name": "Axi S6 ",
+      "relic_name": "Axi S6",
       "wiki_url": "#"
     }
   },
@@ -499,7 +499,7 @@
     "model": "relicinventory.relic",
     "pk": 63,
     "fields": {
-      "relic_name": "Axi T1 ",
+      "relic_name": "Axi T1",
       "wiki_url": "#"
     }
   },
@@ -507,7 +507,7 @@
     "model": "relicinventory.relic",
     "pk": 64,
     "fields": {
-      "relic_name": "Axi T2 ",
+      "relic_name": "Axi T2",
       "wiki_url": "#"
     }
   },
@@ -515,7 +515,7 @@
     "model": "relicinventory.relic",
     "pk": 65,
     "fields": {
-      "relic_name": "Axi T3 ",
+      "relic_name": "Axi T3",
       "wiki_url": "#"
     }
   },
@@ -523,7 +523,7 @@
     "model": "relicinventory.relic",
     "pk": 66,
     "fields": {
-      "relic_name": "Axi T4 ",
+      "relic_name": "Axi T4",
       "wiki_url": "#"
     }
   },
@@ -531,7 +531,7 @@
     "model": "relicinventory.relic",
     "pk": 67,
     "fields": {
-      "relic_name": "Axi T5 ",
+      "relic_name": "Axi T5",
       "wiki_url": "#"
     }
   },
@@ -539,7 +539,7 @@
     "model": "relicinventory.relic",
     "pk": 68,
     "fields": {
-      "relic_name": "Axi V1 ",
+      "relic_name": "Axi V1",
       "wiki_url": "#"
     }
   },
@@ -547,7 +547,7 @@
     "model": "relicinventory.relic",
     "pk": 69,
     "fields": {
-      "relic_name": "Axi V2 ",
+      "relic_name": "Axi V2",
       "wiki_url": "#"
     }
   },
@@ -555,7 +555,7 @@
     "model": "relicinventory.relic",
     "pk": 70,
     "fields": {
-      "relic_name": "Axi V3 ",
+      "relic_name": "Axi V3",
       "wiki_url": "#"
     }
   },
@@ -563,7 +563,7 @@
     "model": "relicinventory.relic",
     "pk": 71,
     "fields": {
-      "relic_name": "Axi V4 ",
+      "relic_name": "Axi V4",
       "wiki_url": "#"
     }
   },
@@ -571,7 +571,7 @@
     "model": "relicinventory.relic",
     "pk": 72,
     "fields": {
-      "relic_name": "Axi V5 ",
+      "relic_name": "Axi V5",
       "wiki_url": "#"
     }
   },
@@ -579,7 +579,7 @@
     "model": "relicinventory.relic",
     "pk": 73,
     "fields": {
-      "relic_name": "Axi V6 ",
+      "relic_name": "Axi V6",
       "wiki_url": "#"
     }
   },
@@ -587,7 +587,7 @@
     "model": "relicinventory.relic",
     "pk": 74,
     "fields": {
-      "relic_name": "Axi V7 ",
+      "relic_name": "Axi V7",
       "wiki_url": "#"
     }
   },
@@ -595,7 +595,7 @@
     "model": "relicinventory.relic",
     "pk": 75,
     "fields": {
-      "relic_name": "Axi V8 ",
+      "relic_name": "Axi V8",
       "wiki_url": "#"
     }
   },
@@ -603,7 +603,7 @@
     "model": "relicinventory.relic",
     "pk": 76,
     "fields": {
-      "relic_name": "Axi V9 ",
+      "relic_name": "Axi V9",
       "wiki_url": "#"
     }
   },
@@ -611,7 +611,7 @@
     "model": "relicinventory.relic",
     "pk": 77,
     "fields": {
-      "relic_name": "Lith A1 ",
+      "relic_name": "Lith A1",
       "wiki_url": "#"
     }
   },
@@ -619,7 +619,7 @@
     "model": "relicinventory.relic",
     "pk": 78,
     "fields": {
-      "relic_name": "Lith A2 ",
+      "relic_name": "Lith A2",
       "wiki_url": "#"
     }
   },
@@ -627,7 +627,7 @@
     "model": "relicinventory.relic",
     "pk": 79,
     "fields": {
-      "relic_name": "Lith A3 ",
+      "relic_name": "Lith A3",
       "wiki_url": "#"
     }
   },
@@ -635,7 +635,7 @@
     "model": "relicinventory.relic",
     "pk": 80,
     "fields": {
-      "relic_name": "Lith B1 ",
+      "relic_name": "Lith B1",
       "wiki_url": "#"
     }
   },
@@ -643,7 +643,7 @@
     "model": "relicinventory.relic",
     "pk": 81,
     "fields": {
-      "relic_name": "Lith B2 ",
+      "relic_name": "Lith B2",
       "wiki_url": "#"
     }
   },
@@ -651,7 +651,7 @@
     "model": "relicinventory.relic",
     "pk": 82,
     "fields": {
-      "relic_name": "Lith B3 ",
+      "relic_name": "Lith B3",
       "wiki_url": "#"
     }
   },
@@ -659,7 +659,7 @@
     "model": "relicinventory.relic",
     "pk": 83,
     "fields": {
-      "relic_name": "Lith B4 ",
+      "relic_name": "Lith B4",
       "wiki_url": "#"
     }
   },
@@ -667,7 +667,7 @@
     "model": "relicinventory.relic",
     "pk": 84,
     "fields": {
-      "relic_name": "Lith B5 ",
+      "relic_name": "Lith B5",
       "wiki_url": "#"
     }
   },
@@ -675,7 +675,7 @@
     "model": "relicinventory.relic",
     "pk": 85,
     "fields": {
-      "relic_name": "Lith B6 ",
+      "relic_name": "Lith B6",
       "wiki_url": "#"
     }
   },
@@ -683,7 +683,7 @@
     "model": "relicinventory.relic",
     "pk": 86,
     "fields": {
-      "relic_name": "Lith C1 ",
+      "relic_name": "Lith C1",
       "wiki_url": "#"
     }
   },
@@ -691,7 +691,7 @@
     "model": "relicinventory.relic",
     "pk": 87,
     "fields": {
-      "relic_name": "Lith C2 ",
+      "relic_name": "Lith C2",
       "wiki_url": "#"
     }
   },
@@ -699,7 +699,7 @@
     "model": "relicinventory.relic",
     "pk": 88,
     "fields": {
-      "relic_name": "Lith C3 ",
+      "relic_name": "Lith C3",
       "wiki_url": "#"
     }
   },
@@ -707,7 +707,7 @@
     "model": "relicinventory.relic",
     "pk": 89,
     "fields": {
-      "relic_name": "Lith C4 ",
+      "relic_name": "Lith C4",
       "wiki_url": "#"
     }
   },
@@ -715,7 +715,7 @@
     "model": "relicinventory.relic",
     "pk": 90,
     "fields": {
-      "relic_name": "Lith C5 ",
+      "relic_name": "Lith C5",
       "wiki_url": "#"
     }
   },
@@ -723,7 +723,7 @@
     "model": "relicinventory.relic",
     "pk": 91,
     "fields": {
-      "relic_name": "Lith C6 ",
+      "relic_name": "Lith C6",
       "wiki_url": "#"
     }
   },
@@ -731,7 +731,7 @@
     "model": "relicinventory.relic",
     "pk": 92,
     "fields": {
-      "relic_name": "Lith D1 ",
+      "relic_name": "Lith D1",
       "wiki_url": "#"
     }
   },
@@ -739,7 +739,7 @@
     "model": "relicinventory.relic",
     "pk": 93,
     "fields": {
-      "relic_name": "Lith F1 ",
+      "relic_name": "Lith F1",
       "wiki_url": "#"
     }
   },
@@ -747,7 +747,7 @@
     "model": "relicinventory.relic",
     "pk": 94,
     "fields": {
-      "relic_name": "Lith F2 ",
+      "relic_name": "Lith F2",
       "wiki_url": "#"
     }
   },
@@ -755,7 +755,7 @@
     "model": "relicinventory.relic",
     "pk": 95,
     "fields": {
-      "relic_name": "Lith G1 ",
+      "relic_name": "Lith G1",
       "wiki_url": "#"
     }
   },
@@ -763,7 +763,7 @@
     "model": "relicinventory.relic",
     "pk": 96,
     "fields": {
-      "relic_name": "Lith G2 ",
+      "relic_name": "Lith G2",
       "wiki_url": "#"
     }
   },
@@ -771,7 +771,7 @@
     "model": "relicinventory.relic",
     "pk": 97,
     "fields": {
-      "relic_name": "Lith H1 ",
+      "relic_name": "Lith H1",
       "wiki_url": "#"
     }
   },
@@ -779,7 +779,7 @@
     "model": "relicinventory.relic",
     "pk": 98,
     "fields": {
-      "relic_name": "Lith H2 ",
+      "relic_name": "Lith H2",
       "wiki_url": "#"
     }
   },
@@ -787,7 +787,7 @@
     "model": "relicinventory.relic",
     "pk": 99,
     "fields": {
-      "relic_name": "Lith K1 ",
+      "relic_name": "Lith K1",
       "wiki_url": "#"
     }
   },
@@ -795,7 +795,7 @@
     "model": "relicinventory.relic",
     "pk": 100,
     "fields": {
-      "relic_name": "Lith K2 ",
+      "relic_name": "Lith K2",
       "wiki_url": "#"
     }
   },
@@ -803,7 +803,7 @@
     "model": "relicinventory.relic",
     "pk": 101,
     "fields": {
-      "relic_name": "Lith K3 ",
+      "relic_name": "Lith K3",
       "wiki_url": "#"
     }
   },
@@ -811,7 +811,7 @@
     "model": "relicinventory.relic",
     "pk": 102,
     "fields": {
-      "relic_name": "Lith L1 ",
+      "relic_name": "Lith L1",
       "wiki_url": "#"
     }
   },
@@ -819,7 +819,7 @@
     "model": "relicinventory.relic",
     "pk": 103,
     "fields": {
-      "relic_name": "Lith L2 ",
+      "relic_name": "Lith L2",
       "wiki_url": "#"
     }
   },
@@ -827,7 +827,7 @@
     "model": "relicinventory.relic",
     "pk": 104,
     "fields": {
-      "relic_name": "Lith M1 ",
+      "relic_name": "Lith M1",
       "wiki_url": "#"
     }
   },
@@ -835,7 +835,7 @@
     "model": "relicinventory.relic",
     "pk": 105,
     "fields": {
-      "relic_name": "Lith M2 ",
+      "relic_name": "Lith M2",
       "wiki_url": "#"
     }
   },
@@ -843,7 +843,7 @@
     "model": "relicinventory.relic",
     "pk": 106,
     "fields": {
-      "relic_name": "Lith M3 ",
+      "relic_name": "Lith M3",
       "wiki_url": "#"
     }
   },
@@ -851,7 +851,7 @@
     "model": "relicinventory.relic",
     "pk": 107,
     "fields": {
-      "relic_name": "Lith M4 ",
+      "relic_name": "Lith M4",
       "wiki_url": "#"
     }
   },
@@ -859,7 +859,7 @@
     "model": "relicinventory.relic",
     "pk": 108,
     "fields": {
-      "relic_name": "Lith M5 ",
+      "relic_name": "Lith M5",
       "wiki_url": "#"
     }
   },
@@ -867,7 +867,7 @@
     "model": "relicinventory.relic",
     "pk": 109,
     "fields": {
-      "relic_name": "Lith N1 ",
+      "relic_name": "Lith N1",
       "wiki_url": "#"
     }
   },
@@ -875,7 +875,7 @@
     "model": "relicinventory.relic",
     "pk": 110,
     "fields": {
-      "relic_name": "Lith N2 ",
+      "relic_name": "Lith N2",
       "wiki_url": "#"
     }
   },
@@ -883,7 +883,7 @@
     "model": "relicinventory.relic",
     "pk": 111,
     "fields": {
-      "relic_name": "Lith N3 ",
+      "relic_name": "Lith N3",
       "wiki_url": "#"
     }
   },
@@ -891,7 +891,7 @@
     "model": "relicinventory.relic",
     "pk": 112,
     "fields": {
-      "relic_name": "Lith N4 ",
+      "relic_name": "Lith N4",
       "wiki_url": "#"
     }
   },
@@ -899,7 +899,7 @@
     "model": "relicinventory.relic",
     "pk": 113,
     "fields": {
-      "relic_name": "Lith O1 ",
+      "relic_name": "Lith O1",
       "wiki_url": "#"
     }
   },
@@ -907,7 +907,7 @@
     "model": "relicinventory.relic",
     "pk": 114,
     "fields": {
-      "relic_name": "Lith O2 ",
+      "relic_name": "Lith O2",
       "wiki_url": "#"
     }
   },
@@ -915,7 +915,7 @@
     "model": "relicinventory.relic",
     "pk": 115,
     "fields": {
-      "relic_name": "Lith P1 ",
+      "relic_name": "Lith P1",
       "wiki_url": "#"
     }
   },
@@ -923,7 +923,7 @@
     "model": "relicinventory.relic",
     "pk": 116,
     "fields": {
-      "relic_name": "Lith P2 ",
+      "relic_name": "Lith P2",
       "wiki_url": "#"
     }
   },
@@ -931,7 +931,7 @@
     "model": "relicinventory.relic",
     "pk": 117,
     "fields": {
-      "relic_name": "Lith S1 ",
+      "relic_name": "Lith S1",
       "wiki_url": "#"
     }
   },
@@ -939,7 +939,7 @@
     "model": "relicinventory.relic",
     "pk": 118,
     "fields": {
-      "relic_name": "Lith S2 ",
+      "relic_name": "Lith S2",
       "wiki_url": "#"
     }
   },
@@ -947,7 +947,7 @@
     "model": "relicinventory.relic",
     "pk": 119,
     "fields": {
-      "relic_name": "Lith S3 ",
+      "relic_name": "Lith S3",
       "wiki_url": "#"
     }
   },
@@ -955,7 +955,7 @@
     "model": "relicinventory.relic",
     "pk": 120,
     "fields": {
-      "relic_name": "Lith S4 ",
+      "relic_name": "Lith S4",
       "wiki_url": "#"
     }
   },
@@ -963,7 +963,7 @@
     "model": "relicinventory.relic",
     "pk": 121,
     "fields": {
-      "relic_name": "Lith S5 ",
+      "relic_name": "Lith S5",
       "wiki_url": "#"
     }
   },
@@ -971,7 +971,7 @@
     "model": "relicinventory.relic",
     "pk": 122,
     "fields": {
-      "relic_name": "Lith S6 ",
+      "relic_name": "Lith S6",
       "wiki_url": "#"
     }
   },
@@ -979,7 +979,7 @@
     "model": "relicinventory.relic",
     "pk": 123,
     "fields": {
-      "relic_name": "Lith S7 ",
+      "relic_name": "Lith S7",
       "wiki_url": "#"
     }
   },
@@ -987,7 +987,7 @@
     "model": "relicinventory.relic",
     "pk": 124,
     "fields": {
-      "relic_name": "Lith S8 ",
+      "relic_name": "Lith S8",
       "wiki_url": "#"
     }
   },
@@ -995,7 +995,7 @@
     "model": "relicinventory.relic",
     "pk": 125,
     "fields": {
-      "relic_name": "Lith S9 ",
+      "relic_name": "Lith S9",
       "wiki_url": "#"
     }
   },
@@ -1003,7 +1003,7 @@
     "model": "relicinventory.relic",
     "pk": 126,
     "fields": {
-      "relic_name": "Lith T1 ",
+      "relic_name": "Lith T1",
       "wiki_url": "#"
     }
   },
@@ -1011,7 +1011,7 @@
     "model": "relicinventory.relic",
     "pk": 127,
     "fields": {
-      "relic_name": "Lith T2 ",
+      "relic_name": "Lith T2",
       "wiki_url": "#"
     }
   },
@@ -1019,7 +1019,7 @@
     "model": "relicinventory.relic",
     "pk": 128,
     "fields": {
-      "relic_name": "Lith T3 ",
+      "relic_name": "Lith T3",
       "wiki_url": "#"
     }
   },
@@ -1027,7 +1027,7 @@
     "model": "relicinventory.relic",
     "pk": 129,
     "fields": {
-      "relic_name": "Lith V1 ",
+      "relic_name": "Lith V1",
       "wiki_url": "#"
     }
   },
@@ -1035,7 +1035,7 @@
     "model": "relicinventory.relic",
     "pk": 130,
     "fields": {
-      "relic_name": "Lith V2 ",
+      "relic_name": "Lith V2",
       "wiki_url": "#"
     }
   },
@@ -1043,7 +1043,7 @@
     "model": "relicinventory.relic",
     "pk": 131,
     "fields": {
-      "relic_name": "Lith V3 ",
+      "relic_name": "Lith V3",
       "wiki_url": "#"
     }
   },
@@ -1051,7 +1051,7 @@
     "model": "relicinventory.relic",
     "pk": 132,
     "fields": {
-      "relic_name": "Lith V4 ",
+      "relic_name": "Lith V4",
       "wiki_url": "#"
     }
   },
@@ -1059,7 +1059,7 @@
     "model": "relicinventory.relic",
     "pk": 133,
     "fields": {
-      "relic_name": "Lith V5 ",
+      "relic_name": "Lith V5",
       "wiki_url": "#"
     }
   },
@@ -1067,7 +1067,7 @@
     "model": "relicinventory.relic",
     "pk": 134,
     "fields": {
-      "relic_name": "Lith V6 ",
+      "relic_name": "Lith V6",
       "wiki_url": "#"
     }
   },
@@ -1075,7 +1075,7 @@
     "model": "relicinventory.relic",
     "pk": 135,
     "fields": {
-      "relic_name": "Lith V7 ",
+      "relic_name": "Lith V7",
       "wiki_url": "#"
     }
   },
@@ -1083,7 +1083,7 @@
     "model": "relicinventory.relic",
     "pk": 136,
     "fields": {
-      "relic_name": "Lith V8 ",
+      "relic_name": "Lith V8",
       "wiki_url": "#"
     }
   },
@@ -1091,7 +1091,7 @@
     "model": "relicinventory.relic",
     "pk": 137,
     "fields": {
-      "relic_name": "Lith W1 ",
+      "relic_name": "Lith W1",
       "wiki_url": "#"
     }
   },
@@ -1099,7 +1099,7 @@
     "model": "relicinventory.relic",
     "pk": 138,
     "fields": {
-      "relic_name": "Lith W2 ",
+      "relic_name": "Lith W2",
       "wiki_url": "#"
     }
   },
@@ -1107,7 +1107,7 @@
     "model": "relicinventory.relic",
     "pk": 139,
     "fields": {
-      "relic_name": "Lith Z1 ",
+      "relic_name": "Lith Z1",
       "wiki_url": "#"
     }
   },
@@ -1115,7 +1115,7 @@
     "model": "relicinventory.relic",
     "pk": 140,
     "fields": {
-      "relic_name": "Lith Z2 ",
+      "relic_name": "Lith Z2",
       "wiki_url": "#"
     }
   },
@@ -1123,7 +1123,7 @@
     "model": "relicinventory.relic",
     "pk": 141,
     "fields": {
-      "relic_name": "Meso A1 ",
+      "relic_name": "Meso A1",
       "wiki_url": "#"
     }
   },
@@ -1131,7 +1131,7 @@
     "model": "relicinventory.relic",
     "pk": 142,
     "fields": {
-      "relic_name": "Meso A2 ",
+      "relic_name": "Meso A2",
       "wiki_url": "#"
     }
   },
@@ -1139,7 +1139,7 @@
     "model": "relicinventory.relic",
     "pk": 143,
     "fields": {
-      "relic_name": "Meso B1 ",
+      "relic_name": "Meso B1",
       "wiki_url": "#"
     }
   },
@@ -1147,7 +1147,7 @@
     "model": "relicinventory.relic",
     "pk": 144,
     "fields": {
-      "relic_name": "Meso B2 ",
+      "relic_name": "Meso B2",
       "wiki_url": "#"
     }
   },
@@ -1155,7 +1155,7 @@
     "model": "relicinventory.relic",
     "pk": 145,
     "fields": {
-      "relic_name": "Meso B3 ",
+      "relic_name": "Meso B3",
       "wiki_url": "#"
     }
   },
@@ -1163,7 +1163,7 @@
     "model": "relicinventory.relic",
     "pk": 146,
     "fields": {
-      "relic_name": "Meso B4 ",
+      "relic_name": "Meso B4",
       "wiki_url": "#"
     }
   },
@@ -1171,7 +1171,7 @@
     "model": "relicinventory.relic",
     "pk": 147,
     "fields": {
-      "relic_name": "Meso C1 ",
+      "relic_name": "Meso C1",
       "wiki_url": "#"
     }
   },
@@ -1179,7 +1179,7 @@
     "model": "relicinventory.relic",
     "pk": 148,
     "fields": {
-      "relic_name": "Meso C2 ",
+      "relic_name": "Meso C2",
       "wiki_url": "#"
     }
   },
@@ -1187,7 +1187,7 @@
     "model": "relicinventory.relic",
     "pk": 149,
     "fields": {
-      "relic_name": "Meso C3 ",
+      "relic_name": "Meso C3",
       "wiki_url": "#"
     }
   },
@@ -1195,7 +1195,7 @@
     "model": "relicinventory.relic",
     "pk": 150,
     "fields": {
-      "relic_name": "Meso C4 ",
+      "relic_name": "Meso C4",
       "wiki_url": "#"
     }
   },
@@ -1203,7 +1203,7 @@
     "model": "relicinventory.relic",
     "pk": 151,
     "fields": {
-      "relic_name": "Meso C5 ",
+      "relic_name": "Meso C5",
       "wiki_url": "#"
     }
   },
@@ -1211,7 +1211,7 @@
     "model": "relicinventory.relic",
     "pk": 152,
     "fields": {
-      "relic_name": "Meso D1 ",
+      "relic_name": "Meso D1",
       "wiki_url": "#"
     }
   },
@@ -1219,7 +1219,7 @@
     "model": "relicinventory.relic",
     "pk": 153,
     "fields": {
-      "relic_name": "Meso D2 ",
+      "relic_name": "Meso D2",
       "wiki_url": "#"
     }
   },
@@ -1227,7 +1227,7 @@
     "model": "relicinventory.relic",
     "pk": 154,
     "fields": {
-      "relic_name": "Meso D3 ",
+      "relic_name": "Meso D3",
       "wiki_url": "#"
     }
   },
@@ -1235,7 +1235,7 @@
     "model": "relicinventory.relic",
     "pk": 155,
     "fields": {
-      "relic_name": "Meso D4 ",
+      "relic_name": "Meso D4",
       "wiki_url": "#"
     }
   },
@@ -1243,7 +1243,7 @@
     "model": "relicinventory.relic",
     "pk": 156,
     "fields": {
-      "relic_name": "Meso E1 ",
+      "relic_name": "Meso E1",
       "wiki_url": "#"
     }
   },
@@ -1251,7 +1251,7 @@
     "model": "relicinventory.relic",
     "pk": 157,
     "fields": {
-      "relic_name": "Meso E2 ",
+      "relic_name": "Meso E2",
       "wiki_url": "#"
     }
   },
@@ -1259,7 +1259,7 @@
     "model": "relicinventory.relic",
     "pk": 158,
     "fields": {
-      "relic_name": "Meso E3 ",
+      "relic_name": "Meso E3",
       "wiki_url": "#"
     }
   },
@@ -1267,7 +1267,7 @@
     "model": "relicinventory.relic",
     "pk": 159,
     "fields": {
-      "relic_name": "Meso E4 ",
+      "relic_name": "Meso E4",
       "wiki_url": "#"
     }
   },
@@ -1275,7 +1275,7 @@
     "model": "relicinventory.relic",
     "pk": 160,
     "fields": {
-      "relic_name": "Meso F1 ",
+      "relic_name": "Meso F1",
       "wiki_url": "#"
     }
   },
@@ -1283,7 +1283,7 @@
     "model": "relicinventory.relic",
     "pk": 161,
     "fields": {
-      "relic_name": "Meso F2 ",
+      "relic_name": "Meso F2",
       "wiki_url": "#"
     }
   },
@@ -1291,7 +1291,7 @@
     "model": "relicinventory.relic",
     "pk": 162,
     "fields": {
-      "relic_name": "Meso F3 ",
+      "relic_name": "Meso F3",
       "wiki_url": "#"
     }
   },
@@ -1299,7 +1299,7 @@
     "model": "relicinventory.relic",
     "pk": 163,
     "fields": {
-      "relic_name": "Meso G1 ",
+      "relic_name": "Meso G1",
       "wiki_url": "#"
     }
   },
@@ -1307,7 +1307,7 @@
     "model": "relicinventory.relic",
     "pk": 164,
     "fields": {
-      "relic_name": "Meso H1 ",
+      "relic_name": "Meso H1",
       "wiki_url": "#"
     }
   },
@@ -1315,7 +1315,7 @@
     "model": "relicinventory.relic",
     "pk": 165,
     "fields": {
-      "relic_name": "Meso K1 ",
+      "relic_name": "Meso K1",
       "wiki_url": "#"
     }
   },
@@ -1323,7 +1323,7 @@
     "model": "relicinventory.relic",
     "pk": 166,
     "fields": {
-      "relic_name": "Meso K2 ",
+      "relic_name": "Meso K2",
       "wiki_url": "#"
     }
   },
@@ -1331,7 +1331,7 @@
     "model": "relicinventory.relic",
     "pk": 167,
     "fields": {
-      "relic_name": "Meso L1 ",
+      "relic_name": "Meso L1",
       "wiki_url": "#"
     }
   },
@@ -1339,7 +1339,7 @@
     "model": "relicinventory.relic",
     "pk": 168,
     "fields": {
-      "relic_name": "Meso M1 ",
+      "relic_name": "Meso M1",
       "wiki_url": "#"
     }
   },
@@ -1347,7 +1347,7 @@
     "model": "relicinventory.relic",
     "pk": 169,
     "fields": {
-      "relic_name": "Meso M2 ",
+      "relic_name": "Meso M2",
       "wiki_url": "#"
     }
   },
@@ -1355,7 +1355,7 @@
     "model": "relicinventory.relic",
     "pk": 170,
     "fields": {
-      "relic_name": "Meso M3 ",
+      "relic_name": "Meso M3",
       "wiki_url": "#"
     }
   },
@@ -1363,7 +1363,7 @@
     "model": "relicinventory.relic",
     "pk": 171,
     "fields": {
-      "relic_name": "Meso N1 ",
+      "relic_name": "Meso N1",
       "wiki_url": "#"
     }
   },
@@ -1371,7 +1371,7 @@
     "model": "relicinventory.relic",
     "pk": 172,
     "fields": {
-      "relic_name": "Meso N2 ",
+      "relic_name": "Meso N2",
       "wiki_url": "#"
     }
   },
@@ -1379,7 +1379,7 @@
     "model": "relicinventory.relic",
     "pk": 173,
     "fields": {
-      "relic_name": "Meso N3 ",
+      "relic_name": "Meso N3",
       "wiki_url": "#"
     }
   },
@@ -1387,7 +1387,7 @@
     "model": "relicinventory.relic",
     "pk": 174,
     "fields": {
-      "relic_name": "Meso N4 ",
+      "relic_name": "Meso N4",
       "wiki_url": "#"
     }
   },
@@ -1395,7 +1395,7 @@
     "model": "relicinventory.relic",
     "pk": 175,
     "fields": {
-      "relic_name": "Meso N5 ",
+      "relic_name": "Meso N5",
       "wiki_url": "#"
     }
   },
@@ -1403,7 +1403,7 @@
     "model": "relicinventory.relic",
     "pk": 176,
     "fields": {
-      "relic_name": "Meso N6 ",
+      "relic_name": "Meso N6",
       "wiki_url": "#"
     }
   },
@@ -1411,7 +1411,7 @@
     "model": "relicinventory.relic",
     "pk": 177,
     "fields": {
-      "relic_name": "Meso N7 ",
+      "relic_name": "Meso N7",
       "wiki_url": "#"
     }
   },
@@ -1419,7 +1419,7 @@
     "model": "relicinventory.relic",
     "pk": 178,
     "fields": {
-      "relic_name": "Meso N8 ",
+      "relic_name": "Meso N8",
       "wiki_url": "#"
     }
   },
@@ -1427,7 +1427,7 @@
     "model": "relicinventory.relic",
     "pk": 179,
     "fields": {
-      "relic_name": "Meso N9 ",
+      "relic_name": "Meso N9",
       "wiki_url": "#"
     }
   },
@@ -1435,7 +1435,7 @@
     "model": "relicinventory.relic",
     "pk": 180,
     "fields": {
-      "relic_name": "Meso O1 ",
+      "relic_name": "Meso O1",
       "wiki_url": "#"
     }
   },
@@ -1443,7 +1443,7 @@
     "model": "relicinventory.relic",
     "pk": 181,
     "fields": {
-      "relic_name": "Meso O2 ",
+      "relic_name": "Meso O2",
       "wiki_url": "#"
     }
   },
@@ -1451,7 +1451,7 @@
     "model": "relicinventory.relic",
     "pk": 182,
     "fields": {
-      "relic_name": "Meso O3 ",
+      "relic_name": "Meso O3",
       "wiki_url": "#"
     }
   },
@@ -1459,7 +1459,7 @@
     "model": "relicinventory.relic",
     "pk": 183,
     "fields": {
-      "relic_name": "Meso O4 ",
+      "relic_name": "Meso O4",
       "wiki_url": "#"
     }
   },
@@ -1467,7 +1467,7 @@
     "model": "relicinventory.relic",
     "pk": 184,
     "fields": {
-      "relic_name": "Meso P1 ",
+      "relic_name": "Meso P1",
       "wiki_url": "#"
     }
   },
@@ -1475,7 +1475,7 @@
     "model": "relicinventory.relic",
     "pk": 185,
     "fields": {
-      "relic_name": "Meso R1 ",
+      "relic_name": "Meso R1",
       "wiki_url": "#"
     }
   },
@@ -1483,7 +1483,7 @@
     "model": "relicinventory.relic",
     "pk": 186,
     "fields": {
-      "relic_name": "Meso R2 ",
+      "relic_name": "Meso R2",
       "wiki_url": "#"
     }
   },
@@ -1491,7 +1491,7 @@
     "model": "relicinventory.relic",
     "pk": 187,
     "fields": {
-      "relic_name": "Meso R3 ",
+      "relic_name": "Meso R3",
       "wiki_url": "#"
     }
   },
@@ -1499,7 +1499,7 @@
     "model": "relicinventory.relic",
     "pk": 188,
     "fields": {
-      "relic_name": "Meso S1 ",
+      "relic_name": "Meso S1",
       "wiki_url": "#"
     }
   },
@@ -1507,7 +1507,7 @@
     "model": "relicinventory.relic",
     "pk": 189,
     "fields": {
-      "relic_name": "Meso S2 ",
+      "relic_name": "Meso S2",
       "wiki_url": "#"
     }
   },
@@ -1515,7 +1515,7 @@
     "model": "relicinventory.relic",
     "pk": 190,
     "fields": {
-      "relic_name": "Meso S3 ",
+      "relic_name": "Meso S3",
       "wiki_url": "#"
     }
   },
@@ -1523,7 +1523,7 @@
     "model": "relicinventory.relic",
     "pk": 191,
     "fields": {
-      "relic_name": "Meso S4 ",
+      "relic_name": "Meso S4",
       "wiki_url": "#"
     }
   },
@@ -1531,7 +1531,7 @@
     "model": "relicinventory.relic",
     "pk": 192,
     "fields": {
-      "relic_name": "Meso S5 ",
+      "relic_name": "Meso S5",
       "wiki_url": "#"
     }
   },
@@ -1539,7 +1539,7 @@
     "model": "relicinventory.relic",
     "pk": 193,
     "fields": {
-      "relic_name": "Meso S6 ",
+      "relic_name": "Meso S6",
       "wiki_url": "#"
     }
   },
@@ -1547,7 +1547,7 @@
     "model": "relicinventory.relic",
     "pk": 194,
     "fields": {
-      "relic_name": "Meso S7 ",
+      "relic_name": "Meso S7",
       "wiki_url": "#"
     }
   },
@@ -1555,7 +1555,7 @@
     "model": "relicinventory.relic",
     "pk": 195,
     "fields": {
-      "relic_name": "Meso S8 ",
+      "relic_name": "Meso S8",
       "wiki_url": "#"
     }
   },
@@ -1563,7 +1563,7 @@
     "model": "relicinventory.relic",
     "pk": 196,
     "fields": {
-      "relic_name": "Meso S9 ",
+      "relic_name": "Meso S9",
       "wiki_url": "#"
     }
   },
@@ -1571,7 +1571,7 @@
     "model": "relicinventory.relic",
     "pk": 197,
     "fields": {
-      "relic_name": "Meso T1 ",
+      "relic_name": "Meso T1",
       "wiki_url": "#"
     }
   },
@@ -1579,7 +1579,7 @@
     "model": "relicinventory.relic",
     "pk": 198,
     "fields": {
-      "relic_name": "Meso T2 ",
+      "relic_name": "Meso T2",
       "wiki_url": "#"
     }
   },
@@ -1587,7 +1587,7 @@
     "model": "relicinventory.relic",
     "pk": 199,
     "fields": {
-      "relic_name": "Meso T3 ",
+      "relic_name": "Meso T3",
       "wiki_url": "#"
     }
   },
@@ -1595,7 +1595,7 @@
     "model": "relicinventory.relic",
     "pk": 200,
     "fields": {
-      "relic_name": "Meso V1 ",
+      "relic_name": "Meso V1",
       "wiki_url": "#"
     }
   },
@@ -1603,7 +1603,7 @@
     "model": "relicinventory.relic",
     "pk": 201,
     "fields": {
-      "relic_name": "Meso V2 ",
+      "relic_name": "Meso V2",
       "wiki_url": "#"
     }
   },
@@ -1611,7 +1611,7 @@
     "model": "relicinventory.relic",
     "pk": 202,
     "fields": {
-      "relic_name": "Meso V3 ",
+      "relic_name": "Meso V3",
       "wiki_url": "#"
     }
   },
@@ -1619,7 +1619,7 @@
     "model": "relicinventory.relic",
     "pk": 203,
     "fields": {
-      "relic_name": "Meso V4 ",
+      "relic_name": "Meso V4",
       "wiki_url": "#"
     }
   },
@@ -1627,7 +1627,7 @@
     "model": "relicinventory.relic",
     "pk": 204,
     "fields": {
-      "relic_name": "Meso V5 ",
+      "relic_name": "Meso V5",
       "wiki_url": "#"
     }
   },
@@ -1635,7 +1635,7 @@
     "model": "relicinventory.relic",
     "pk": 205,
     "fields": {
-      "relic_name": "Meso V6 ",
+      "relic_name": "Meso V6",
       "wiki_url": "#"
     }
   },
@@ -1643,7 +1643,7 @@
     "model": "relicinventory.relic",
     "pk": 206,
     "fields": {
-      "relic_name": "Meso W1 ",
+      "relic_name": "Meso W1",
       "wiki_url": "#"
     }
   },
@@ -1651,7 +1651,7 @@
     "model": "relicinventory.relic",
     "pk": 207,
     "fields": {
-      "relic_name": "Meso Z1 ",
+      "relic_name": "Meso Z1",
       "wiki_url": "#"
     }
   },
@@ -1659,7 +1659,7 @@
     "model": "relicinventory.relic",
     "pk": 208,
     "fields": {
-      "relic_name": "Meso Z2 ",
+      "relic_name": "Meso Z2",
       "wiki_url": "#"
     }
   },
@@ -1667,7 +1667,7 @@
     "model": "relicinventory.relic",
     "pk": 209,
     "fields": {
-      "relic_name": "Meso Z3 ",
+      "relic_name": "Meso Z3",
       "wiki_url": "#"
     }
   },
@@ -1675,7 +1675,7 @@
     "model": "relicinventory.relic",
     "pk": 210,
     "fields": {
-      "relic_name": "Neo A1 ",
+      "relic_name": "Neo A1",
       "wiki_url": "#"
     }
   },
@@ -1683,7 +1683,7 @@
     "model": "relicinventory.relic",
     "pk": 211,
     "fields": {
-      "relic_name": "Neo A2 ",
+      "relic_name": "Neo A2",
       "wiki_url": "#"
     }
   },
@@ -1691,7 +1691,7 @@
     "model": "relicinventory.relic",
     "pk": 212,
     "fields": {
-      "relic_name": "Neo A3 ",
+      "relic_name": "Neo A3",
       "wiki_url": "#"
     }
   },
@@ -1699,7 +1699,7 @@
     "model": "relicinventory.relic",
     "pk": 213,
     "fields": {
-      "relic_name": "Neo A4 ",
+      "relic_name": "Neo A4",
       "wiki_url": "#"
     }
   },
@@ -1707,7 +1707,7 @@
     "model": "relicinventory.relic",
     "pk": 214,
     "fields": {
-      "relic_name": "Neo B1 ",
+      "relic_name": "Neo B1",
       "wiki_url": "#"
     }
   },
@@ -1715,7 +1715,7 @@
     "model": "relicinventory.relic",
     "pk": 215,
     "fields": {
-      "relic_name": "Neo B2 ",
+      "relic_name": "Neo B2",
       "wiki_url": "#"
     }
   },
@@ -1723,7 +1723,7 @@
     "model": "relicinventory.relic",
     "pk": 216,
     "fields": {
-      "relic_name": "Neo B3 ",
+      "relic_name": "Neo B3",
       "wiki_url": "#"
     }
   },
@@ -1731,7 +1731,7 @@
     "model": "relicinventory.relic",
     "pk": 217,
     "fields": {
-      "relic_name": "Neo B4 ",
+      "relic_name": "Neo B4",
       "wiki_url": "#"
     }
   },
@@ -1739,7 +1739,7 @@
     "model": "relicinventory.relic",
     "pk": 218,
     "fields": {
-      "relic_name": "Neo B5 ",
+      "relic_name": "Neo B5",
       "wiki_url": "#"
     }
   },
@@ -1747,7 +1747,7 @@
     "model": "relicinventory.relic",
     "pk": 219,
     "fields": {
-      "relic_name": "Neo C1 ",
+      "relic_name": "Neo C1",
       "wiki_url": "#"
     }
   },
@@ -1755,7 +1755,7 @@
     "model": "relicinventory.relic",
     "pk": 220,
     "fields": {
-      "relic_name": "Neo D1 ",
+      "relic_name": "Neo D1",
       "wiki_url": "#"
     }
   },
@@ -1763,7 +1763,7 @@
     "model": "relicinventory.relic",
     "pk": 221,
     "fields": {
-      "relic_name": "Neo E1 ",
+      "relic_name": "Neo E1",
       "wiki_url": "#"
     }
   },
@@ -1771,7 +1771,7 @@
     "model": "relicinventory.relic",
     "pk": 222,
     "fields": {
-      "relic_name": "Neo F1 ",
+      "relic_name": "Neo F1",
       "wiki_url": "#"
     }
   },
@@ -1779,7 +1779,7 @@
     "model": "relicinventory.relic",
     "pk": 223,
     "fields": {
-      "relic_name": "Neo G1 ",
+      "relic_name": "Neo G1",
       "wiki_url": "#"
     }
   },
@@ -1787,7 +1787,7 @@
     "model": "relicinventory.relic",
     "pk": 224,
     "fields": {
-      "relic_name": "Neo G2 ",
+      "relic_name": "Neo G2",
       "wiki_url": "#"
     }
   },
@@ -1795,7 +1795,7 @@
     "model": "relicinventory.relic",
     "pk": 225,
     "fields": {
-      "relic_name": "Neo G3 ",
+      "relic_name": "Neo G3",
       "wiki_url": "#"
     }
   },
@@ -1803,7 +1803,7 @@
     "model": "relicinventory.relic",
     "pk": 226,
     "fields": {
-      "relic_name": "Neo H1 ",
+      "relic_name": "Neo H1",
       "wiki_url": "#"
     }
   },
@@ -1811,7 +1811,7 @@
     "model": "relicinventory.relic",
     "pk": 227,
     "fields": {
-      "relic_name": "Neo H2 ",
+      "relic_name": "Neo H2",
       "wiki_url": "#"
     }
   },
@@ -1819,7 +1819,7 @@
     "model": "relicinventory.relic",
     "pk": 228,
     "fields": {
-      "relic_name": "Neo I1 ",
+      "relic_name": "Neo I1",
       "wiki_url": "#"
     }
   },
@@ -1827,7 +1827,7 @@
     "model": "relicinventory.relic",
     "pk": 229,
     "fields": {
-      "relic_name": "Neo I2 ",
+      "relic_name": "Neo I2",
       "wiki_url": "#"
     }
   },
@@ -1835,7 +1835,7 @@
     "model": "relicinventory.relic",
     "pk": 230,
     "fields": {
-      "relic_name": "Neo K1 ",
+      "relic_name": "Neo K1",
       "wiki_url": "#"
     }
   },
@@ -1843,7 +1843,7 @@
     "model": "relicinventory.relic",
     "pk": 231,
     "fields": {
-      "relic_name": "Neo K2 ",
+      "relic_name": "Neo K2",
       "wiki_url": "#"
     }
   },
@@ -1851,7 +1851,7 @@
     "model": "relicinventory.relic",
     "pk": 232,
     "fields": {
-      "relic_name": "Neo L1 ",
+      "relic_name": "Neo L1",
       "wiki_url": "#"
     }
   },
@@ -1859,7 +1859,7 @@
     "model": "relicinventory.relic",
     "pk": 233,
     "fields": {
-      "relic_name": "Neo M1 ",
+      "relic_name": "Neo M1",
       "wiki_url": "#"
     }
   },
@@ -1867,7 +1867,7 @@
     "model": "relicinventory.relic",
     "pk": 234,
     "fields": {
-      "relic_name": "Neo M2 ",
+      "relic_name": "Neo M2",
       "wiki_url": "#"
     }
   },
@@ -1875,7 +1875,7 @@
     "model": "relicinventory.relic",
     "pk": 235,
     "fields": {
-      "relic_name": "Neo M3 ",
+      "relic_name": "Neo M3",
       "wiki_url": "#"
     }
   },
@@ -1883,7 +1883,7 @@
     "model": "relicinventory.relic",
     "pk": 236,
     "fields": {
-      "relic_name": "Neo N1 ",
+      "relic_name": "Neo N1",
       "wiki_url": "#"
     }
   },
@@ -1891,7 +1891,7 @@
     "model": "relicinventory.relic",
     "pk": 237,
     "fields": {
-      "relic_name": "Neo N10 ",
+      "relic_name": "Neo N10",
       "wiki_url": "#"
     }
   },
@@ -1899,7 +1899,7 @@
     "model": "relicinventory.relic",
     "pk": 238,
     "fields": {
-      "relic_name": "Neo N11 ",
+      "relic_name": "Neo N11",
       "wiki_url": "#"
     }
   },
@@ -1907,7 +1907,7 @@
     "model": "relicinventory.relic",
     "pk": 239,
     "fields": {
-      "relic_name": "Neo N2 ",
+      "relic_name": "Neo N2",
       "wiki_url": "#"
     }
   },
@@ -1915,7 +1915,7 @@
     "model": "relicinventory.relic",
     "pk": 240,
     "fields": {
-      "relic_name": "Neo N3 ",
+      "relic_name": "Neo N3",
       "wiki_url": "#"
     }
   },
@@ -1923,7 +1923,7 @@
     "model": "relicinventory.relic",
     "pk": 241,
     "fields": {
-      "relic_name": "Neo N4 ",
+      "relic_name": "Neo N4",
       "wiki_url": "#"
     }
   },
@@ -1931,7 +1931,7 @@
     "model": "relicinventory.relic",
     "pk": 242,
     "fields": {
-      "relic_name": "Neo N5 ",
+      "relic_name": "Neo N5",
       "wiki_url": "#"
     }
   },
@@ -1939,7 +1939,7 @@
     "model": "relicinventory.relic",
     "pk": 243,
     "fields": {
-      "relic_name": "Neo N6 ",
+      "relic_name": "Neo N6",
       "wiki_url": "#"
     }
   },
@@ -1947,7 +1947,7 @@
     "model": "relicinventory.relic",
     "pk": 244,
     "fields": {
-      "relic_name": "Neo N7 ",
+      "relic_name": "Neo N7",
       "wiki_url": "#"
     }
   },
@@ -1955,7 +1955,7 @@
     "model": "relicinventory.relic",
     "pk": 245,
     "fields": {
-      "relic_name": "Neo N8 ",
+      "relic_name": "Neo N8",
       "wiki_url": "#"
     }
   },
@@ -1963,7 +1963,7 @@
     "model": "relicinventory.relic",
     "pk": 246,
     "fields": {
-      "relic_name": "Neo N9 ",
+      "relic_name": "Neo N9",
       "wiki_url": "#"
     }
   },
@@ -1971,7 +1971,7 @@
     "model": "relicinventory.relic",
     "pk": 247,
     "fields": {
-      "relic_name": "Neo O1 ",
+      "relic_name": "Neo O1",
       "wiki_url": "#"
     }
   },
@@ -1979,7 +1979,7 @@
     "model": "relicinventory.relic",
     "pk": 248,
     "fields": {
-      "relic_name": "Neo P1 ",
+      "relic_name": "Neo P1",
       "wiki_url": "#"
     }
   },
@@ -1987,7 +1987,7 @@
     "model": "relicinventory.relic",
     "pk": 249,
     "fields": {
-      "relic_name": "Neo R1 ",
+      "relic_name": "Neo R1",
       "wiki_url": "#"
     }
   },
@@ -1995,7 +1995,7 @@
     "model": "relicinventory.relic",
     "pk": 250,
     "fields": {
-      "relic_name": "Neo R2 ",
+      "relic_name": "Neo R2",
       "wiki_url": "#"
     }
   },
@@ -2003,7 +2003,7 @@
     "model": "relicinventory.relic",
     "pk": 251,
     "fields": {
-      "relic_name": "Neo R3 ",
+      "relic_name": "Neo R3",
       "wiki_url": "#"
     }
   },
@@ -2011,7 +2011,7 @@
     "model": "relicinventory.relic",
     "pk": 252,
     "fields": {
-      "relic_name": "Neo R4 ",
+      "relic_name": "Neo R4",
       "wiki_url": "#"
     }
   },
@@ -2019,7 +2019,7 @@
     "model": "relicinventory.relic",
     "pk": 253,
     "fields": {
-      "relic_name": "Neo S1 ",
+      "relic_name": "Neo S1",
       "wiki_url": "#"
     }
   },
@@ -2027,7 +2027,7 @@
     "model": "relicinventory.relic",
     "pk": 254,
     "fields": {
-      "relic_name": "Neo S10 ",
+      "relic_name": "Neo S10",
       "wiki_url": "#"
     }
   },
@@ -2035,7 +2035,7 @@
     "model": "relicinventory.relic",
     "pk": 255,
     "fields": {
-      "relic_name": "Neo S11 ",
+      "relic_name": "Neo S11",
       "wiki_url": "#"
     }
   },
@@ -2043,7 +2043,7 @@
     "model": "relicinventory.relic",
     "pk": 256,
     "fields": {
-      "relic_name": "Neo S12 ",
+      "relic_name": "Neo S12",
       "wiki_url": "#"
     }
   },
@@ -2051,7 +2051,7 @@
     "model": "relicinventory.relic",
     "pk": 257,
     "fields": {
-      "relic_name": "Neo S13 ",
+      "relic_name": "Neo S13",
       "wiki_url": "#"
     }
   },
@@ -2059,7 +2059,7 @@
     "model": "relicinventory.relic",
     "pk": 258,
     "fields": {
-      "relic_name": "Neo S2 ",
+      "relic_name": "Neo S2",
       "wiki_url": "#"
     }
   },
@@ -2067,7 +2067,7 @@
     "model": "relicinventory.relic",
     "pk": 259,
     "fields": {
-      "relic_name": "Neo S3 ",
+      "relic_name": "Neo S3",
       "wiki_url": "#"
     }
   },
@@ -2075,7 +2075,7 @@
     "model": "relicinventory.relic",
     "pk": 260,
     "fields": {
-      "relic_name": "Neo S5 ",
+      "relic_name": "Neo S5",
       "wiki_url": "#"
     }
   },
@@ -2083,7 +2083,7 @@
     "model": "relicinventory.relic",
     "pk": 261,
     "fields": {
-      "relic_name": "Neo S6 ",
+      "relic_name": "Neo S6",
       "wiki_url": "#"
     }
   },
@@ -2091,7 +2091,7 @@
     "model": "relicinventory.relic",
     "pk": 262,
     "fields": {
-      "relic_name": "Neo S7 ",
+      "relic_name": "Neo S7",
       "wiki_url": "#"
     }
   },
@@ -2099,7 +2099,7 @@
     "model": "relicinventory.relic",
     "pk": 263,
     "fields": {
-      "relic_name": "Neo S8 ",
+      "relic_name": "Neo S8",
       "wiki_url": "#"
     }
   },
@@ -2107,7 +2107,7 @@
     "model": "relicinventory.relic",
     "pk": 264,
     "fields": {
-      "relic_name": "Neo S9 ",
+      "relic_name": "Neo S9",
       "wiki_url": "#"
     }
   },
@@ -2115,7 +2115,7 @@
     "model": "relicinventory.relic",
     "pk": 265,
     "fields": {
-      "relic_name": "Neo T1 ",
+      "relic_name": "Neo T1",
       "wiki_url": "#"
     }
   },
@@ -2123,7 +2123,7 @@
     "model": "relicinventory.relic",
     "pk": 266,
     "fields": {
-      "relic_name": "Neo T2 ",
+      "relic_name": "Neo T2",
       "wiki_url": "#"
     }
   },
@@ -2131,7 +2131,7 @@
     "model": "relicinventory.relic",
     "pk": 267,
     "fields": {
-      "relic_name": "Neo V1 ",
+      "relic_name": "Neo V1",
       "wiki_url": "#"
     }
   },
@@ -2139,7 +2139,7 @@
     "model": "relicinventory.relic",
     "pk": 268,
     "fields": {
-      "relic_name": "Neo V2 ",
+      "relic_name": "Neo V2",
       "wiki_url": "#"
     }
   },
@@ -2147,7 +2147,7 @@
     "model": "relicinventory.relic",
     "pk": 269,
     "fields": {
-      "relic_name": "Neo V3 ",
+      "relic_name": "Neo V3",
       "wiki_url": "#"
     }
   },
@@ -2155,7 +2155,7 @@
     "model": "relicinventory.relic",
     "pk": 270,
     "fields": {
-      "relic_name": "Neo V4 ",
+      "relic_name": "Neo V4",
       "wiki_url": "#"
     }
   },
@@ -2163,7 +2163,7 @@
     "model": "relicinventory.relic",
     "pk": 271,
     "fields": {
-      "relic_name": "Neo V5 ",
+      "relic_name": "Neo V5",
       "wiki_url": "#"
     }
   },
@@ -2171,7 +2171,7 @@
     "model": "relicinventory.relic",
     "pk": 272,
     "fields": {
-      "relic_name": "Neo V6 ",
+      "relic_name": "Neo V6",
       "wiki_url": "#"
     }
   },
@@ -2179,7 +2179,7 @@
     "model": "relicinventory.relic",
     "pk": 273,
     "fields": {
-      "relic_name": "Neo V7 ",
+      "relic_name": "Neo V7",
       "wiki_url": "#"
     }
   },
@@ -2187,7 +2187,7 @@
     "model": "relicinventory.relic",
     "pk": 274,
     "fields": {
-      "relic_name": "Neo V8 ",
+      "relic_name": "Neo V8",
       "wiki_url": "#"
     }
   },
@@ -2195,7 +2195,7 @@
     "model": "relicinventory.relic",
     "pk": 275,
     "fields": {
-      "relic_name": "Neo Z1 ",
+      "relic_name": "Neo Z1",
       "wiki_url": "#"
     }
   },
@@ -2203,7 +2203,7 @@
     "model": "relicinventory.relic",
     "pk": 276,
     "fields": {
-      "relic_name": "Neo Z2 ",
+      "relic_name": "Neo Z2",
       "wiki_url": "#"
     }
   },
@@ -2211,7 +2211,7 @@
     "model": "relicinventory.relic",
     "pk": 277,
     "fields": {
-      "relic_name": "Neo Z3 ",
+      "relic_name": "Neo Z3",
       "wiki_url": "#"
     }
   },
@@ -2219,7 +2219,7 @@
     "model": "relicinventory.relic",
     "pk": 278,
     "fields": {
-      "relic_name": "Neo Z4 ",
+      "relic_name": "Neo Z4",
       "wiki_url": "#"
     }
   },
@@ -2227,7 +2227,7 @@
     "model": "relicinventory.relic",
     "pk": 279,
     "fields": {
-      "relic_name": "Neo Z5 ",
+      "relic_name": "Neo Z5",
       "wiki_url": "#"
     }
   }

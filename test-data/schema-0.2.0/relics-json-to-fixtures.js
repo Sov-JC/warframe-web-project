@@ -26,7 +26,7 @@ for(i=0; i<items.length; i++){
 		var relic = relic.replace('Radiant', '')
 		var relic = relic.replace('Flawless', '')
 
-		relic.trim()
+		relic = relic.trim()
 		relics.add(relic)
 	}
 }
