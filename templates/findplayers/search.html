@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Search Bar -->
+<div class="d-flex justify-content-center mt-4">
+	<form action="{% url 'findplayers:search' %}" method="get" style="width:400px" style="background-color:yellow">
+		<div class="input-group mb-3">
+			<input type="text" class="form-control" name="relic_name" placeholder="Search by relic name">
+			<div class="input-group-append">
+				<span id="search-icon" class="input-group-text"><i class="fas fa-search"></i></span>
+			</div>
+		</div>
+	</form>
+</div>
+
+{% if relic != None %}
+	<!-- Relic Search Is None -->
+
+	<!-- Button trigger overview modal -->
+	<div>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#overviewModal" style="margin-left:auto; margin-right:auto; display:block">
+			Overview
+		</button>
+	</div>
+
+	<!-- Overview Modal -->
+	<div class="modal fade" id="overviewModal" tabindex="-1" role="dialog" aria-labelledby="overviewModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="width:600px">
+				<div class="modal-header">
+					<h5 class="modal-title" id="overviewModalLabel">Overview</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span>&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!-- Overview - Modal -->
+					<div style="max-height:400px; width:100%; overflow-y: auto">
+						<table class="table table-hover table-dark">
+							<thead>
+								<tr>
+									<th scope="col">Relic Name</th>
+									<th scope="col">Users Online <br> With Relic</th>
+									{# check if a dicitonary contains "owned_relic" as a key. #}
+									{# If it does, then we can determine that each row contains this dictionary #}
+									{# and can create a column indicating of a relic is owned or not for #}
+									{# the logged user that has a linked wfa #}
+									{% if "owned_relic" in crowdedness_overview.0 %}
+									<th scope="col">Owned Relic</th>
+									{% endif %}
+									<th> Action </th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for row in crowdedness_overview %}
+									<tr>
+									<td>{{ row.relic_id__relic_name }}</td>
+									<td>{{ row.count }}</td>
+									{% if "owned_relic" in row %}
+									<td>{{ row.owned_relic }}</td>
+									{% endif %}
+									<td><a href="#">Search Relic</a></td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% if wfa_ids|length == 0 %}
+	<div id="no-online-users">
+		<h5 style="text-align:center">There are currently no online users with that relic.</h5>
+	</div>
+	{% else %}
+
+	<!-- Relevant Warframe Aliases Table -->
+	<div style="max-height:400px; width:500px; overflow-y: auto">
+		<table class="table table-hover table-dark">
+			<thead>
+				<tr>
+					<th scope="col">Warframe Alias</th>
+					<th scope="col">Platform</th>
+					<th scope="col">Status</th>
+					<th scope="col">Owned</th>
+					{# check if a dicitonary contains "owned_relic" as a key. #}
+					{# If it does, then we can determine that each row contains this dictionary #}
+					{# and can create a column indicating of a relic is owned or not for #}
+					{# the logged user that has a linked wfa #}
+					{% if "owned_relic" in crowdedness_overview.0 %}
+					<th scope="col">Owned Relic</th>
+					{% endif %}
+					<th> Action </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+				{% for wfa in wfas %}
+				{{ wfas.warframe_alias }}
+				{% endfor %}
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	{% endif %}
+{% else %}
+	<!-- Relic Search Is Not None -->
+
+	<h4 style="text-align:center"> Overview </h4>
+	<!-- Overview -->
+	<div>
+		<div style="margin-left:auto; margin-right:auto; max-height:400px; width:500px; overflow-y: auto">
+			<table class="table table-hover table-dark">
+				<thead>
+					<tr>
+						<th scope="col">Relic Name</th>
+						<th scope="col">Users Online <br> With Relic</th>
+						{# check if a dicitonary contains "owned_relic" as a key. #}
+						{# If it does, then we can determine that each row contains this dictionary #}
+						{# and can create a column indicating of a relic is owned or not for #}
+						{# the logged user that has a linked wfa #}
+						{% if "owned_relic" in crowdedness_overview.0 %}
+						<th scope="col">Owned Relic</th>
+						{% endif %}
+						<th> Action </th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for row in crowdedness_overview %}
+						<tr>
+						<td>{{ row.relic_id__relic_name }}</td>
+						<td>{{ row.count }}</td>
+						{% if "owned_relic" in row %}
+						<td>
+							{% if row.owned_relic %}
+								<i class="fas fa-check" class="text-primary"></i>
+							{% else %}
+								No
+							{% endif %}
+						</td>
+
+						{% endif %}
+
+						<td><a href="#">Search Relic</a></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endif %}
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'findplayers/search.js' %}"></script>
+{% endblock %}
