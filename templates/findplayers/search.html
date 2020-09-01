@@ -73,38 +73,58 @@
 			</div>
 		</div>
 	</div>
-
-	{% if wfa_ids|length == 0 %}
+	
+	{% if warframe_accounts|length == 0 %}
 	<div id="no-online-users">
 		<h5 style="text-align:center">There are currently no online users with that relic.</h5>
 	</div>
 	{% else %}
 
+	{{ warframe_accounts }}
+
 	<!-- Relevant Warframe Aliases Table -->
 	<div style="max-height:400px; width:500px; overflow-y: auto">
-		<table class="table table-hover table-dark">
+		<table class="table table-hover table-dark" style="margin-left:auto;margin-right:auto">
 			<thead>
 				<tr>
 					<th scope="col">Warframe Alias</th>
 					<th scope="col">Platform</th>
 					<th scope="col">Status</th>
+					{% if contains_owned_attribute %}
 					<th scope="col">Owned</th>
-					{# check if a dicitonary contains "owned_relic" as a key. #}
-					{# If it does, then we can determine that each row contains this dictionary #}
-					{# and can create a column indicating of a relic is owned or not for #}
-					{# the logged user that has a linked wfa #}
-					{% if "owned_relic" in crowdedness_overview.0 %}
-					<th scope="col">Owned Relic</th>
 					{% endif %}
 					<th> Action </th>
 				</tr>
 			</thead>
 			<tbody>
+				
+				{% for wfa in warframe_accounts %}
 				<tr>
-				{% for wfa in wfas %}
-				{{ wfas.warframe_alias }}
-				{% endfor %}
+					<td data-wfa-alias="{{ wfa.warframe_alias }}">
+					{{ wfa.warframe_alias }}
+					</td>
+					<td>
+					<small>{{ gaming_platform.platform_name }}</small>
+					</td>
+					<td>
+					<small>{{ wfa.user.user_status.user_status_name }}</small>
+					</td>
+					{% if contains_owned_attribute %}
+					<td>
+						{% if wfa.owned_relic %}
+							<small>Yes</small>
+						{% else %}
+							<small>No</small>
+						{% endif %}
+					</td>
+					{% endif %}
+					<td>
+						<a href=""><i class="fas fa-comments"></i></a>
+					</td>
 				</tr>
+				{% endfor %}
+					
+				
 			</tbody>
 		</table>
 	</div>
