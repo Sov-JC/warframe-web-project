@@ -97,13 +97,11 @@
 
             </div> <!--Collapse-->
         </nav> <!--Navigation bar-->
-    
-    <!-- <div class="container"> -->
+        
     {% block content %}
 
     {% endblock %}
-    <!-- </div> -->
-  
+    
     <script id="js-cookie" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -129,6 +127,8 @@
         const XBOX = "Xbox"
         const SWITCH = "Nintendo Switch"
         const PLAYSTATION = "PlayStation"
+
+        const gamingPlatformChoices = [PC, XBOX, SWITCH, PLAYSTATION]
 
         const gamingPlatformCookie = Cookies.get('gaming-platform')
 
@@ -175,6 +175,15 @@
         }
 
         $(document).ready(function() {
+            var EXPIRES = 7 // 7 days
+
+            // if(gamingPlatformCookie == null)
+            //     Cookies.set('gaming-platform', PC, {expires: EXPIRES})
+
+            // Let the gaming-platform cookie default to PC if the cookie is not set
+            // or an unacceptible value that is not in the list of gamingPlatformChoices is set.
+            if(gamingPlatformChoices.includes(gamingPlatformCookie) == false)
+                Cookies.set('gaming-platform', PC, {expires: EXPIRES})
 
             setGamingPlatformDropDownMenuImage()
 
@@ -185,7 +194,7 @@
             // when the cookie has been set.
             $('#platform-selection .dropdown-item').on('click', function(event){
                 console.log("clicked on " + this.id)
-                var EXPIRES = 7 // 7 days
+                
                 if(this.id === "platform-pc"){
                     Cookies.set('gaming-platform', PC, {expires: EXPIRES})
                 }else if(this.id === "platform-xbox"){
