@@ -23,20 +23,6 @@ class GamingPlatformManager(models.Manager):
 	pass
 
 class WarframeAccountManager(models.Manager):
-	def get_wf_accounts_of_online_users_with_relic(self, relic_name=None):
-		'''
-		Obtain all warframe accounts that are linked to a user that have the relic
-		'relic_name' in their inventory	and are online.
-		'''
-
-		if relic_name is None:
-			raise ValueError("relic_name cannot be None")
-
-		
-
-		wf_accounts = self.all()
-		
-		return wf_accounts;
 
 	def _create_warframe_account(self, warframe_alias=None, **extra_fields):
 		if warframe_alias == None:
@@ -66,6 +52,45 @@ class WarframeAccountManager(models.Manager):
 		wf_account = self._create_warframe_account(warframe_alias, **extra_fields)
 
 		return wf_account
+
+	# Not tested yet.
+	def get_linked_wfa_ids_that_own_relic_on_platform_and_are_online(self, relic, gaming_platform):
+		'''Obtain Warframe account ids that are online and own a particular relic on a specific
+		gaming platform.
+
+		:param relic: The Relic instance that Warframe account owns, defaults to [DefaultParamVal]
+		:type relic: Relic
+		:param gaming_platform: The gaming platform
+		:type gaming_platform: GamingPlatform object
+		...
+		:return: A set of Warframe account ids that have 'relic' in their
+		inventory, are online, and belong to the gaming platform 'gaming_platform'.
+
+		If @relic or @gaming_platform is None, returns an empty set
+		:rtype: Set of Warframe account ids.
+		'''
+		if relic == None or gaming_platform == None:
+			raise ValueError("relic and gaming_platform cannot be None")
+
+		user_status_m = apps.get_model('user', 'UserStatus')
+		owned_relic_m = apps.get_model('relicinventory', 'OwnedRelic')
+		online_user_status = user_status_m.objects.get(user_status_name="Online")
+		
+
+		wfa_ids = owned_relic_m.objects.filter(relic_id=relic.pk, 
+			warframe_account_id__user__user_status_id=online_user_status,
+			warframe_account_id__gaming_platform_id=gaming_platform.pk
+			).select_related(
+			'warframe_account_id__user__user_status',
+			'warframe_account_id__gaming_platform_id'
+			).values_list(
+			"warframe_account_id",
+			flat=True
+			)
+
+		return set(wfa_ids)
+
+	
 
 class OnlineAndLinkedWarframeAccountManager(models.Manager):
 	'''
@@ -227,19 +252,19 @@ class UserManager(BaseUserManager):
 		email = self.normalize_email(email)
 		user = self.model(email=email, **extra_fields) #???
 		user.set_password(password) #???
-		extra_fields.setdefault('user_status', 'Offline')
+		#extra_fields.setdefault('user_status', 'Offline')
 
 		#TODO: make reference to .utils.py
 		user.email_verification_code = self._generate_email_verification_code()
 		user.warframe_account_verification_code = self._generate_warframe_account_verification_code()
 
-		user_status_model = apps.get_model('user', 'UserStatus')
+		#user_status_model = apps.get_model('user', 'UserStatus')
 
 		#print("[extra_fields.get('user_status_name):%s]" % extra_fields.get("user_status"))
 		
-		user_status = user_status_model.objects.get(user_status_name=extra_fields.get("user_status"))
+		#user_status = user_status_model.objects.get(user_status_name=extra_fields.get("user_status"))
 
-		user.user_status = user_status
+		#user.user_status = user_status
 
 		user.save(using=self._db)
 		
@@ -249,6 +274,12 @@ class UserManager(BaseUserManager):
 	def create_user(self, email, password=None, **extra_fields):
 		extra_fields.setdefault('is_superuser', False)
 		extra_fields.setdefault('is_staff', False)
+
+		# Set user status to offline
+		user_status_m = apps.get_model('user', 'UserStatus')
+		offline_user_status_name = user_status_m.OFFLINE
+		offline_user_status = user_status_m.objects.get(user_status_name=offline_user_status_name)
+		extra_fields.setdefault('user_status', offline_user_status)
 		return self._create_user(email, password, **extra_fields)
 
 	#required
@@ -300,3 +331,5 @@ class UserManager(BaseUserManager):
 		verified_users = self.all().filter(email_verified=True)
 		return verified_users
 
+class UserStatusManager(models.Manager):
+	pass
