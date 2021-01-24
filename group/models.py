@@ -38,7 +38,8 @@ class Group(models.Model):
     )
     relic_id = models.ForeignKey(
         Relic, 
-        on_delete = models.PROTECT,
+        null=True,
+        on_delete = models.SET_NULL,
     )
     run_type_id = models.ForeignKey(
         'RunType',

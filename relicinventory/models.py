@@ -24,7 +24,7 @@ class OwnedRelic(models.Model):
 	)
 	relic_id = models.ForeignKey(
 		'Relic',
-		on_delete=models.PROTECT,
+		on_delete=models.CASCADE,
 		default=None, # validation should make sure default doesn't execute
 		db_column="relic_id"
 	)
