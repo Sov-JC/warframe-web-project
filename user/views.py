@@ -78,7 +78,6 @@ def resend_email_code(request):
 
 def login_view(request):
 	if request.method == 'POST':
-		print("request is 'POST'")
 		form = LoginForm(request.POST)
 		if form.is_valid():
 			email = form.cleaned_data["email_address"]
@@ -87,11 +86,13 @@ def login_view(request):
 			user = authenticate(email=email, password=password)
 
 			if user is not None:
+				print("User is not None")
+				print("user:", user)
 				if user.email_verified == False:
 					print("Email is unverified")
 					CODE = "unverified_email"
 					msg = "You must verify your email before logging in. "
-					msg += "Please click 'Can't log in' below for instructions."
+					msg += "Please see 'Can't log in' below for instructions."
 					error = ValidationError(message=msg, code=CODE)
 					form.add_error(field=None, error=error)
 					return render(request, 'user/login.html', context={'form':form})
@@ -155,7 +156,7 @@ def register(request):
 				email_verification_code = user.email_verification_code
 				
 				#Send verification message to their email
-				user.send_email_verification_msg(fail_silently=True)
+				user.send_email_verification_msg(fail_silently=False)
 				
 			except IntegrityError:
 				msg = "The email address is already registered on our site."
@@ -164,11 +165,13 @@ def register(request):
 				form.add_error(field = "email", error = error)
 				return render(request, 'user/register.html', context={'form':form})
 
-			return HttpResponse("Form is valid. <br>[Email: %(email)s]<br>" % {"email": email})
+			#return HttpResponse("Automated Test Response:<br>Form is valid. Thank you for registering. <br>[Email: %(email)s]<br>Please verify by your email" % {"email": email})
+			#return render(request, 'user/registration-complete')
+			return HttpResponseRedirect(reverse('user:user_registration_complete'))
 		else:
 			return render(request, 'user/register.html', context={'form':form})
 
-		return HttpResponse("This is a post")
+		return HttpResponse("This is a post") # Never executes?
 	else:
 		form = RegistrationForm()
 		return render(request, 'user/register.html',context={'form':form})
@@ -261,3 +264,12 @@ def test_send_email_verification_msg(request):
 	mail.send_mail(subject=subject, message = "msg2", html_message=html_message, from_email=from_email, recipient_list=[to],)
 	
 	return HttpResponse("test_send_email_verification_msg :: view")
+
+def user_registration_complete(request):
+	#Displays a user registration complete message. 
+	#NOTE: "click here to resend confirmation message does not work!"
+	return render(request, "user/user-registration-complete.html")
+
+#TODO: REMOVE!
+def test_user_registration_complete(request):
+	return render(request, "user/user-registration-complete.html")
