@@ -187,7 +187,7 @@ class PasswordRecoveryManager(models.Manager):
 
 		# Generate the url that the user will click on to be redirected to the 'change
 		# password page.
-		PROTOCOL = "https://"
+		PROTOCOL = "http://" # NOTE: REFACTOR THIS! It should be https in the future. Currently set to http for development.
 		DOMAIN = settings.DOMAIN_NAME
 		from django.urls import reverse
 		PATH = (reverse('user:change_pw', args=[password_recovery_code.recovery_code]))
