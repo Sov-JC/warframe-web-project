@@ -46,6 +46,7 @@ class RegistrationViewTests(TestCase):
 		
 		self.assertRaises(User.DoesNotExist, User.objects.get, email=email)
 		
+		
 		data = {"email":email, "password1": password1, "password2": password2}
 
 		client = self.client
@@ -56,11 +57,9 @@ class RegistrationViewTests(TestCase):
 
 		users = User.objects.all().filter(email=email)
 
-		self.assertEqual(len(users), 1)
+		self.assertContains(response, "Thank you for signing up.")
 
-		#TODO: STILL NEEDS TO CHECK THAT IT REDIRECTS BUT REDIRECTION LINK HASN"T BEEN DETERMINED
-		#YET. COME BACK TO THIS TEST LATER.
-		raise Exception
+		self.assertEqual(len(users), 1)
 
 class LoginViewTests(TestCase):
 	fixtures = ['user_app-gaming-platforms.json', 'user_app-user-status.json']
@@ -118,10 +117,7 @@ class LoginViewTests(TestCase):
 
 		self.client.post(reverse('user:login'))
 
-		pass
-
-	
-
+		assert False
 
 
 	def test_user_login_sets_session_cookie_to_one_month(self):

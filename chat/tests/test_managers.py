@@ -105,9 +105,14 @@ class TestChatManager(TestCase):
 		#print("chats with joe and daniel")
 		#print(chat_with_joe_and_daniel)
 
+		#the chat user instance of joe in the chat 'chat_with_joe_and_daniel'
+		chat_user_joe = ChatUser.objects.get(warframe_account_id__warframe_alias='joe_wfa', chat_id=chat_with_joe_and_daniel)
+		#the chat user instance of joe in the chat 'chat_with_joe_and_daniel'
+		chat_user_daniel = ChatUser.objects.get(warframe_account_id__warframe_alias='daniel_wfa', chat_id=chat_with_joe_and_daniel)
+
 		#Chat.objects.create_chat()
-		joe_partner = Chat.objects.get_chat_user_partner(chat_user = joe_wfa)
-		daniel_partner = Chat.objects.get_chat_user_partner(chat_user = daniel_wfa)
+		joe_partner = Chat.objects.get_chat_user_partner(chat_user = chat_user_joe)
+		daniel_partner = Chat.objects.get_chat_user_partner(chat_user = chat_user_daniel)
 
 		self.assertEqual(joe_partner.warframe_account_id.warframe_alias, "daniel_wfa",
 			msg="Expected daniel to be joe's chat partner for the chat with joe and daniel")
@@ -427,6 +432,8 @@ class TestChatManager(TestCase):
 		self.assertEqual(contains_chat1, True, msg=msg)
 		self.assertEqual(contains_chat4, True, msg=msg)
 
+	#TODO: DELETE
+	"""
 	def test_get_displayable_chats_with_warframe_still_in_chats_and_having_new_msgs_in_some_chats_returns_these_chats(self):
 		'''
 		Calling get_displayable_chats should return the list (with duplicates remove) of
@@ -453,7 +460,8 @@ class TestChatManager(TestCase):
 		for chat in Chat.objects.all():
 			print("chat: " + str(chat.pk))
 			for chat_user in chat.chatuser_set.all():
-				print("	users in chat: " + chat_user.warframe_account_id.warframe_alias)
+				#print("	users in chat: " + chat_user.warframe_account_id.warframe_alias)
+				pass
 
 		self.assertEqual(len(Chat.objects.get_displayable_chats(wfa_bob)), 1, msg=msg)
 
@@ -469,12 +477,11 @@ class TestChatManager(TestCase):
 
 		msg = "Bob should have two displayable chats, one between him and ellen, the other between him and greg"
 		self.assertEqual(len(Chat.objects.get_displayable_chats(wfa_bob)),2, msg=msg)
+	"""
 
-	#Tests after rewrite of chat app.
-
-	
-
-
+	def test_get_displayable_chats_with_warframe_still_in_chats_and_having_new_msgs_in_some_chats_returns_these_chats(self):
+		
+		pass
 
 	@query_debugger
 	def test_DEBUG_chats_with_new_msgs(self):
@@ -493,8 +500,8 @@ class TestChatManager(TestCase):
 		bob_wfa = WarframeAccount.objects.create_warframe_account("bob_wfa")
 		dan_wfa = WarframeAccount.objects.create_warframe_account("dan_wfa")
 
-		self.assertEqual(Chat.objects.chats_with_new_msgs(bob_wfa), 0)
-		self.assertEqual(Chat.objects.chats_with_new_msgs(dan_wfa), 0)
+		self.assertEqual(len(Chat.objects.chats_with_new_msgs(bob_wfa)), 0)
+		self.assertEqual(len(Chat.objects.chats_with_new_msgs(dan_wfa)), 0)
 		
 		bob_chat_user = ChatUser.objects.create_chat_user(bob_wfa, main_chat)
 		dan_chat_user = ChatUser.objects.create_chat_user(dan_wfa, main_chat)
@@ -505,7 +512,126 @@ class TestChatManager(TestCase):
 
 		msg_from_dan_wfa0 = ChatMessage.objects.create_chat_message(dan_chat_user, "yo dood who u iz?")
 	
-	def debugger(self):
-		pass
-
+	#Done
+	def test_get_chats_in_and_count_new_msgs_for_wfa_with_no_new_messages(self):
+		'''
+		A warframe account in a chat with another warframe account with no new messages should
+		return a list of tuples corresponding to 0 messages for each chat the user is in.
+		'''
+		chat = Chat.objects.create_chat()
+		wfa1 = WarframeAccount.objects.create_warframe_account("warframeaccount1")
+		wfa2 = WarframeAccount.objects.create_warframe_account("warframeaccount2")
 		
+
+		wfa1_chat_user = ChatUser.objects.create_chat_user(wfa1, chat)
+		wfa2_chat_user = ChatUser.objects.create_chat_user(wfa2, chat)
+
+		chats_with_new_msgs_count = Chat.objects.get_chats_in_and_count_new_msgs(wfa1)
+		print("chats_with_new_msgs_count:")
+		print(chats_with_new_msgs_count)
+
+		msg = "There should have been 1 chat that wfa is in (the one between wfa1 and wfa2)."
+		self.assertEqual(len(chats_with_new_msgs_count), 1, msg=msg)
+
+		msg = "The only chat that wfa1 is in is the chat between him and wfa2."
+		self.assertEqual(chats_with_new_msgs_count[0][0].pk, chat.pk, msg=msg)
+
+		msg = "The number of messages received by wfa1 in chat 'chat' should be 0."
+		self.assertEqual(chats_with_new_msgs_count[0][1], 0, msg=msg)
+
+	#Done
+	def test_get_chats_in_and_count_new_msgs_for_wfa_with_no_new_messages_TWO(self):
+		"""
+		A warframe account as an argument  that is in three chats of which he has not 
+		received any new messages from should return a list of pairs that is of length 3
+		"""
+		# Create a chat between: 
+		# wfa1 and wfa2,
+		# wfa1 and wfa3,
+		# wfa1 and wfa4,
+		# with no new messages for wfa1 in any of these chats
+		wfa1_and_wfa2_chat = Chat.objects.create_chat()
+		wfa1_and_wfa3_chat = Chat.objects.create_chat()
+		wfa1_and_wfa4_chat = Chat.objects.create_chat()
+		wfa1 = WarframeAccount.objects.create_warframe_account("warframeaccount1")
+		wfa2 = WarframeAccount.objects.create_warframe_account("warframeaccount2")
+		wfa3 = WarframeAccount.objects.create_warframe_account("warframeaccount3")
+		wfa4 = WarframeAccount.objects.create_warframe_account("warframeaccount4")
+
+		wfa1_chat_user_1 = ChatUser.objects.create_chat_user(wfa1, wfa1_and_wfa2_chat)
+		wfa1_chat_user_1 = ChatUser.objects.create_chat_user(wfa1, wfa1_and_wfa3_chat)
+		wfa1_chat_user_1 = ChatUser.objects.create_chat_user(wfa1, wfa1_and_wfa4_chat)
+
+		wfa2_chat_user = ChatUser.objects.create_chat_user(wfa2, wfa1_and_wfa2_chat)
+		wfa3_chat_user = ChatUser.objects.create_chat_user(wfa3, wfa1_and_wfa3_chat)
+		wfa4_chat_user = ChatUser.objects.create_chat_user(wfa4, wfa1_and_wfa4_chat)
+
+		self.assertEqual(len(Chat.objects.get_chats_in_and_count_new_msgs(wfa1)), 3)
+
+	def test_chats_in_and_count_new_msgs_on_wfa_with_new_msgs_in_several_chats_returns_correct_chats_and_msgs_count(self):
+		'''
+		A WarframeAccount instance that is in several chats and has received new messages in these chats
+		as an argument should return an appropriate list 
+		'''
+		# Summary of operations ---
+		# 1) Create a chat between:
+		# wfa1 and wfa2
+		# wfa1 and wfa3
+		# 
+		# 2) Send a message from:
+		# wfa1 to wfa2
+		# wfa2 to wfa1
+		#
+		# 3) Test function returns
+		# expected values for argument
+		# 'wfa1'
+
+		wfa1_wfa2_chat = Chat.objects.create_chat()
+		wfa1_wfa3_chat = Chat.objects.create_chat()
+
+		wfa1 = WarframeAccount.objects.create_warframe_account("warframeaccount1")
+		wfa2 = WarframeAccount.objects.create_warframe_account("warframeaccount2")
+		wfa3 = WarframeAccount.objects.create_warframe_account("warframeaccount3")
+		
+
+		wfa1_chat_user_1 = ChatUser.objects.create_chat_user(wfa1, wfa1_wfa2_chat)
+		wfa1_chat_user_2 = ChatUser.objects.create_chat_user(wfa1, wfa1_wfa3_chat)
+
+		wfa2_chat_user = ChatUser.objects.create_chat_user(wfa2, wfa1_wfa2_chat)
+		wfa3_chat_user = ChatUser.objects.create_chat_user(wfa3, wfa1_wfa3_chat)
+
+		ChatMessage.objects.create_chat_message(wfa1_chat_user_1, "hi!")
+		ChatMessage.objects.create_chat_message(wfa2_chat_user, "hi to u 2!")
+
+		# Call the function under test to determine chats wfa is in and the number
+		# of new messages for each chat in.
+
+		chats_in_with_new_msgs_count = Chat.objects.get_chats_in_and_count_new_msgs(wfa1)
+
+		msg = "Expected function under test to return 2 chats that the user is in"
+		self.assertEqual(len(chats_in_with_new_msgs_count), 2, msg=msg)
+		
+		# True if found a pair representative of wfa1 and wfa2 with 1 new messages
+		# for wfa1
+		test_pair_one_exists = False
+
+		# True if found a pair representative of wfa1 and wfa3 with 0 new messages
+		# for wfa1
+		test_pair_two_exists = False
+ 
+		for pair in Chat.objects.get_chats_in_and_count_new_msgs(wfa1):
+			if pair[0] == wfa1_wfa2_chat and pair[1] == 1:
+				test_pair_one_exists = True
+			if pair[0] == wfa1_wfa3_chat and pair[1] == 0:
+				test_pair_two_exists = True
+
+		msg = "Test function should have returned a pair representative of the fact that " \
+			"wfa1 is in a chat with wfa2 and has received 1 new message in this chat"
+
+		self.assertEqual(test_pair_one_exists, True, msg=msg)
+
+		msg = "Test function should have returned a pair representative of the fact that " \
+			"wfa1 is in a particular chat with wfa3 and has received 0 new messages in this chat"
+		self.assertEqual(test_pair_one_exists, True, msg=msg)
+
+	

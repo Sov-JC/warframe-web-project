@@ -127,12 +127,12 @@ class TestChatUserModel(TestCase):
 		except DataError:
 			pass
 	
-	#Done
-	def test_chat_user_model_save_with_constraint_no_duplicate_warframe_account_in_chat_broken_raises_integrity_error(self):
+	#Done, Not Reviewed
+	def test_save_with_constraint_no_duplicate_warframe_account_in_chat_broken_raises_integrity_error(self):
 		'''
-		A Chatuser instance that is saved should return an Integrity error for the warframe account
-		already exists in that chat as an instance of another ChatUser. That is, the constraint that
-		saving would result in a chat with two warframe accounts that are the same is broken.
+		Attempting to save a ChatUser instance containing a WarframeAccount and Chat reference
+		that atleady exists in the database should raise an Integrity error because 
+		a chat cannot contain the same Warframe account more than once.
 		'''
 
 		# create a chat with a chat user. Attempt to
@@ -146,19 +146,43 @@ class TestChatUserModel(TestCase):
 		
 		try:
 			chat_user.save()
-			msg = "chat_user.save() should have raised an IntegrityError exception because " + \
+			msg = "chat_user.save() should have raised a DataError exception because " + \
 				"an attempt was made to create a chat with two of the same users in the chat."
 			self.fail(msg)
-		except IntegrityError:
+		except DataError:
 			pass
+	
+	# Done, Not Reviewd
+	def test_update_raises_programming_error(self):
+		'''
+		A save operation on a ChatUser should do nothing since ChatUser instances
+		cannot be modified once created
+		'''
+		wfa1 = WarframeAccount.objects.create_warframe_account(warframe_alias="warframeaccount1")
+		chat = Chat.objects.create_chat()
+		wfa1_chat_user = ChatUser.objects.create_chat_user(wfa1, chat)
 
-	def test_chat_user_model_saves_successfully_when_one_person_in_chat_and_no_duplicates_result(self):
+		#create a new wfa2, and make wfa1_chat_user's 
+		# reference this WarframeAccount instance.
+		wfa2 = WarframeAccount.objects.create_warframe_account("warframeaccount2")
+		
+		try:
+			# perform the update, nothing should have changed in the database though
+			msg = "ChatUser instances should not be allowed to update."
+			wfa1_chat_user.warframe_account_id=wfa2
+			wfa1_chat_user.save()
+			self.fail(msg=msg)
+		except ProgrammingError:
+			pass
+	
+	# Not done.
+	def test_chat_user_model_saves_successfully_with_appropriate_chat_and_warframe_account_combination(self):
 		"""
-		Should successfully save a ChatUser instance if a reference to a chat with 1 chat user is made
-		and no duplicate results occur. Also, the ChatUser instance's WaframeAccount refernce should not
-		break the 'no_duplicate_warframe_accounts_in_chat' constraint.
+		Should save the ChatUser instance with valid parameters and an appropriate database state.
 		"""
+
 		pass
+	
 	
 
 

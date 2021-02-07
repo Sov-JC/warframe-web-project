@@ -87,6 +87,7 @@ class LinkedOnlineUsersManagerTests(TestCase):
 		self.assertEqual(user_2.email, "example2@aaa.com")
 
 class PasswordRecoveryManagerTests(TestCase):
+
 	fixtures=[
 		"user_app-user-status.json", 
 		"user_app-gaming-platforms.json",
@@ -186,6 +187,12 @@ class PasswordRecoveryManagerTests(TestCase):
 		'''Should raise a ValueError if a user is not set as an argument.'''
 		raise NotImplementedError()
 
+	def test_created_password_recovery_generates_http_link_on_debug_mode_enabled(self):
+		'''If debug mode is enabled in the settings, the default password link
+		that's generated should be HTTP, not HTTPS, for testing and debugging purposes.
+		HTTPS otherwise.
+		'''
+		raise Exception
 
 	def test_send_password_recovery_email_sends_new_password_recovery_email(self):
 		'''Should send a new password recovery email to the user's registered email.'''
@@ -199,3 +206,52 @@ class PasswordRecoveryManagerTests(TestCase):
 		self.assertEqual(user.password_recovery.recovery_code in mail.outbox[0], True, msg=msg)
 
 		raise NotImplementedError()
+
+class WarframeAccountManagerTests(TestCase):
+	fixtures=[
+		"user_app-user-status.json", 
+		"user_app-gaming-platforms.json",
+		"relicinventory_app-relics.json"
+	]
+
+	def test_get_linked_and_online_wfas_that_own_relic(self):
+		'''Should return a Set of Warframe account ids that are online, are 
+		from a particular gaming platform, and own a specific Relic.
+		'''
+		# Create two users with a linked warframe account. Set their online status to online.
+		# Make these two accounts have a common relic in their inventory.
+		print(UserStatus.objects.all())
+		online_status = UserStatus.objects.get(user_status_name=UserStatus.ONLINE)
+
+		
+		pc_gaming_platform = GamingPlatform.objects.get(platform_name=GamingPlatform.PC)
+
+		wfa_test1 = WarframeAccount.objects.create_warframe_account("wfa_test1")
+		wfa_test2 = WarframeAccount.objects.create_warframe_account("wfa_test2")
+		relic = Relic.objects.get(pk=30)
+
+		user_test1 = User.objects.create_user(
+			email="wfa_test1@gmail.com",
+			password="jqoiwjeq123",
+			linked_warframe_account_id=wfa_test1,
+			user_status=online_status)
+		user_test2 = User.objects.create_user(
+			email="wfa_test2@gmail.com",
+			password="jqoiwjeq123", 
+			linked_warframe_account_id=wfa_test2,
+			user_status=online_status)
+		
+		OwnedRelic.objects.add_relics_to_inventory(wfa_test1, [relic.pk])
+		OwnedRelic.objects.add_relics_to_inventory(wfa_test2, [relic.pk])
+
+		wfa_ids = WarframeAccount.objects.get_linked_wfa_ids_that_own_relic_on_platform(relic, pc_gaming_platform)
+
+		msg="Expected the call to function 'get_linked_wfa_ids_that_own_relic_on_platform' " \
+			"to return only two warframe account ids."
+		self.assertTrue(len(wfa_ids) == 2, msg=msg)
+
+		msg = "Expected wfa_test1.pk and wfa_test2.pk to be the only pks in the list returned by " \
+			+ "function 'get_linked_wfa_ids_that_own_relic_on_platform()'"
+		
+		is_subset = set([wfa_test1.pk, wfa_test2.pk]).issubset(wfa_ids)
+		self.assertTrue(is_subset, msg=msg)
