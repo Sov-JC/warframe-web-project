@@ -29,3 +29,4 @@ warframe_web_project/__pycache__/urls.cpython-36.pyc
 #Web drivers - used by Selenium
 chromedriver.exe
 geckodriver.exe
+geckodriver.log
