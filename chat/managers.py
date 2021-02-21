@@ -36,8 +36,7 @@ class ChatManager(models.Manager):
 		chatuser_m.objects.create_chat_user(warframe_account_two, chat)
 
 		return chat
-
-	#untested
+	
 	#TODO: Fix docstring
 	def create_chat_for_two_warframe_accounts(self, warframe_account_one, warframe_account_two, atomic=True):
 		'''
@@ -52,20 +51,11 @@ class ChatManager(models.Manager):
 				return self._create_chat_for_two_warframe_accounts(warframe_account_one,warframe_account_two)
 		else:
 			return self._create_chat_for_two_warframe_accounts(warframe_account_one,warframe_account_two)
-
+	
 	def is_user_in_chat(self, chat_user_id, chat_id):
 		''' check if the warframe account in still in a chat
 		particular chat session '''
-		pass
-		
-	def _get_wf_accounts_interacted_with(self, warframe_account):
-		'''
-		Returns all warframe accounts 'warframe_account' has been in a chat with
-		'''
-		if warframe_account is None:
-			raise ValueError("'warframe_account' argument is required")
-
-		return self.all().filter(warframe_account_id = warframe_account.warframe_account_id)
+		raise NotImplementedError()
 
 	def get_chat_containing_warframe_accounts(self, wfa_one, wfa_two):
 		'''
@@ -130,6 +120,7 @@ class ChatManager(models.Manager):
 			else:
 				return chat_users[0]
 	
+	#No longer needed?
 	def get_chat_user_partner_REFACTOR_THIS(self, chat_user, chat):
 		'''
 		Returns an instance of chat_user representing the chat partner
@@ -164,7 +155,7 @@ class ChatManager(models.Manager):
 	#TODO: review tests
 	#Untested
 	def chats_wfa_is_in(self, warframe_account):
-		'''Returns an array of Chat instances that 'warframe_account' has been in.
+		'''Returns an array of Chat instances that 'warframe_account' is in.
 
 		:param [ParamName]: [ParamDescription], defaults to [DefaultParamVal]
 		:type [ParamName]: [ParamType](, optional)
@@ -190,7 +181,7 @@ class ChatManager(models.Manager):
 		returns true if user has receive a new message from chat partner,
 		False otherwise
 		'''
-		pass
+		raise NotImplementedError()
 	
 	def new_chat_messages_received_from_chat(self, chat_user):
 		'''
@@ -280,8 +271,9 @@ class ChatManager(models.Manager):
 
 		return chats_with_new_messages_count
 
-	#TODO: Rewrite
-	#TODO: Can likely be optimized?
+	
+
+	#No longer needed?
 	def chats_with_new_msgs(self, warframe_account):
 		'''
 		Get an array of Chat instances that WarframeAccount instance
@@ -366,28 +358,7 @@ class ChatManager(models.Manager):
 	
 		return chats_with_new_msgs
 
-	"""
-	#tested
-	def chats_wfa_still_in(self, warframe_account):
-		'''
-		Returns an array of Chat instances that
-		'warframe_account' is in and has the 'still_in_chat'
-		flag (from it's corresponding chat_user instance) set to True
-		'''
-
-		chat_user_m = apps.get_model(app_label="chat", model_name="chatuser")
-		query_set = chat_user_m.objects.select_related('chat_id').prefetch_related('warframe_account_id') \
-			.filter(warframe_account_id=warframe_account)
-
-		chats_still_in = []
-		for chat_user in query_set:
-			if chat_user.still_in_chat:
-				chats_still_in.append(chat_user.chat_id)
-
-		return chats_still_in
-	"""
-
-	#TODO: Test
+	#No longer needed?
 	def _get_non_duplicate_chats(self, chats):
 		''' Accesses an array of Chat instances
 		and removes all duplicates (based off primary key) 
@@ -417,7 +388,7 @@ class ChatManager(models.Manager):
 		return chats_no_duplicates 
 		
 
-	#TODO: Test
+	#Untested
 	def get_displayable_chats(self, warframe_account):
 		'''Returns all displayable chats as an array of Chat instances
 

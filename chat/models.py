@@ -4,8 +4,10 @@ from django.conf import settings
 from user.models import User
 from user.models import WarframeAccount
 
-from django.db import DataError
+from django.db import DataError, ProgrammingError
 from .managers import *
+
+
 
 from django.db.models import Q
 
@@ -290,7 +292,7 @@ class ChatUser(models.Model):
 					pass 
 		else:
 			# This is an update. Don't do anything on an update since a chat user cannot be updated
-			return
+			raise ProgrammingError("An attempt was made to update a ChatUser model. ChatUser should not and cannot be updated!")
 
 		super(ChatUser, self).save(*args, **kwargs)
 
