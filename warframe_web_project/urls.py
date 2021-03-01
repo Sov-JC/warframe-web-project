@@ -24,5 +24,7 @@ urlpatterns = [
     path('', include('home.urls')),
     path('relicinventory/', include('relicinventory.urls')),
     path('test-user-app/', include('user.urls')), #TODO: REMOVE
-    path('chat/', include('chat.urls'))
+    path('chat/', include('chat.urls')),
+    path('findplayers/', include('findplayers.urls'))
+
 ]

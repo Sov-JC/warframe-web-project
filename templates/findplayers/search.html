@@ -19,7 +19,7 @@
 
 	<!-- Button trigger overview modal -->
 	<div>
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#overviewModal" style="margin-left:auto; margin-right:auto; display:block">
+		<button type="button" class="btn btn-primary mb-1" data-toggle="modal" data-target="#overviewModal" style="margin-left:auto; margin-right:auto; display:block">
 			Overview
 		</button>
 	</div>
@@ -80,10 +80,8 @@
 	</div>
 	{% else %}
 
-	{{ warframe_accounts }}
-
 	<!-- Relevant Warframe Aliases Table -->
-	<div style="max-height:400px; width:500px; overflow-y: auto">
+	<div style="max-height:400px; width:500px; overflow-y: auto; margin-left:auto; margin-right: auto">
 		<table class="table table-hover table-dark" style="margin-left:auto;margin-right:auto">
 			<thead>
 				<tr>
@@ -133,7 +131,7 @@
 {% else %}
 	<!-- Relic Search Is Not None -->
 
-	<h4 style="text-align:center"> Overview </h4>
+	<h4 class="mb-3" style="text-align:center"> Overview </h4>
 	<!-- Overview -->
 	<div>
 		<div style="margin-left:auto; margin-right:auto; max-height:400px; width:500px; overflow-y: auto">
