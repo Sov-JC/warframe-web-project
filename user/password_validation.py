@@ -1,16 +1,17 @@
 from django.core.exceptions import ValidationError
 
 
+
 class ValidCharactersValidator:
 	LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	NUMBERS = "0123456789"
-	SYMBOLS = "~!@#$%^&*()_+=-][.?"
+	SYMBOLS = "~!@#$%^&*()_+=-][.?<>,/|}{`"
 	valid_chars = LETTERS+NUMBERS+SYMBOLS
 
 	def __init__(self):
 		pass
 
-	def validate(self, password):
+	def validate(self, password, user=None):
 		'''
 		Determine if password contains only characters in
 		'valid_chars'. If password contains a characters
@@ -27,7 +28,7 @@ class ValidCharactersValidator:
 
 
 	def get_help_text(self):
-		msg = "Your password mustcontain valid character: letters, numbers, or the following symbols " + self.SYMBOLS
+		msg = "Your password must contain valid character: letters, numbers, or the following symbols " + self.SYMBOLS
 		return msg
 
 class MaximumLengthValidator:
@@ -39,7 +40,7 @@ class MaximumLengthValidator:
 
 		self.max_len=max_len
 	
-	def validate(self, password):
+	def validate(self, password, user=None):
 		'''
 		Determine if a password is too long. If it exceeds
 		a character limit, raises a ValidationError.
@@ -54,4 +55,3 @@ class MaximumLengthValidator:
 	def get_help_text(self):
 		msg = "Your password cannot exceed %(max_len)d characters." % {'max_len': self.max_len}
 		return msg
-
